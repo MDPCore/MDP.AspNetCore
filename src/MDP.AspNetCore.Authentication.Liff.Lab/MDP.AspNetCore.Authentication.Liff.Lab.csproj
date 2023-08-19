@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
-    <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
+    <PackageReference Include="MDP.AspNetCore" Version="6.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.Liff\MDP.AspNetCore.Authentication.Liff.csproj" />
   </ItemGroup>
 

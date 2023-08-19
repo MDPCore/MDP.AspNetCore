@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
-    <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
+    <PackageReference Include="MDP.AspNetCore" Version="6.1.5" />
+    <PackageReference Include="MDP.IdentityModel.Tokens.Jwt" Version="6.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.Jwt\MDP.AspNetCore.Authentication.Jwt.csproj" />
-    <ProjectReference Include="..\MDP.Security.Tokens.Jwt\MDP.Security.Tokens.Jwt.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDP.Registration\MDP.Registration.csproj" />
+    <PackageReference Include="MDP.Registration" Version="6.1.5" />
   </ItemGroup>
 
   <PropertyGroup>

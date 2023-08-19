@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using MDP.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication;
-using MDP.Security.Tokens.Jwt;
+using MDP.IdentityModel.Tokens.Jwt;
 
 namespace MDP.AspNetCore.Authentication.Jwt.Lab
 {
