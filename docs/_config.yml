@@ -1,0 +1,16 @@
+
+# Site
+title: MDP.DevKit.OpenAI
+
+# theme
+remote_theme: pmarsceill/just-the-docs
+aux_links:
+  "Source Code on GitHub":
+    - "//github.com/Clark159/MDP.DevKit.OpenAI"
+favicon_ico: "/Pages/favicon.ico"
+color_scheme: dark
+search_enabled: false
+
+# Plugins
+plugins:
+  - jekyll-sitemap

@@ -1,0 +1,46 @@
+
+.main img {
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+}
+
+@media (min-width: 66.5rem) {
+    .main {
+       margin-left:16.5rem;
+    }
+    .side-bar {
+        min-width:16.5rem;
+        max-width:16.5rem;
+        z-index:1;
+    }
+    .site-nav,.site-header,.site-footer {
+        width:16.5rem;
+    }
+    .site-title {
+       font-size:1.125rem !important;
+       padding-left:0rem;
+       padding-right:0rem;
+       justify-content:center;
+    }
+}
+
+@media (min-width: 50rem) {
+    .main {
+       margin-left:16.5rem;
+    }
+    .side-bar {
+        min-width:16.5rem;
+        max-width:16.5rem;
+        z-index:1;
+    }
+    .site-nav,.site-header,.site-footer {
+        width:16.5rem;
+    }
+    .site-title {
+       font-size:1.125rem !important;
+       padding-left:0rem;
+       padding-right:0rem;
+       justify-content:center;
+    }
+}

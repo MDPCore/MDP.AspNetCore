@@ -1,0 +1,75 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
+@{
+    string GetClaimValue(string claimType)
+    {
+        return (User?.Identity as ClaimsIdentity)?.FindFirst(claimType)?.Value;
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+
+    <!-- script -->
+    <script src="~/mdp.web.js"></script>
+    <script language="javascript">
+        window.onload = function () {
+
+            // GetUserByCookie
+            document.getElementById("getUserByCookie.button").addEventListener("click", event => {
+
+                // Variables
+
+                // ActionModel
+                var actionModel = {};
+
+                // Post
+                postRequst("/Home/GetUser", actionModel)
+
+                    // Success
+                    .then(function (response) {
+                        document.getElementById("getUserByCookie.result").innerText = JSON.stringify(response, null, 2);
+                    })
+
+                    // Error
+                    .catch(function (error) {
+                        document.getElementById("getUserByCookie.result").innerText = JSON.stringify(error, null, 2);
+                    });
+            });
+        };
+    </script>
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Home</h2>
+    <hr />
+
+    <!--Identity-->
+    AuthenticationType=@User?.Identity?.AuthenticationType<br />
+    UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
+    Username=@GetClaimValue(ClaimTypes.Name)<br />
+    Mail=@GetClaimValue(ClaimTypes.Email)<br />
+    <br />
+    <hr />
+
+    <!--Logout-->
+    <form asp-route="/.auth/logout">
+        <input type="submit" value="Logout" /><br />
+        <br />
+    </form>
+    <hr />
+
+    <!--GetUserByCookie-->
+    <input id="getUserByCookie.button" type="button" value="GetUserByCookie" /><br />
+    <div id="getUserByCookie.result"></div><br />
+    <hr />
+
+</body>
+</html>
