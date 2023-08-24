@@ -1,13 +1,13 @@
 
 # Site
-title: MDP.DevKit.OpenAI
+title: MDP.Lab2
 
-# theme
+# Theme
 remote_theme: pmarsceill/just-the-docs
 aux_links:
   "Source Code on GitHub":
-    - "//github.com/Clark159/MDP.DevKit.OpenAI"
-favicon_ico: "/Pages/favicon.ico"
+    - "//github.com/Clark159/MDP.Lab2"
+favicon_ico: "/favicon.ico"
 color_scheme: dark
 search_enabled: false
 
