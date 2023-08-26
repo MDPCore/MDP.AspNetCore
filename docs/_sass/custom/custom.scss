@@ -5,16 +5,16 @@
     border-color: gray;
 }
 
-.nav-list .nav-list-item>.nav-list .nav-list-item .nav-list-link {
-    color: #2c84fa;
-}
-
 .nav-list .nav-list-item>.nav-list .nav-list-item .nav-list-expander {
     color: #2c84fa;
 }
 
+.nav-list .nav-list-item>.nav-list .nav-list-item .nav-list-expander +.nav-list-link {
+    color: #2c84fa;
+}
+
 .nav-list .nav-list-item .nav-list-link:hover, .nav-list .nav-list-item .nav-list-link.active {
-    background-image: linear-gradient(90deg, rgba(255,255,255,0.1) 50%, rgba(0, 0, 0, 0) 100%)
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0) 100%)
 }
 
 @media (min-width: 66.5rem) {
@@ -30,7 +30,7 @@
         width:16.5rem;
     }
     .site-title {
-       font-size:1.125rem !important;
+       font-size:1.5rem !important;
        padding-left:0rem;
        padding-right:0rem;
 	   overflow-wrap:anywhere;
@@ -51,7 +51,7 @@
         width:16.5rem;
     }
     .site-title {
-       font-size:1.125rem !important;
+       font-size:1.5rem !important;
        padding-left:0rem;
        padding-right:0rem;
 	   overflow-wrap:anywhere;

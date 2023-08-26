@@ -7,7 +7,6 @@ remote_theme: pmarsceill/just-the-docs
 aux_links:
   "Source Code on GitHub":
     - "//github.com/Clark159/MDP.AspNetCore.Authentication"
-favicon_ico: "/favicon.ico"
 color_scheme: dark
 search_enabled: false
 
