@@ -1,15 +1,19 @@
 
+h1, h2, h3, h4, h5, h6, #toctitle {
+    font-weight: 600;
+}
+
 .main img {
     border-style: solid;
     border-width: 1px;
     border-color: gray;
 }
 
-.nav-list .nav-list-item>.nav-list .nav-list-item .nav-list-expander {
+.site-nav >.nav-list>.nav-list-item >.nav-list>.nav-list-item >.nav-list-link {
     color: #2c84fa;
 }
 
-.nav-list .nav-list-item>.nav-list .nav-list-item .nav-list-expander +.nav-list-link {
+.site-nav >.nav-list>.nav-list-item >.nav-list>.nav-list-item >.nav-list-expander {
     color: #2c84fa;
 }
 
