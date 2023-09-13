@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public static class PolicyAuthenticationExtensions
+    internal static class PolicyAuthenticationExtensions
     {
         // Methods
         public static AuthenticationBuilder AddPolicy(this AuthenticationBuilder builder, PolicyAuthenticationSetting authenticationSetting = null)
@@ -19,26 +19,13 @@ namespace MDP.AspNetCore.Authentication
             if (builder == null) throw new ArgumentException(nameof(builder));
 
             #endregion
-
-            // AddPolicy
-            return builder.AddPolicy(PolicyAuthenticationDefaults.AuthenticationScheme, authenticationSetting);
-        }
-
-        public static AuthenticationBuilder AddPolicy(this AuthenticationBuilder builder, string authenticationScheme, PolicyAuthenticationSetting authenticationSetting = null)
-        {
-            #region Contracts
-
-            if (builder == null) throw new ArgumentException(nameof(builder));
-            if (string.IsNullOrEmpty(authenticationScheme) == true) throw new ArgumentException(nameof(authenticationScheme));
-
-            #endregion
-
+            
             // AuthenticationSetting
             if (authenticationSetting == null) authenticationSetting = new PolicyAuthenticationSetting();
             if (string.IsNullOrEmpty(authenticationSetting.DefaultScheme) == true) throw new InvalidOperationException($"{nameof(authenticationSetting.DefaultScheme)}=null");
 
             // PolicyScheme
-            builder.AddPolicyScheme(authenticationScheme, null, authenticationOptions =>
+            builder.AddPolicyScheme(PolicyAuthenticationDefaults.AuthenticationScheme, null, authenticationOptions =>
             {
                 // ForwardDefaultSelector
                 authenticationOptions.ForwardDefaultSelector = context =>

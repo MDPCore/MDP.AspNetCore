@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public class RemoteAuthenticationDefaults
+    internal class RemoteAuthenticationDefaults
     {
         // Constants
         public const string AuthenticationScheme = "RemoteAuth";

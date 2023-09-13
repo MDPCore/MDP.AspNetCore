@@ -11,10 +11,10 @@ namespace MDP.AspNetCore.Authentication
         // Properties
         public string DefaultScheme { get; set; } = LocalAuthenticationDefaults.AuthenticationScheme;
 
-        public string LoginPath { get; set; } = "/Login";
+        public string LoginPath { get; set; } = "/Account/Login";
 
-        public string LogoutPath { get; set; } = "/Logout";
+        public string LogoutPath { get; set; } = "/Account/Logout";
 
-        public string AccessDeniedPath { get; set; } = "/AccessDenied";
+        public string AccessDeniedPath { get; set; } = "/Account/AccessDenied";
     }
 }

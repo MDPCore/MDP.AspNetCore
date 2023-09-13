@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public static partial class RemoteAuthenticationExtensions
+    internal static partial class RemoteAuthenticationExtensions
     {
         // Methods
         public static AuthenticationBuilder AddRemote(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
@@ -40,7 +40,7 @@ namespace MDP.AspNetCore.Authentication
         }
     }
 
-    public static partial class RemoteAuthenticationExtensions
+    internal static partial class RemoteAuthenticationExtensions
     {
         // Methods
         public static Task<AuthenticateResult> RemoteAuthenticateAsync(this HttpContext httpContext)

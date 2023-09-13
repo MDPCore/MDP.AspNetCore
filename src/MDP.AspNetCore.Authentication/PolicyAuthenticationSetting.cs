@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public class PolicyAuthenticationSetting
+    internal class PolicyAuthenticationSetting
     {
         // Properties
         public string DefaultScheme { get; set; } = String.Empty;

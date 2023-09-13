@@ -13,7 +13,7 @@ namespace MDP.AspNetCore.Authentication
         public LocalAuthorizeAttribute() : base() 
         {
             // Default
-            this.AuthenticationSchemes = LocalAuthenticationDefaults.AuthenticationScheme;
+
         }
     }
 }

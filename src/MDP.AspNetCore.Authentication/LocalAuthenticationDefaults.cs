@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public class LocalAuthenticationDefaults
+    internal class LocalAuthenticationDefaults
     {
         // Constants
         public const string AuthenticationScheme = "LocalAuth";

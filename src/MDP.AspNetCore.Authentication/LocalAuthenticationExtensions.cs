@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public static partial class LocalAuthenticationExtensions
+    internal static partial class LocalAuthenticationExtensions
     {
         // Methods
         public static AuthenticationBuilder AddLocal(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
@@ -40,7 +40,7 @@ namespace MDP.AspNetCore.Authentication
         }
     }
 
-    public static partial class LocalAuthenticationExtensions
+    internal static partial class LocalAuthenticationExtensions
     {
         // Methods
         public static Task<AuthenticateResult> LocalAuthenticateAsync(this HttpContext httpContext)
