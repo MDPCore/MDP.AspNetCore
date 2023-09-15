@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -29,10 +30,10 @@ namespace MDP.AspNetCore.Authentication.Line
                 // Options
                 options.ClientId = authenticationSetting.ClientId;
                 options.ClientSecret = authenticationSetting.ClientSecret;
+                options.CallbackPath = new PathString("/.auth/login/line/callback");
 
                 // SignIn
-                options.SignInPath("/.auth/signin");
-                options.SignInScheme = RemoteAuthenticationDefaults.AuthenticationScheme;
+                options.ConfigureSignIn();
             });
 
             // Return

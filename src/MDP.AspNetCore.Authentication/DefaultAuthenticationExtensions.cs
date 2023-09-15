@@ -28,6 +28,11 @@ namespace MDP.AspNetCore.Authentication
             // AuthenticationSetting
             if (authenticationSetting == null) authenticationSetting = new DefaultAuthenticationSetting();
             if (string.IsNullOrEmpty(authenticationSetting.DefaultScheme) == true) throw new InvalidOperationException("authenticationSetting.DefaultScheme=null");
+            if (string.IsNullOrEmpty(authenticationSetting.LoginPath) == true) throw new InvalidOperationException("authenticationSetting.LoginPath=null");
+            if (string.IsNullOrEmpty(authenticationSetting.LogoutPath) == true) throw new InvalidOperationException("authenticationSetting.LogoutPath=null");
+            if (string.IsNullOrEmpty(authenticationSetting.RegisterPath) == true) throw new InvalidOperationException("authenticationSetting.RegisterPath=null");
+            if (string.IsNullOrEmpty(authenticationSetting.AccessDeniedPath) == true) throw new InvalidOperationException("authenticationSetting.AccessDeniedPath=null");
+            services.TryAddSingleton(authenticationSetting);
 
             // AuthenticationBuilder   
             var authenticationBuilder = services.AddAuthentication(options =>

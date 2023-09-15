@@ -15,6 +15,8 @@ namespace MDP.AspNetCore.Authentication
 
         public string LogoutPath { get; set; } = "/Account/Logout";
 
+        public string RegisterPath { get; set; } = "/Account/Register";
+
         public string AccessDeniedPath { get; set; } = "/Account/AccessDenied";
     }
 }

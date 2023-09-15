@@ -40,14 +40,9 @@ namespace MDP.AspNetCore.Authentication
         [Route("/.auth/signin", Name = "/.auth/signin")]
         public async Task<ActionResult> SignIn(string returnUrl = null)
         {
-            // RemoteAuthenticate
-            var remoteAuthenticateResult = await this.HttpContext.RemoteAuthenticateAsync();
-            if (remoteAuthenticateResult.Principal?.Identity?.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(remoteAuthenticateResult)}.Principal?.Identity?.IsAuthenticated=false");
-
             // RemoteIdentity
-            var remoteIdentity = remoteAuthenticateResult.Principal?.Identity as ClaimsIdentity;
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
             if (remoteIdentity == null) throw new InvalidOperationException($"{nameof(remoteIdentity)}=null");
-            if (remoteIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(remoteIdentity.IsAuthenticated)}=false");
 
             // Login
             return await this.LoginAsync(remoteIdentity, returnUrl);

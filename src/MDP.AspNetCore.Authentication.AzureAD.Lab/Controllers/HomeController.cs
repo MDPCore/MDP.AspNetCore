@@ -16,15 +16,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Lab
         public ActionResult Index()
         {
             // Return
-            return View("Index");
-        }
-
-        [AllowAnonymous]
-        [Route("/login", Name = "Login")]
-        public ActionResult Login(string scheme = null, string returnUrl = null)
-        {
-            // Return
-            return this.View("Login");
+            return this.View();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace MDP.AspNetCore.Authentication
     internal class LocalAuthenticationDefaults
     {
         // Constants
-        public const string AuthenticationScheme = "LocalAuth";
+        public const string AuthenticationScheme = "LocalCookie";
     }
 }

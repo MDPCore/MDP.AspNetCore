@@ -15,13 +15,16 @@ namespace MDP.AspNetCore.Authentication
     public static class RemoteAuthenticationOptionsExtensions
     {
         // Methods
-        public static void SignInPath(this RemoteAuthenticationOptions remoteAuthenticationOptions, string signInPath = "/.auth/signin")
+        public static void ConfigureSignIn(this RemoteAuthenticationOptions remoteAuthenticationOptions, string signInPath = "/.auth/signin")
         {
             #region Contracts
 
             if (string.IsNullOrEmpty(signInPath) == true) throw new ArgumentException(nameof(signInPath));
-         
+
             #endregion
+
+            // SignInScheme
+            remoteAuthenticationOptions.SignInScheme = RemoteAuthenticationDefaults.AuthenticationScheme;
 
             // OnTicketReceived
             remoteAuthenticationOptions.Events.OnTicketReceived = context =>

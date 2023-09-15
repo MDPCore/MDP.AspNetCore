@@ -1,0 +1,29 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Login</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Login</h2>
+    <hr />
+
+    <!--LoginByFacebook-->
+    <form asp-controller="Account" asp-action="LoginByFacebook" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" value="LoginByFacebook" /><br />
+        <br />
+    </form>
+    <hr />
+
+</body>
+</html>

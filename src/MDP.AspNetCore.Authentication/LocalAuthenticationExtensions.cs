@@ -43,7 +43,7 @@ namespace MDP.AspNetCore.Authentication
     internal static partial class LocalAuthenticationExtensions
     {
         // Methods
-        public static Task<AuthenticateResult> LocalAuthenticateAsync(this HttpContext httpContext)
+        public static async Task<ClaimsIdentity> LocalAuthenticateAsync(this HttpContext httpContext)
         {
             #region Contracts
 
@@ -52,7 +52,17 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // AuthenticateAsync
-            return httpContext.AuthenticateAsync();
+            var authenticateResult = await httpContext.AuthenticateAsync();
+            if (authenticateResult == null) throw new InvalidOperationException($"{nameof(authenticateResult)}=null");
+            if (authenticateResult.Succeeded == false) return null;
+
+            // Identity
+            var identity = authenticateResult?.Principal?.Identity;
+            if (identity == null) return null;
+            if (identity.IsAuthenticated == false) return null;
+
+            // Return
+            return identity as ClaimsIdentity;
         }
 
         public static Task LocalSignInAsync(this HttpContext httpContext, ClaimsPrincipal principal)
