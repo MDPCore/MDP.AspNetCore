@@ -25,7 +25,7 @@ namespace MDP.AspNetCore.Authentication
             return localIdentity;
         }
 
-        public virtual ClaimsIdentity Link(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
+        public virtual void Link(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
             #region Contracts
 
@@ -34,8 +34,8 @@ namespace MDP.AspNetCore.Authentication
 
             #endregion
 
-            // Return
-            return localIdentity;
+            // Nothing
+           
         }
     }
 }

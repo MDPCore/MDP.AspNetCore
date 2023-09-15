@@ -26,8 +26,17 @@
     AuthenticationType=@User?.Identity?.AuthenticationType<br />
     UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
     Username=@GetClaimValue(ClaimTypes.Name)<br />
-    Mail=@GetClaimValue(ClaimTypes.Email)<br />
+    Mail=@GetClaimValue(ClaimTypes.Email)<br />    
+    Nickname=@GetClaimValue("Nickname")<br />    
+    Links=@GetClaimValue("Links")<br />    
     <br />
+    <hr />
+
+    <!--LinkByGitHub-->
+    <form asp-controller="Account" asp-action="LinkByGitHub" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" value="LinkByGitHub" /><br />
+        <br />
+    </form>
     <hr />
 
     <!--Logout-->

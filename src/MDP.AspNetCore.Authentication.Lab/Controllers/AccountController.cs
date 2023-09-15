@@ -1,5 +1,7 @@
 ﻿using MDP.AspNetCore.Authentication;
+using MDP.AspNetCore.Authentication.GitHub;
 using MDP.Members;
+using MDP.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -44,8 +46,58 @@ namespace MDP.AspNetCore.Authentication.Lab
             return this.LogoutAsync();
         }
 
+
         [AllowAnonymous]
-        public Task<ActionResult> LoginByPassword(string username, string password, string returnUrl = null)
+        public async Task<ActionResult> Register()
+        {
+            // RemoteIdentity
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            this.ViewBag.Name = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+            this.ViewBag.Mail = remoteIdentity?.GetClaimValue(ClaimTypes.Email);
+            this.ViewBag.Nickname = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+
+            // Return
+            return this.View();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> RegisterMember(string name, string mail, string nickname, string password, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(name) == true) throw new ArgumentException($"{nameof(name)}=null");
+            if (string.IsNullOrEmpty(mail) == true) throw new ArgumentException($"{nameof(mail)}=null");
+            //if (string.IsNullOrEmpty(nickname) == true) throw new ArgumentException($"{nameof(nickname)}=null");
+            //if (string.IsNullOrEmpty(password) == true) throw new ArgumentException($"{nameof(password)}=null");
+
+            #endregion
+                 
+            // Member
+            var member = new Member();
+            member.MemberId = Guid.NewGuid().ToString();
+            member.Name = name;
+            member.Mail = mail;
+            member.Nickname = nickname;
+
+            // MemberLink
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            if (remoteIdentity != null)
+            {
+                var linkType = remoteIdentity.AuthenticationType;
+                var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
+                member.Links.Add(linkType, linkId);
+            }
+
+            // Add
+            _memberRepository.Add(member);
+
+            // Return
+            return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
+        }
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> LoginByPassword(string username, string password, string returnUrl = null)
         {
             #region Contracts
 
@@ -54,7 +106,7 @@ namespace MDP.AspNetCore.Authentication.Lab
 
             #endregion
 
-            // Ckeck Username + Password (for demo)
+            // Member: Ckeck Username + Password (for demo)
             var member = _memberRepository.FindByName(username);
             if (member == null)
             {
@@ -62,19 +114,25 @@ namespace MDP.AspNetCore.Authentication.Lab
                 this.ViewBag.Message = "Login failed";
 
                 // Return
-                return Task.Run<ActionResult>(()=>this.View("Login"));
+                return this.View("Login");
             }
 
-            // ClaimsIdentity
-            var claimsIdentity = new ClaimsIdentity(new List<Claim>()
-            {
-                new Claim(ClaimTypes.NameIdentifier, member.MemberId),
-                new Claim(ClaimTypes.Name, member.Name),
-                new Claim(ClaimTypes.Email, member.Mail),
-            }, "Password");
-
             // Return
-            return this.LoginAsync(claimsIdentity, returnUrl);
+            return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
+        }
+
+        [AllowAnonymous]
+        public Task<ActionResult> LoginByGitHub(string returnUrl = null)
+        {
+            // Return
+            return this.LoginAsync(GitHubDefaults.AuthenticationScheme, returnUrl);
+        }
+
+        [AllowAnonymous]
+        public Task<ActionResult> LinkByGitHub(string returnUrl = null)
+        {
+            // Return
+            return this.LinkAsync(GitHubDefaults.AuthenticationScheme, returnUrl);
         }
     }
 }

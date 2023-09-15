@@ -103,9 +103,17 @@ namespace MDP.AspNetCore.Authentication
             if (localIdentity != null && authenticationProvider != null)
             {
                 // Link
-                localIdentity = authenticationProvider.Link(remoteIdentity, localIdentity);
-                if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
+                authenticationProvider.Link(localIdentity, remoteIdentity);
 
+                // ReLogin
+                localIdentity = null;
+            }
+
+            // Login
+            if (localIdentity == null && authenticationProvider == null) localIdentity = remoteIdentity;
+            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.Login(remoteIdentity);
+            if (localIdentity != null)
+            {
                 // SignIn
                 await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
                 await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
@@ -113,10 +121,6 @@ namespace MDP.AspNetCore.Authentication
                 // Redirect
                 return controller.Redirect(returnUrl);
             }
-
-            // Login
-            if (localIdentity == null && authenticationProvider == null) localIdentity = remoteIdentity;
-            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.Login(remoteIdentity);
 
             // Register
             if (localIdentity == null && string.IsNullOrEmpty(authenticationSetting.RegisterPath) == false)
@@ -129,7 +133,6 @@ namespace MDP.AspNetCore.Authentication
             }
 
             // Forbid
-            if (localIdentity == null && string.IsNullOrEmpty(authenticationSetting.RegisterPath) == true)
             {
                 // SignIn
                 await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
@@ -137,13 +140,6 @@ namespace MDP.AspNetCore.Authentication
                 // Forbid
                 return controller.Forbid();
             }
-
-            // SignIn
-            await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
-            await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
-
-            // Redirect
-            return controller.Redirect(returnUrl);
         }
 
         public static async Task<ActionResult> LogoutAsync(this Controller controller, string returnUrl = null)

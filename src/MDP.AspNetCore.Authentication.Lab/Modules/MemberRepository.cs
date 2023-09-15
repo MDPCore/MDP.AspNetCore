@@ -16,7 +16,7 @@ namespace MDP.Members
         public MemberRepository()
         {
             // Default
-            _memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Clark", Mail = "Clark@hotmail.com" });
+            //_memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Clark", Mail = "Clark@hotmail.com" });
             _memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Jane", Mail = "Jane@hotmail.com" });
         }
 
@@ -48,6 +48,18 @@ namespace MDP.Members
             _memberList.Add(member);
         }
 
+        public Member FindByMemberId(string memberId)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(memberId) == true) throw new ArgumentException($"{nameof(memberId)}=null");
+
+            #endregion
+
+            // Return
+            return _memberList.FirstOrDefault(o => o.MemberId == memberId)?.Clone();
+        }
+
         public Member FindByName(string name)
         {
             #region Contracts
@@ -60,16 +72,17 @@ namespace MDP.Members
             return _memberList.FirstOrDefault(o => o.Name == name)?.Clone();
         }
 
-        public Member FindByMemberId(string memberId)
+        public Member FindByLink(string linkType, string linkId)
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(memberId) == true) throw new ArgumentException($"{nameof(memberId)}=null");
+            if (string.IsNullOrEmpty(linkType) == true) throw new ArgumentException($"{nameof(linkType)}=null");
+            if (string.IsNullOrEmpty(linkId) == true) throw new ArgumentException($"{nameof(linkId)}=null");
 
             #endregion
 
             // Return
-            return _memberList.FirstOrDefault(o => o.MemberId == memberId)?.Clone();
+            return _memberList.FirstOrDefault(o => o.Links.ContainsKey(linkType) && o.Links[linkType] == linkId)?.Clone();
         }
     }
 }

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="MDP.Registration" Version="6.1.8" />
+    <PackageReference Include="MDP.Security.Claims" Version="6.1.8" />
   </ItemGroup>
 
   <PropertyGroup>

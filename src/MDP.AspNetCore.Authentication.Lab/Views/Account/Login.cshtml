@@ -27,6 +27,13 @@
     </form>
     <hr />
 
+    <!--LoginByGitHub-->
+    <form asp-controller="Account" asp-action="LoginByGitHub" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" value="LoginByGitHub" /><br />
+        <br />
+    </form>
+    <hr />
+
     <!--Message-->
     <h3 style="color:red">@ViewBag.Message</h3>
 

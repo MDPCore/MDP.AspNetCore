@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 
 namespace MDP.Members
 {
@@ -13,6 +14,8 @@ namespace MDP.Members
 
         public string Mail { get; set; } = String.Empty;
 
+        public string Nickname { get; set; } = String.Empty;
+
         public Dictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
 
 
@@ -24,6 +27,7 @@ namespace MDP.Members
             member.MemberId = this.MemberId;
             member.Name = this.Name;
             member.Mail = this.Mail;
+            member.Nickname = this.Nickname;
             member.Links = this.Links.ToDictionary(o => o.Key, o => o.Value);
 
             // Return
