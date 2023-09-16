@@ -41,16 +41,28 @@ namespace MDP.Members
             #endregion
 
             // Member
-            if (remoteIdentity.AuthenticationType == "Password") return remoteIdentity;
+            if (remoteIdentity.AuthenticationType == "Password")
+            {
+                // FindByMemberId
+                var memberId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
+                var member = _memberRepository.FindByMemberId(memberId);
+                if (member == null) return null;
+
+                // Return
+                return member.ToIdentity(remoteIdentity.AuthenticationType);
+            }
 
             // MemberLink
-            var linkType = remoteIdentity.AuthenticationType;
-            var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
-            var member = _memberRepository.FindByLink(linkType, linkId);
-            if (member == null) return null;
+            {
+                // FindByLink
+                var linkType = remoteIdentity.AuthenticationType;
+                var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
+                var member = _memberRepository.FindByLink(linkType, linkId);
+                if (member == null) return null;
 
-            // Return
-            return member.ToIdentity(remoteIdentity.AuthenticationType);
+                // Return
+                return member.ToIdentity(remoteIdentity.AuthenticationType);
+            }            
         }
 
         public override void Link(ClaimsIdentity localIdentity, ClaimsIdentity remoteIdentity)
