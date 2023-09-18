@@ -2,4 +2,4 @@
 :: C:\Users\Clark\AppData\Roaming\NuGet\
 
 :: Add ApiKey
-nuget setapikey XXXXX -s https://api.nuget.org/v3/index.json
+nuget setapikey XXXXXXXXXX -s https://api.nuget.org/v3/index.json
