@@ -266,6 +266,8 @@ namespace WebApplication1
 
 ![07.OAuthPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/07.OAuthPage01.png)
 
+![07.OAuthPage02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/07.OAuthPage02.png)
+
 9.於Line身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示目前User的身分資料。(經由Line身分驗證登入)
 
 ![08.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/08.HomePage01.png)
