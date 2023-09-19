@@ -1,17 +1,30 @@
 # MDP.AspNetCore.Authentication
-MDP.AspNetCore.Authentication是.NET版本的開發套件，協助開發人員快速建立ASP.NET Core身分驗證整合的應用系統。
 
+MDP.AspNetCore.Authentication是.NET版本的開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供Line、Google、Facebook等OAuth身分驗證模組，及JWT等Token身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
 
-## 說明文件
+- 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
-- [clark159.github.io/MDP.AspNetCore.Authentication](https://clark159.github.io/MDP.AspNetCore.Authentication/)
+- 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
 
 
 ## 快速開始
 
 
+## 模組功能
+
+
+## 模組使用
+
+
+## 模組範例
+
+
 ## 版本更新
+
+### MDP.AspNetCore.Authentication 6.1.8
+
+- 跟隨 MDP.Net進版。
 
 ### MDP.AspNetCore.Authentication 6.1.5
 
-- 建立套件
+- 跟隨 MDP.Net進版。
