@@ -34,7 +34,7 @@ MDP.AspNetCore.Authentication.Line擴充ASP.NET Core既有的身分驗證，加�
 
 ![03.取得參數02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/03.取得參數02.png)
 
-4.同樣於LINE Login Channel頁面，進入LINE Login頁簽，開啟「Use LINE Login in your web app 」並編輯「Callback URL」。(Webhook URL=「程式執行網址」+「/.auth/login/line/callback」)
+4.同樣於LINE Login Channel頁面，進入LINE Login頁簽，開啟「Use LINE Login in your web app 」並編輯「Callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/line/callback」)
 
 ![04.設定CallbackURL01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/04.設定CallbackURL01.png)
 
@@ -68,16 +68,16 @@ MDP.AspNetCore.Authentication.Line
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxx",
-      "ClientSecret": "Xxxx"
+      "ClientId": "Xxxxx",
+      "ClientSecret": "Xxxxx"
     }
   }
 }
 
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證服務的客戶編號：ClientId
-- Line身分驗證服務的客戶密碼：ClientSecret
+- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
 ```
 
 
@@ -102,11 +102,11 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Line
 ```
 
-3.依照本篇[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#服務申請)的步驟流程，申請Line身分驗證服務。
+3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#服務申請)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
 
 ![05.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/05.申請服務01.png)
 
-4.於專案內改寫appsettings.json，用以掛載Line身分驗證。
+4.於專案內改寫appsettings.json，填入「Channel ID」、「Channel Secret」，用以掛載Line身分驗證。
 
 ```
 {
@@ -211,22 +211,47 @@ namespace WebApplication1
 ```
 
 ```
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace WebApplication1
-{
-    public class HomeController : Controller
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
+@{
+    string GetClaimValue(string claimType)
     {
-        // Methods
-        [Authorize]
-        public ActionResult Index()
-        {
-            // Return
-            return this.View();
-        }
+        return (User?.Identity as ClaimsIdentity)?.FindFirst(claimType)?.Value;
     }
 }
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Home</h2>
+    <hr />
+
+    <!--Identity-->
+    AuthenticationType=@User?.Identity?.AuthenticationType<br />
+    UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
+    Username=@GetClaimValue(ClaimTypes.Name)<br />
+    Mail=@GetClaimValue(ClaimTypes.Email)<br />
+    <br />
+    <hr />
+
+    <!--Logout-->
+    <form asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" /><br />
+        <br />
+    </form>
+    <hr />
+
+</body>
+</html>
 ```
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
@@ -235,7 +260,7 @@ namespace WebApplication1
 
 8.於Login頁面，點擊LoginByLine按鈕。Browser視窗會跳轉至Line身分驗證服務的頁面，進行OAuth身分驗證。
 
-![07.LinePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/07.LinePage01.png)
+![07.OAuthPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/07.OAuthPage01.png)
 
 9.於Line身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示目前User的身分資料。(經由Line身分驗證登入)
 
