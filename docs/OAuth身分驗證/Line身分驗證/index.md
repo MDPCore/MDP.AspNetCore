@@ -11,6 +11,10 @@ has_children: false
 
 MDP.AspNetCore.Authentication.Line擴充ASP.NET Core既有的身分驗證，加入Line身分驗證功能。開發人員可以透過Config設定，掛載在執行階段使用的Line身分驗證。
 
+- 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
+
+- 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
+
 
 ## 模組使用
 
