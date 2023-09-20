@@ -32,11 +32,13 @@ MDP.AspNetCore.Authentication.Line擴充ASP.NET Core既有的身分驗證，加�
 
 ![02.建立 Line Login Channel02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/02.建立 Line Login Channel02.png)
 
-3.於LINE Login Channel頁面，進入Basic settings頁簽，取得「Channel ID」、「Channel Secret」。
+3.於LINE Login Channel頁面，進入Basic settings頁簽，取得「Channel ID」、「Channel Secret」，並開啟Email address permission。
 
 ![03.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/03.取得參數01.png)
 
 ![03.取得參數02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/03.取得參數02.png)
+
+![03.取得參數03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/03.取得參數03.png)
 
 4.同樣於LINE Login Channel頁面，進入LINE Login頁簽，開啟Use LINE Login in your web app，並編輯「Callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/line/callback」)
 
