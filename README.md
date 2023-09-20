@@ -9,6 +9,10 @@ MDP.AspNetCore.Authentication是.NET版本的開發套件，協助開發人員�
 
 ## 快速開始
 
+- [開發一個Line登入+註冊帳號的Web站台](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個Line登入+註冊帳號的Web站台/)
+
+- [開發一個密碼登入+綁定Line的Web站台](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個密碼登入+綁定Line的Web站台/)
+
 
 ## 模組功能
 
