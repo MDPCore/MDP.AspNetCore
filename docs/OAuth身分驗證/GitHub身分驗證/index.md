@@ -20,7 +20,7 @@ MDP.AspNetCore.Authentication.GitHub擴充ASP.NET Core既有的身分驗證，�
 
 ### 服務申請
 
-1.註冊並登入[GitHub Developer Settings](https://github.com/settings/developers)。於OAuth Apps頁簽，點擊「Register a new application」按鈕，依照頁面提示建立一個Application，並編輯「Authorization callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/github/callback」)
+1.註冊並登入[GitHub Developer Settings](https://github.com/settings/developers)。於OAuth Apps頁簽，點擊Register a new application按鈕，依照頁面提示建立一個Application，並編輯「Authorization callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/github/callback」)
 
 ![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/GitHub身分驗證/01.建立Application01.png)
 

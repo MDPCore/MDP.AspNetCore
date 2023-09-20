@@ -20,13 +20,13 @@ MDP.AspNetCore.Authentication.Line擴充ASP.NET Core既有的身分驗證，加�
 
 ### 服務申請
 
-1.註冊並登入[Line Developers Console](https://developers.line.biz/console/)。於首頁，點擊「Create New Provider」按鈕，依照頁面提示建立一個Provider。
+1.註冊並登入[Line Developers Console](https://developers.line.biz/console/)。於首頁，點擊Create New Provider按鈕，依照頁面提示建立一個Provider。
 
 ![01.建立 Provider01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/01.建立 Provider01.png)
 
 ![01.建立 Provider02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/01.建立 Provider02.png)
 
-2.於Porvider頁面，點擊「Create a LINE Login channel」按鈕，依照頁面提示建立一個LINE Login Channel。
+2.於Porvider頁面，點擊Create a LINE Login channel按鈕，依照頁面提示建立一個LINE Login Channel。
 
 ![02.建立 Line Login Channel01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/02.建立 Line Login Channel01.png)
 
@@ -38,7 +38,7 @@ MDP.AspNetCore.Authentication.Line擴充ASP.NET Core既有的身分驗證，加�
 
 ![03.取得參數02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/03.取得參數02.png)
 
-4.同樣於LINE Login Channel頁面，進入LINE Login頁簽，開啟「Use LINE Login in your web app 」並編輯「Callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/line/callback」)
+4.同樣於LINE Login Channel頁面，進入LINE Login頁簽，開啟Use LINE Login in your web app，並編輯「Callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/line/callback」)
 
 ![04.設定CallbackURL01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/04.設定CallbackURL01.png)
 
