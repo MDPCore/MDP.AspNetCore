@@ -37,6 +37,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authenticati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Line.Lab", "MDP.AspNetCore.Authentication.Line.Lab\MDP.AspNetCore.Authentication.Line.Lab.csproj", "{5808EF0A-4949-41A2-B8D5-3802B57F9C9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.Microsoft", "MDP.AspNetCore.Authentication.Microsoft\MDP.AspNetCore.Authentication.Microsoft.csproj", "{F778CF38-9AA3-4972-92B5-55EF0A893E40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.Microsoft.Lab", "MDP.AspNetCore.Authentication.Microsoft.Lab\MDP.AspNetCore.Authentication.Microsoft.Lab.csproj", "{DDAA8304-DEC7-43D4-8666-704A871CF226}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +111,14 @@ Global
 		{5808EF0A-4949-41A2-B8D5-3802B57F9C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5808EF0A-4949-41A2-B8D5-3802B57F9C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5808EF0A-4949-41A2-B8D5-3802B57F9C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F778CF38-9AA3-4972-92B5-55EF0A893E40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F778CF38-9AA3-4972-92B5-55EF0A893E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F778CF38-9AA3-4972-92B5-55EF0A893E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F778CF38-9AA3-4972-92B5-55EF0A893E40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

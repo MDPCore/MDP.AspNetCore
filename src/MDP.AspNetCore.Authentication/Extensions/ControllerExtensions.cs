@@ -105,8 +105,9 @@ namespace MDP.AspNetCore.Authentication
                 // Link
                 authenticationProvider.Link(localIdentity, remoteIdentity);
 
-                // ReLogin
-                localIdentity = null;
+                // Login
+                localIdentity = authenticationProvider.Login(remoteIdentity);
+                if(localIdentity==null) throw new InvalidOperationException("Identity link failed.");
             }
 
             // Login
@@ -114,8 +115,8 @@ namespace MDP.AspNetCore.Authentication
             if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.Login(remoteIdentity);
             if (localIdentity != null)
             {
-                // SignIn
-                await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
+                // Sign
+                await controller.HttpContext.RemoteSignOutAsync();
                 await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
 
                 // Redirect
@@ -125,8 +126,9 @@ namespace MDP.AspNetCore.Authentication
             // Register
             if (localIdentity == null && string.IsNullOrEmpty(authenticationSetting.RegisterPath) == false)
             {
-                // SignIn
+                // Sign
                 await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
+                await controller.HttpContext.LocalSignOutAsync();
 
                 // Register
                 return controller.Redirect(authenticationSetting.RegisterPath);
@@ -134,8 +136,9 @@ namespace MDP.AspNetCore.Authentication
 
             // Forbid
             {
-                // SignIn
+                // Sign
                 await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
+                await controller.HttpContext.LocalSignOutAsync();
 
                 // Forbid
                 return controller.Forbid();
