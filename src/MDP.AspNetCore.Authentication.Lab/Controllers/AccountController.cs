@@ -1,5 +1,5 @@
 ﻿using MDP.AspNetCore.Authentication;
-using MDP.AspNetCore.Authentication.GitHub;
+using MDP.AspNetCore.Authentication.Line;
 using MDP.Members;
 using MDP.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication.Lab
 {
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         // Fields
         private readonly MemberRepository _memberRepository;
@@ -40,61 +40,18 @@ namespace MDP.AspNetCore.Authentication.Lab
         }
 
         [AllowAnonymous]
-        public Task<ActionResult> Logout()
+        public ActionResult AccessDenied()
         {
-            // Return
-            return this.LogoutAsync();
-        }
-
-
-        [AllowAnonymous]
-        public async Task<ActionResult> Register()
-        {
-            // RemoteIdentity
-            var remoteIdentity = await this.RemoteAuthenticateAsync();
-            this.ViewBag.Name = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
-            this.ViewBag.Mail = remoteIdentity?.GetClaimValue(ClaimTypes.Email);
-            this.ViewBag.Nickname = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
-
             // Return
             return this.View();
         }
 
         [AllowAnonymous]
-        public async Task<ActionResult> RegisterMember(string name, string mail, string nickname, string password, string returnUrl = null)
+        public async Task<ActionResult> Logout()
         {
-            #region Contracts
-
-            if (string.IsNullOrEmpty(name) == true) throw new ArgumentException($"{nameof(name)}=null");
-            if (string.IsNullOrEmpty(mail) == true) throw new ArgumentException($"{nameof(mail)}=null");
-            //if (string.IsNullOrEmpty(nickname) == true) throw new ArgumentException($"{nameof(nickname)}=null");
-            //if (string.IsNullOrEmpty(password) == true) throw new ArgumentException($"{nameof(password)}=null");
-
-            #endregion
-                 
-            // Member
-            var member = new Member();
-            member.MemberId = Guid.NewGuid().ToString();
-            member.Name = name;
-            member.Mail = mail;
-            member.Nickname = nickname;
-
-            // MemberLink
-            var remoteIdentity = await this.RemoteAuthenticateAsync();
-            if (remoteIdentity != null)
-            {
-                var linkType = remoteIdentity.AuthenticationType;
-                var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
-                member.Links.Add(linkType, linkId);
-            }
-
-            // Add
-            _memberRepository.Add(member);
-
             // Return
-            return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
+            return await this.LogoutAsync();
         }
-
 
         [AllowAnonymous]
         public async Task<ActionResult> LoginByPassword(string username, string password, string returnUrl = null)
@@ -120,19 +77,75 @@ namespace MDP.AspNetCore.Authentication.Lab
             // Return
             return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
         }
+    }
 
+    public partial class AccountController : Controller
+    {
+        // Methods
         [AllowAnonymous]
-        public Task<ActionResult> LoginByGitHub(string returnUrl = null)
+        public async Task<ActionResult> Register()
         {
+            // RemoteIdentity
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            this.ViewBag.Name = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+            this.ViewBag.Mail = remoteIdentity?.GetClaimValue(ClaimTypes.Email);
+            this.ViewBag.Nickname = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+
             // Return
-            return this.LoginAsync(GitHubDefaults.AuthenticationScheme, returnUrl);
+            return this.View();
         }
 
         [AllowAnonymous]
-        public Task<ActionResult> LinkByGitHub(string returnUrl = null)
+        public async Task<ActionResult> RegisterMember(string name, string mail, string nickname, string password, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(name) == true) throw new ArgumentException($"{nameof(name)}=null");
+            if (string.IsNullOrEmpty(mail) == true) throw new ArgumentException($"{nameof(mail)}=null");
+            //if (string.IsNullOrEmpty(nickname) == true) throw new ArgumentException($"{nameof(nickname)}=null");
+            //if (string.IsNullOrEmpty(password) == true) throw new ArgumentException($"{nameof(password)}=null");
+
+            #endregion
+
+            // Member
+            var member = new Member();
+            member.MemberId = Guid.NewGuid().ToString();
+            member.Name = name;
+            member.Mail = mail;
+            member.Nickname = nickname;
+
+            // MemberLink
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            if (remoteIdentity != null)
+            {
+                var linkType = remoteIdentity.AuthenticationType;
+                var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
+                member.Links.Add(linkType, linkId);
+            }
+
+            // Add
+            _memberRepository.Add(member);
+
+            // Return
+            return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
+        }
+    }
+
+    public partial class AccountController : Controller
+    {
+        // Methods
+        [AllowAnonymous]
+        public Task<ActionResult> LoginByLine(string returnUrl = null)
         {
             // Return
-            return this.LinkAsync(GitHubDefaults.AuthenticationScheme, returnUrl);
+            return this.LoginAsync(LineDefaults.AuthenticationScheme, returnUrl);
+        }
+
+        [AllowAnonymous]
+        public Task<ActionResult> LinkByLine(string returnUrl = null)
+        {
+            // Return
+            return this.LinkAsync(LineDefaults.AuthenticationScheme, returnUrl);
         }
     }
 }

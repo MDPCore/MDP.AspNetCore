@@ -12,15 +12,6 @@ namespace MDP.Members
         private readonly List<Member> _memberList = new List<Member>();
 
 
-        // Constructors
-        public MemberRepository()
-        {
-            // Default
-            //_memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Clark", Mail = "Clark@hotmail.com" });
-            _memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Jane", Mail = "Jane@hotmail.com" });
-        }
-
-
         // Methods
         public void Add(Member member)
         {

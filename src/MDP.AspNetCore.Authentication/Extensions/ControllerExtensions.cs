@@ -137,7 +137,7 @@ namespace MDP.AspNetCore.Authentication
             // Forbid
             {
                 // Sign
-                await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
+                await controller.HttpContext.RemoteSignOutAsync();
                 await controller.HttpContext.LocalSignOutAsync();
 
                 // Forbid

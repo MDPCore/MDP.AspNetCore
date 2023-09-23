@@ -9,7 +9,7 @@ has_children: false
 
 # MDP.AspNetCore.Authentication.Google
 
-MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，加入Google身分驗證功能。開發人員可以透過Config設定，掛載在執行階段使用的Google身分驗證。
+MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，加入Google身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Google身分驗證。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
@@ -18,7 +18,9 @@ MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，�
 
 ## 模組使用
 
-### 服務申請
+本篇使用說明協助開發人員，在專案裡使用MDP.AspNetCore.Authentication.Google所提供的Google身分驗證。
+
+### 申請服務
 
 1.註冊並登入[Google Cloud Console](https://console.cloud.google.com/)。於首頁，點擊左上角的專案清單後，點擊建立專案按鈕，依照頁面提示建立一個Project。
 
@@ -26,7 +28,7 @@ MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，�
 
 ![01.建立Project02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Google身分驗證/01.建立Project02.png)
 
-2.於Project頁面，點選左上角的漢堡選單，進入API和服務/OAuth同意畫面頁面，依照頁面提示建立一個OAuth同意畫面。
+2.於Project頁面，點選左上角的選單，進入API和服務/OAuth同意畫面頁面，依照頁面提示建立一個OAuth同意畫面。
 
 ![02.建立OAuth同意畫面01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Google身分驗證/02.建立OAuth同意畫面01.png)
 
@@ -34,7 +36,7 @@ MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，�
 
 ![02.建立OAuth同意畫面03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Google身分驗證/02.建立OAuth同意畫面03.png)
 
-3.於OAuth同意畫面，點選左上角的漢堡選單，進入API和服務/憑證頁面，點選建立憑證選單後，選擇建立OAuth用戶端ID，依照頁面提示建立一個OAuth用戶端，並加入一個「已授權的重新導向 URI」。(重新導向URL=「程式執行網址」+「/.auth/login/google/callback」)
+3.於OAuth同意畫面，點選左上角的選單，進入API和服務/憑證頁面，點選建立憑證選單後，選擇建立OAuth用戶端ID，依照頁面提示建立一個OAuth用戶端，並加入一個「已授權的重新導向 URI」。(重新導向URL=「程式執行網址」+「/.auth/login/google/callback」)
 
 ![03.建立OAuth用戶端01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Google身分驗證/03.建立OAuth用戶端01.png)
 
@@ -48,10 +50,9 @@ MDP.AspNetCore.Authentication.Google擴充ASP.NET Core既有的身分驗證，�
 
 ![04.完成OAuth用戶端01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Google身分驗證/04.完成OAuth用戶端01.png)
 
-
 ### 建立專案
 
-服務申請完成之後，就可以開始建立專案。MDP.AspNetCore.Authentication.Google預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Google模組的專案。
+服務申請完成之後，就可以開始建立專案。MDP.AspNetCore.Authentication.Google預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Google的專案。
 
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
@@ -69,7 +70,7 @@ MDP.AspNetCore.Authentication.Google
 
 ### 設定參數
 
-建立包含MDP.AspNetCore.Authentication.Google模組的專案之後，在專案裡可以透過Config設定，掛載在執行階段使用的Google身分驗證。
+建立包含MDP.AspNetCore.Authentication.Google的專案之後，就可以透過Config設定，掛載在專案裡使用的Google身分驗證。
 
 ```
 // Config設定

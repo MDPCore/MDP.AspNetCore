@@ -18,6 +18,9 @@
     <h2>Register</h2>
     <hr />
 
+    <!--Message-->
+    <h3 style="color:red">@ViewBag.Message</h3>
+
     <!--RegisterMember-->
     <form asp-controller="Account" asp-action="RegisterMember" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
         Name:<input type="text" name="name" value="@ViewBag.Name" /><br />
@@ -28,9 +31,6 @@
         <br />
     </form>
     <hr />
-
-    <!--Message-->
-    <h3 style="color:red">@ViewBag.Message</h3>
 
 </body>
 </html>
