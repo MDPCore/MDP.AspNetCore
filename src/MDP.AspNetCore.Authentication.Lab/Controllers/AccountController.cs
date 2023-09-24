@@ -54,6 +54,13 @@ namespace MDP.AspNetCore.Authentication.Lab
         }
 
         [AllowAnonymous]
+        public Task<ActionResult> LoginByLine(string returnUrl = null)
+        {
+            // Return
+            return this.LoginAsync(LineDefaults.AuthenticationScheme, returnUrl);
+        }
+
+        [AllowAnonymous]
         public async Task<ActionResult> LoginByPassword(string username, string password, string returnUrl = null)
         {
             #region Contracts
@@ -85,11 +92,14 @@ namespace MDP.AspNetCore.Authentication.Lab
         [AllowAnonymous]
         public async Task<ActionResult> Register()
         {
-            // RemoteIdentity
+            // DefaultValue
             var remoteIdentity = await this.RemoteAuthenticateAsync();
-            this.ViewBag.Name = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
-            this.ViewBag.Mail = remoteIdentity?.GetClaimValue(ClaimTypes.Email);
-            this.ViewBag.Nickname = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+            if (remoteIdentity != null)
+            {                
+                this.ViewBag.Name = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+                this.ViewBag.Mail = remoteIdentity?.GetClaimValue(ClaimTypes.Email);
+                this.ViewBag.Nickname = remoteIdentity?.GetClaimValue(ClaimTypes.Name);
+            }
 
             // Return
             return this.View();
@@ -128,24 +138,6 @@ namespace MDP.AspNetCore.Authentication.Lab
 
             // Return
             return await this.LoginAsync(member.ToIdentity("Password"), returnUrl);
-        }
-    }
-
-    public partial class AccountController : Controller
-    {
-        // Methods
-        [AllowAnonymous]
-        public Task<ActionResult> LoginByLine(string returnUrl = null)
-        {
-            // Return
-            return this.LoginAsync(LineDefaults.AuthenticationScheme, returnUrl);
-        }
-
-        [AllowAnonymous]
-        public Task<ActionResult> LinkByLine(string returnUrl = null)
-        {
-            // Return
-            return this.LinkAsync(LineDefaults.AuthenticationScheme, returnUrl);
         }
     }
 }

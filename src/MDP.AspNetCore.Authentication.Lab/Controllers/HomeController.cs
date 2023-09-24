@@ -1,4 +1,5 @@
-﻿using MDP.Members;
+﻿using MDP.AspNetCore.Authentication.Line;
+using MDP.Members;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,13 @@ namespace MDP.AspNetCore.Authentication.Lab
         {
             // Return
             return this.View();
+        }
+
+        [AllowAnonymous]
+        public Task<ActionResult> LinkByLine(string returnUrl = null)
+        {
+            // Return
+            return this.LinkAsync(LineDefaults.AuthenticationScheme, returnUrl);
         }
     }
 }

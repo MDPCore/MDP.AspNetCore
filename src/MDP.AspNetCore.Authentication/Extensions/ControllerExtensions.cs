@@ -29,16 +29,13 @@ namespace MDP.AspNetCore.Authentication
             if (scheme.Equals(LocalAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(RemoteAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
 
-            // Authenticate
+            // LocalIdentity
             var localIdentity = await controller.LocalAuthenticateAsync();
-            if (localIdentity == null) throw new InvalidOperationException("Identity authenticate failed.");
+            if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
 
-            // Login
+            // RemoteIdentity
             var remoteIdentity = await controller.RemoteAuthenticateAsync();
-            if (localIdentity == null && remoteIdentity != null && remoteIdentity.AuthenticationType == scheme)
-            {
-                return await controller.LoginAsync(remoteIdentity, returnUrl);
-            }
+            if (remoteIdentity != null) await controller.HttpContext.RemoteSignOutAsync();
 
             // Challenge
             return controller.Challenge(new AuthenticationProperties() { RedirectUri = returnUrl }, scheme);
@@ -59,90 +56,37 @@ namespace MDP.AspNetCore.Authentication
             if (scheme.Equals(LocalAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(RemoteAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
 
-            // Authenticate
+            // LocalIdentity
             var localIdentity = await controller.LocalAuthenticateAsync();
-            if (localIdentity != null) return controller.Redirect(returnUrl);
+            if (localIdentity != null) throw new InvalidOperationException($"{nameof(localIdentity)}!=null");
 
-            // Login
+            // RemoteIdentity
             var remoteIdentity = await controller.RemoteAuthenticateAsync();
-            if (localIdentity == null && remoteIdentity != null && remoteIdentity.AuthenticationType == scheme)
-            {
-                return await controller.LoginAsync(remoteIdentity, returnUrl);
-            }
+            if (remoteIdentity != null) await controller.HttpContext.RemoteSignOutAsync();
 
             // Challenge
             return controller.Challenge(new AuthenticationProperties() { RedirectUri = returnUrl }, scheme);
         }
 
-        public static async Task<ActionResult> LoginAsync(this Controller controller, ClaimsIdentity remoteIdentity, string returnUrl = null)
+        public static async Task<ActionResult> LoginAsync(this Controller controller, ClaimsIdentity localIdentity, string returnUrl = null)
         {
             #region Contracts
 
             if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
+            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
 
             #endregion
 
             // Require
             returnUrl = returnUrl ?? controller.Url.Content("~/");
-            if (remoteIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(remoteIdentity.IsAuthenticated)}=false");
+            if (localIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(localIdentity.IsAuthenticated)}=false");
 
-            // AuthenticationProvider
-            var authenticationProvider = controller.HttpContext.RequestServices.GetService<AuthenticationProvider>();
+            // Sign
+            await controller.HttpContext.RemoteSignOutAsync();
+            await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
 
-            // AuthenticationSetting
-            var authenticationSetting = controller.HttpContext.RequestServices.GetService<DefaultAuthenticationSetting>();
-            if (authenticationSetting == null) throw new InvalidOperationException($"{nameof(authenticationSetting)}=null");
-
-            // Authenticate
-            var localIdentity = await controller.LocalAuthenticateAsync();
-            if (localIdentity != null && authenticationProvider == null) return controller.Redirect(returnUrl);
-            if (localIdentity != null && localIdentity.AuthenticationType == remoteIdentity.AuthenticationType) return controller.Redirect(returnUrl);
-
-            // Link
-            if (localIdentity != null && authenticationProvider != null)
-            {
-                // Link
-                authenticationProvider.Link(localIdentity, remoteIdentity);
-
-                // Login
-                localIdentity = authenticationProvider.Login(remoteIdentity);
-                if(localIdentity==null) throw new InvalidOperationException("Identity link failed.");
-            }
-
-            // Login
-            if (localIdentity == null && authenticationProvider == null) localIdentity = remoteIdentity;
-            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.Login(remoteIdentity);
-            if (localIdentity != null)
-            {
-                // Sign
-                await controller.HttpContext.RemoteSignOutAsync();
-                await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
-
-                // Redirect
-                return controller.Redirect(returnUrl);
-            }
-
-            // Register
-            if (localIdentity == null && string.IsNullOrEmpty(authenticationSetting.RegisterPath) == false)
-            {
-                // Sign
-                await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
-                await controller.HttpContext.LocalSignOutAsync();
-
-                // Register
-                return controller.Redirect(authenticationSetting.RegisterPath);
-            }
-
-            // Forbid
-            {
-                // Sign
-                await controller.HttpContext.RemoteSignOutAsync();
-                await controller.HttpContext.LocalSignOutAsync();
-
-                // Forbid
-                return controller.Forbid();
-            }
+            // Redirect
+            return controller.Redirect(returnUrl);
         }
 
         public static async Task<ActionResult> LogoutAsync(this Controller controller, string returnUrl = null)
@@ -156,7 +100,7 @@ namespace MDP.AspNetCore.Authentication
             // Require
             returnUrl = returnUrl ?? controller.Url.Content("~/");
 
-            // SignOut
+            // Sign
             await controller.HttpContext.RemoteSignOutAsync();
             await controller.HttpContext.LocalSignOutAsync();
 
