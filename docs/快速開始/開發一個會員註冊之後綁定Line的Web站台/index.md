@@ -626,7 +626,7 @@ namespace WebApplication1
 
 ![03.RegisterPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/03.RegisterPage01.png)
 
-12.完成會員資料註冊之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示目前User的身分資料。(無綁定身分)
+12.完成會員資料註冊之後，Browser視窗會跳轉回Home頁面，並且顯示目前User的身分資料。(無綁定身分)
 
 ![04.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/04.HomePage01.png)
 
