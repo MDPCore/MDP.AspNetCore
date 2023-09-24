@@ -25,6 +25,14 @@ MDP.AspNetCore.Authentication是.NET版本的開發套件，協助開發人員�
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.8
+
+- 加入Microsoft身分驗證。
+
+- 加入AzureAD身分驗證。
+
+- 重構MDP.AspNetCore.Authentication，簡化登入邏輯與流程。
+
 ### MDP.AspNetCore.Authentication 6.1.5
 
 - 跟隨 MDP.Net進版。
