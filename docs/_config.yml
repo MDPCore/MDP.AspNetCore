@@ -1,12 +1,12 @@
 
 # Site
-title: MDP.Net
+title: MDP.AspNetCore.Authentication
 
 # Theme
 remote_theme: pmarsceill/just-the-docs
 aux_links:
   "Source Code on GitHub":
-    - "//github.com/Clark159/MDP.Net"
+    - "//github.com/Clark159/MDP.AspNetCore.Authentication"
 color_scheme: dark
 search_enabled: false
 

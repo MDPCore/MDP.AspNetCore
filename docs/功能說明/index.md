@@ -23,20 +23,7 @@ MDP.AspNetCore.Authentication是.NET版本的開發套件，協助開發人員�
 - [開發一個Line登入之後註冊會員的站台](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個Line登入之後註冊會員的站台/)
 
 
-## 模組功能
-
-
-## 模組使用
-
-
-## 模組範例
-
-
 ## 版本更新
-
-### MDP.AspNetCore.Authentication 6.1.8
-
-- 跟隨 MDP.Net進版。
 
 ### MDP.AspNetCore.Authentication 6.1.5
 
