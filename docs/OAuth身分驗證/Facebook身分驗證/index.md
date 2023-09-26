@@ -18,9 +18,9 @@ MDP.AspNetCore.Authentication.Facebook擴充ASP.NET Core既有的身分驗證，
 
 ## 模組使用
 
-本篇使用說明協助開發人員，在專案裡使用MDP.AspNetCore.Authentication.Facebook所提供的Facebook身分驗證。
-
 ### 申請服務
+
+MDP.AspNetCore.Authentication.Facebook使用Facebook官方提供的OAuth服務來進行身分驗證，依照下列操作步驟，即可申請官方所提供的OAuth服務。
 
 1.註冊並登入[Facebook Developers Console](https://developers.facebook.com/apps/)。於應用程式頁面，點擊右上角的建立應用程式按鈕，依照頁面提示建立一個Application。
 
@@ -48,9 +48,9 @@ MDP.AspNetCore.Authentication.Facebook擴充ASP.NET Core既有的身分驗證，
 
 ![04.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Facebook身分驗證/04.取得參數01.png)
 
-### 建立專案
+### 加入專案
 
-服務申請完成之後，就可以開始建立專案。MDP.AspNetCore.Authentication.Facebook預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Facebook的專案。
+服務申請完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.Facebook預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Facebook的專案。
 
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 

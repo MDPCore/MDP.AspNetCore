@@ -13,7 +13,7 @@ has_children: false
 
 - 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/WebApplication1.zip)
 
-- 特別說明：Line綁定可替換為其他OAuth身分驗證，請參考已支援的「[OAuth身分認證清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89/)」。
+- 額外說明：Line綁定可替換為其他OAuth身分驗證，請參考已支援的[OAuth身分認證清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89/)。
 
 
 ### 操作步驟

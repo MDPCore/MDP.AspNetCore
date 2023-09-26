@@ -18,9 +18,9 @@ MDP.AspNetCore.Authentication.AzureAD擴充ASP.NET Core既有的身分驗證，�
 
 ## 模組使用
 
-本篇使用說明協助開發人員，在專案裡使用MDP.AspNetCore.Authentication.AzureAD所提供的AzureAD身分驗證。
-
 ### 申請服務
+
+MDP.AspNetCore.Authentication.AzureAD使用Azure官方提供的OAuth服務來進行身分驗證，依照下列操作步驟，即可申請官方所提供的OAuth服務。
 
 1.註冊並登入[AzureAD Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
 
@@ -42,9 +42,9 @@ MDP.AspNetCore.Authentication.AzureAD擴充ASP.NET Core既有的身分驗證，�
 
 ![03.取得參數03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/AzureAD身分驗證/03.取得參數03.png)
 
-### 建立專案
+### 加入專案
 
-服務申請完成之後，就可以開始建立專案。MDP.AspNetCore.Authentication.AzureAD預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.AzureAD的專案。
+服務申請完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.AzureAD預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.AzureAD的專案。
 
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
