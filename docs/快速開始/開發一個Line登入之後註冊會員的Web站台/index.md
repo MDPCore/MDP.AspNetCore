@@ -3,7 +3,7 @@ layout: default
 title: 開發一個Line登入之後註冊會員的Web站台
 parent: 快速開始
 grand_parent: 身分驗證
-nav_order: 1
+nav_order: 3
 has_children: false
 ---
 
@@ -183,7 +183,7 @@ namespace MDP.Members
 
 
         // Methods
-        public override ClaimsIdentity Login(ClaimsIdentity remoteIdentity)
+        public override ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 
@@ -201,12 +201,12 @@ namespace MDP.Members
             return member.ToIdentity(remoteIdentity.AuthenticationType);
         }
 
-        public override void Link(ClaimsIdentity localIdentity, ClaimsIdentity remoteIdentity)
+        public override void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
             #region Contracts
 
-            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
             if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
+            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
 
             #endregion
 

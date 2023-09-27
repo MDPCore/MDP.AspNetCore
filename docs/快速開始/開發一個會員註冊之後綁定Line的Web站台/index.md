@@ -3,7 +3,7 @@ layout: default
 title: 開發一個會員註冊之後綁定Line的Web站台
 parent: 快速開始
 grand_parent: 身分驗證
-nav_order: 2
+nav_order: 4
 has_children: false
 ---
 
@@ -13,7 +13,7 @@ has_children: false
 
 - 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/WebApplication1.zip)
 
-- 額外說明：Line綁定可替換為其他OAuth身分驗證，請參考已支援的[OAuth身分認證清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth%E8%BA%AB%E5%88%86%E9%A9%97%E8%AD%89/)。
+- 模組清單：Line綁定可替換為其他OAuth身分驗證，請參考已支援的[OAuth身分認證清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/)。
 
 
 ### 操作步驟
@@ -183,7 +183,7 @@ namespace MDP.Members
 
 
         // Methods
-        public override ClaimsIdentity Login(ClaimsIdentity remoteIdentity)
+        public override ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 
@@ -201,12 +201,12 @@ namespace MDP.Members
             return member.ToIdentity(remoteIdentity.AuthenticationType);
         }
 
-        public override void Link(ClaimsIdentity localIdentity, ClaimsIdentity remoteIdentity)
+        public override void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
             #region Contracts
 
-            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
             if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
+            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
 
             #endregion
 

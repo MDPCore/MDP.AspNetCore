@@ -10,7 +10,7 @@ namespace MDP.AspNetCore.Authentication
     public class AuthenticationProvider
     {
         // Methods
-        public virtual ClaimsIdentity Login(ClaimsIdentity remoteIdentity)
+        public virtual ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 
@@ -25,7 +25,7 @@ namespace MDP.AspNetCore.Authentication
             return localIdentity;
         }
 
-        public virtual void Link(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
+        public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
             #region Contracts
 

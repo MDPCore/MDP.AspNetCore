@@ -42,16 +42,16 @@ namespace MDP.AspNetCore.Authentication
             if (localIdentity != null && authenticationProvider != null)
             {
                 // Link
-                authenticationProvider.Link(localIdentity, remoteIdentity);
+                authenticationProvider.RemoteLink(remoteIdentity, localIdentity);
 
-                // Check
-                localIdentity = authenticationProvider.Login(remoteIdentity);
+                // Exchange
+                localIdentity = authenticationProvider.RemoteExchange(remoteIdentity);
                 if (localIdentity == null) throw new InvalidOperationException("Identity link failed.");
             }
 
             // Login
             if (localIdentity == null && authenticationProvider == null) localIdentity = remoteIdentity;
-            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.Login(remoteIdentity);
+            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.RemoteExchange(remoteIdentity);
             if (localIdentity != null)
             {
                 // Sign

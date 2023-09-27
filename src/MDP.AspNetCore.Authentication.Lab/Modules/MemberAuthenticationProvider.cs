@@ -32,7 +32,7 @@ namespace MDP.Members
 
 
         // Methods
-        public override ClaimsIdentity Login(ClaimsIdentity remoteIdentity)
+        public override ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 
@@ -50,12 +50,12 @@ namespace MDP.Members
             return member.ToIdentity(remoteIdentity.AuthenticationType);
         }
 
-        public override void Link(ClaimsIdentity localIdentity, ClaimsIdentity remoteIdentity)
+        public override void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
             #region Contracts
 
-            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
             if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
+            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
 
             #endregion
 
