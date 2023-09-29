@@ -31,12 +31,11 @@ namespace MDP.AspNetCore.Authentication
             if (string.IsNullOrEmpty(authenticationSetting.LoginPath) == true) throw new InvalidOperationException("authenticationSetting.LoginPath=null");
             if (string.IsNullOrEmpty(authenticationSetting.LogoutPath) == true) throw new InvalidOperationException("authenticationSetting.LogoutPath=null");
             if (string.IsNullOrEmpty(authenticationSetting.AccessDeniedPath) == true) throw new InvalidOperationException("authenticationSetting.AccessDeniedPath=null");
-            services.TryAddSingleton(authenticationSetting);
-
+            
             // AuthenticationBuilder   
             var authenticationBuilder = services.AddAuthentication(options =>
             {
-                // DefaultScheme
+                // Options
                 options.DefaultScheme = authenticationSetting.DefaultScheme;
                 options.DefaultAuthenticateScheme = PolicyAuthenticationDefaults.AuthenticationScheme;
             });
@@ -44,7 +43,7 @@ namespace MDP.AspNetCore.Authentication
             // Policy
             authenticationBuilder.AddPolicy(new PolicyAuthenticationSetting()
             {
-                // DefaultScheme
+                // Options
                 DefaultScheme = authenticationSetting.DefaultScheme
             });
 
@@ -69,6 +68,13 @@ namespace MDP.AspNetCore.Authentication
                     options.ForwardForbid = authenticationSetting.DefaultScheme;
                 });
             }
+
+            // Controller
+            services.TryAddSingleton(new AuthenticationControllerSetting()
+            {
+                // Options
+                RegisterPath = authenticationSetting.RegisterPath
+            });
 
             // Return
             return authenticationBuilder;

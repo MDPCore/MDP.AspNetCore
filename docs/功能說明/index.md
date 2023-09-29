@@ -62,7 +62,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Rem
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LoginAsync(this Controller controller, string scheme, string returnUrl = null)
@@ -79,7 +79,7 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, st
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
@@ -122,7 +122,7 @@ public virtual ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller controller)
@@ -143,7 +143,7 @@ public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller contro
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LinkAsync(this Controller controller, string scheme, string returnUrl = null)
@@ -160,7 +160,7 @@ public static async Task<ActionResult> LinkAsync(this Controller controller, str
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
@@ -196,7 +196,7 @@ MDP.AspNetCore.Authentication也加入Local身分驗證流程。用來讓開發�
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LoginAsync(this Controller controller, ClaimsIdentity localIdentity, string returnUrl = null)

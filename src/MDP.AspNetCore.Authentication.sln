@@ -37,9 +37,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authenticati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Line.Lab", "MDP.AspNetCore.Authentication.Line.Lab\MDP.AspNetCore.Authentication.Line.Lab.csproj", "{5808EF0A-4949-41A2-B8D5-3802B57F9C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.Microsoft", "MDP.AspNetCore.Authentication.Microsoft\MDP.AspNetCore.Authentication.Microsoft.csproj", "{F778CF38-9AA3-4972-92B5-55EF0A893E40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Microsoft", "MDP.AspNetCore.Authentication.Microsoft\MDP.AspNetCore.Authentication.Microsoft.csproj", "{F778CF38-9AA3-4972-92B5-55EF0A893E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.Microsoft.Lab", "MDP.AspNetCore.Authentication.Microsoft.Lab\MDP.AspNetCore.Authentication.Microsoft.Lab.csproj", "{DDAA8304-DEC7-43D4-8666-704A871CF226}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Microsoft.Lab", "MDP.AspNetCore.Authentication.Microsoft.Lab\MDP.AspNetCore.Authentication.Microsoft.Lab.csproj", "{DDAA8304-DEC7-43D4-8666-704A871CF226}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MDP.Security", "MDP.Security", "{A8DF5EE3-5069-4AA9-97A1-8CB0C1822B8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.Security.Tokens.Jwt", "MDP.Security.Tokens.Jwt\MDP.Security.Tokens.Jwt.csproj", "{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.Security.Tokens.Jwt.Lab", "MDP.Security.Tokens.Jwt.Lab\MDP.Security.Tokens.Jwt.Lab.csproj", "{2796CCA4-F231-479A-AF5F-D0D455AA2FCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.Security.Claims", "MDP.Security.Claims\MDP.Security.Claims.csproj", "{F4A08E89-3C2B-4AA6-B02B-3030863600AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +127,18 @@ Global
 		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDAA8304-DEC7-43D4-8666-704A871CF226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2796CCA4-F231-479A-AF5F-D0D455AA2FCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2796CCA4-F231-479A-AF5F-D0D455AA2FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2796CCA4-F231-479A-AF5F-D0D455AA2FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2796CCA4-F231-479A-AF5F-D0D455AA2FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4A08E89-3C2B-4AA6-B02B-3030863600AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4A08E89-3C2B-4AA6-B02B-3030863600AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4A08E89-3C2B-4AA6-B02B-3030863600AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4A08E89-3C2B-4AA6-B02B-3030863600AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +146,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{579C7E67-5702-470D-851B-E26D8508E81C} = {5137E39B-13A2-4B86-8998-97C26EAF8802}
 		{CD53A4C1-1C1D-463A-A2A0-C77698D908B2} = {5137E39B-13A2-4B86-8998-97C26EAF8802}
+		{F71ACA7F-0171-43A2-9B23-1952BC5D4ED5} = {A8DF5EE3-5069-4AA9-97A1-8CB0C1822B8E}
+		{2796CCA4-F231-479A-AF5F-D0D455AA2FCA} = {A8DF5EE3-5069-4AA9-97A1-8CB0C1822B8E}
+		{F4A08E89-3C2B-4AA6-B02B-3030863600AF} = {A8DF5EE3-5069-4AA9-97A1-8CB0C1822B8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BB6772C-B470-4A8E-93F5-DACAD77AC5D2}

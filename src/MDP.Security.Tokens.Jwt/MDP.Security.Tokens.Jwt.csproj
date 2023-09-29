@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,10 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
     <PackageReference Include="MDP.Registration" Version="6.1.8" />
   </ItemGroup>
 
@@ -27,9 +25,6 @@
   <ItemGroup>
     <None Include="..\..\Package.png" Pack="true" PackagePath="\Package.png" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MDP.Security.Claims\MDP.Security.Claims.csproj" />
   </ItemGroup>
 
 </Project>

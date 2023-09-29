@@ -15,7 +15,7 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
     public partial class HomeController : Controller
     {
         // Fields
-        private readonly SecurityTokenFactory _tokenFactory;
+        private readonly SecurityTokenFactory _securityTokenFactory;
 
 
         // Constructors
@@ -28,7 +28,7 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
             #endregion
 
             // Default
-            _tokenFactory = tokenFactory;
+            _securityTokenFactory = tokenFactory;
         }
 
 
@@ -62,7 +62,7 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
             }, "NameAuth");
 
             // TokenString
-            var tokenString = _tokenFactory.CreateEncodedJwt(claimsIdentity);
+            var tokenString = _securityTokenFactory.CreateSecurityToken("RSAToken", claimsIdentity);
             if (string.IsNullOrEmpty(tokenString) == true) throw new InvalidOperationException($"{nameof(tokenString)}=null");
 
             // Return

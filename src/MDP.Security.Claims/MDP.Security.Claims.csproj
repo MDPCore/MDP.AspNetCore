@@ -1,19 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>11.0</LangVersion>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="6.1.8" />
-  </ItemGroup>
 
   <PropertyGroup>
     <authors>CLK Software Studio</authors>
@@ -27,9 +18,6 @@
   <ItemGroup>
     <None Include="..\..\Package.png" Pack="true" PackagePath="\Package.png" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MDP.Security.Claims\MDP.Security.Claims.csproj" />
   </ItemGroup>
 
 </Project>

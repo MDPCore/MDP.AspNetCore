@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    internal static partial class RemoteAuthenticationExtensions
+    public static partial class RemoteAuthenticationExtensions
     {
         // Methods
-        public static AuthenticationBuilder AddRemote(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
+        internal static AuthenticationBuilder AddRemote(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
         {
             #region Contracts
 
@@ -40,10 +40,10 @@ namespace MDP.AspNetCore.Authentication
         }
     }
 
-    internal static partial class RemoteAuthenticationExtensions
+    public static partial class RemoteAuthenticationExtensions
     {
         // Methods
-        public static async Task<ClaimsIdentity> RemoteAuthenticateAsync(this HttpContext httpContext)
+        internal static async Task<ClaimsIdentity> RemoteAuthenticateAsync(this HttpContext httpContext)
         {
             #region Contracts
 
@@ -65,7 +65,7 @@ namespace MDP.AspNetCore.Authentication
             return identity as ClaimsIdentity;
         }
 
-        public static Task RemoteSignInAsync(this HttpContext httpContext, ClaimsPrincipal principal)
+        internal static Task RemoteSignInAsync(this HttpContext httpContext, ClaimsPrincipal principal)
         {
             #region Contracts
 
@@ -78,7 +78,7 @@ namespace MDP.AspNetCore.Authentication
             return httpContext.SignInAsync(RemoteAuthenticationDefaults.AuthenticationScheme, principal);
         }
 
-        public static Task RemoteSignOutAsync(this HttpContext httpContext)
+        internal static Task RemoteSignOutAsync(this HttpContext httpContext)
         {
             #region Contracts
 
@@ -88,6 +88,39 @@ namespace MDP.AspNetCore.Authentication
 
             // SignOutAsync
             return httpContext.SignOutAsync(RemoteAuthenticationDefaults.AuthenticationScheme);
+        }
+    }
+
+    public static partial class RemoteAuthenticationExtensions
+    {
+        // Methods
+        public static void ConfigureSignIn(this RemoteAuthenticationOptions remoteAuthenticationOptions, string signInPath = "/.auth/signin")
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(signInPath) == true) throw new ArgumentException(nameof(signInPath));
+
+            #endregion
+
+            // SignInScheme
+            remoteAuthenticationOptions.SignInScheme = RemoteAuthenticationDefaults.AuthenticationScheme;
+
+            // OnTicketReceived
+            remoteAuthenticationOptions.Events.OnTicketReceived = context =>
+            {
+                // ReturnUrl
+                var returnUrl = new PathString(signInPath).Add(QueryString.Create(new Dictionary<string, string>()
+                {
+                    { "returnUrl", context.ReturnUri! }
+                }!));
+                if (string.IsNullOrEmpty(returnUrl) == true) throw new InvalidOperationException($"{nameof(returnUrl)}=null");
+
+                // Setting
+                context.ReturnUri = returnUrl;
+
+                // Return
+                return Task.CompletedTask;
+            };
         }
     }
 }

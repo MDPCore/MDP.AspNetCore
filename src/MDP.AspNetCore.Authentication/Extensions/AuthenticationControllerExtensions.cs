@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public static class ControllerExtensions
+    public static partial class AuthenticationControllerExtensions
     {
         // Methods
         public static async Task<ActionResult> LinkAsync(this Controller controller, string scheme, string returnUrl = null)
@@ -107,7 +107,7 @@ namespace MDP.AspNetCore.Authentication
             // Redirect
             return controller.Redirect(returnUrl);
         }
-
+   
 
         public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
         {
@@ -131,6 +131,83 @@ namespace MDP.AspNetCore.Authentication
 
             // Return
             return controller.HttpContext.LocalAuthenticateAsync();
+        }
+    }
+
+    public static partial class AuthenticationControllerExtensions
+    {
+        // Methods
+        internal static async Task<ActionResult> SignInAsync(this Controller controller, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
+
+            #endregion
+
+            // Require
+            returnUrl = returnUrl ?? controller.Url.Content("~/");
+
+            // AuthenticationProvider
+            var authenticationProvider = controller.HttpContext.RequestServices.GetService<AuthenticationProvider>();
+
+            // AuthenticationControllerSetting
+            var authenticationControllerSetting = controller.HttpContext.RequestServices.GetService<AuthenticationControllerSetting>();
+            if (authenticationControllerSetting == null) throw new InvalidOperationException($"{nameof(authenticationControllerSetting)}=null");
+
+            // RemoteIdentity
+            var remoteIdentity = await controller.RemoteAuthenticateAsync();
+            if (remoteIdentity == null) throw new InvalidOperationException($"{nameof(remoteIdentity)}=null");
+
+            // LocalIdentity
+            var localIdentity = await controller.LocalAuthenticateAsync();
+            if (localIdentity != null && authenticationProvider == null) return controller.Redirect(returnUrl);
+            if (localIdentity != null && localIdentity.AuthenticationType == remoteIdentity.AuthenticationType) return controller.Redirect(returnUrl);
+
+            // Link
+            if (localIdentity != null && authenticationProvider != null)
+            {
+                // Link
+                authenticationProvider.RemoteLink(remoteIdentity, localIdentity);
+
+                // Exchange
+                localIdentity = authenticationProvider.RemoteExchange(remoteIdentity);
+                if (localIdentity == null) throw new InvalidOperationException("Identity link failed.");
+            }
+
+            // Login
+            if (localIdentity == null && authenticationProvider == null) localIdentity = remoteIdentity;
+            if (localIdentity == null && authenticationProvider != null) localIdentity = authenticationProvider.RemoteExchange(remoteIdentity);
+            if (localIdentity != null)
+            {
+                // Sign
+                await controller.HttpContext.RemoteSignOutAsync();
+                await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
+
+                // Redirect
+                return controller.Redirect(returnUrl);
+            }
+
+            // Register
+            if (localIdentity == null && string.IsNullOrEmpty(authenticationControllerSetting.RegisterPath) == false)
+            {
+                // Sign
+                await controller.HttpContext.RemoteSignInAsync(new ClaimsPrincipal(remoteIdentity));
+                await controller.HttpContext.LocalSignOutAsync();
+
+                // Register
+                return controller.Redirect(authenticationControllerSetting.RegisterPath);
+            }
+
+            // Forbid
+            {
+                // Sign
+                await controller.HttpContext.RemoteSignOutAsync();
+                await controller.HttpContext.LocalSignOutAsync();
+
+                // Forbid
+                return controller.Forbid();
+            }
         }
     }
 }
