@@ -187,7 +187,7 @@ public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity loc
 
 ![MDP.AspNetCore.Authentication-Local身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Local身分驗證.png)
 
-MDP.AspNetCore.Authentication也加入Local身分驗證流程。用來讓開發人員透過資料庫帳號密碼驗證、或是AD帳號密碼認證之後，直接建立身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Local身分驗證流程。用來讓開發人員透過資料庫帳號密碼驗證、或是AD帳號密碼認證之後，直接建立身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
 
 - MDP.AspNetCore.Authentication加入Controller的擴充方法LoginAsync，用來發起Local身分驗證流程。
 
@@ -204,6 +204,42 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, Cl
 - localIdentity：Local身分登入的身分資料。
 - returnUrl：完成Remote身分驗證之後，要跳轉的功能頁面路徑。
 - Task<ActionResult>：回傳值，流程跳轉頁面。
+```
+
+### Token身分驗證
+
+![MDP.AspNetCore.Authentication-Token身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
+
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。讓開發人員能透過HTTP Request封包，取得並驗證代表身分資料的Token，用以執行Token身分登入，將身分資料提供後續流程使用。
+
+- 開發人員可以透過Config設定，掛載在執行階段使用的Token憑證清單，用來取得並驗證代表身分資料的Token。
+
+```
+// Config設定
+  "Authentication": {
+    "Jwt": {
+      "Credentials": [
+        {
+          "Scheme": "JwtBearer",
+          "Header": "Authorization",
+          "Prefix": "Bearer ",
+          "Algorithm": "HS256",
+          "SignKey": "12345678901234567890123456789012",
+          "Issuer": "MDP",
+          "ExpireMinutes": 30
+        }
+      ]
+    }
+  },
+- 命名空間：Authentication
+- 掛載的身分驗證模組：Jwt
+- 憑證清單：Credentials
+- 憑證名稱：Scheme="JwtBearer"。
+- 憑證標頭：Header="Authorization"。(從HTTP Request的哪個Header取得Token，常見：Authorization、x-api-token)
+- 憑證前綴：Prefix="Bearer"。(Token的前綴字，常見："Bearer"、"")
+- 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
+- 簽章密鑰：SignKey="12345..."。(Token所使用的簽章密鑰，支持：PEM格式密鑰)
+- 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
 ```
 
 ## 模組使用

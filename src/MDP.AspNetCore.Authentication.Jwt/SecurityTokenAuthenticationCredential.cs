@@ -20,7 +20,5 @@ namespace MDP.AspNetCore.Authentication.Jwt
         public string SignKey { get; set; } = null;
 
         public string Issuer { get; set; } = null;
-
-        public int ExpireMinutes { get; set; } = 30;
     }
 }
