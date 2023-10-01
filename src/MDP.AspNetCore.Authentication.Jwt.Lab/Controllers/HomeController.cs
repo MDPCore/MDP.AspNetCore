@@ -35,55 +35,29 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
         // Methods
         public ActionResult Index()
         {
-            // Return
-            return View("Index");
-        }
-    }
-
-    // GetToken
-    public partial class HomeController : Controller
-    {
-        // Methods
-        [AllowAnonymous]
-        public ActionResult<GetTokenResultModel> GetToken([FromBody] GetTokenActionModel actionModel)
-        {
-            #region Contracts
-
-            if (actionModel == null) throw new ArgumentException(nameof(actionModel));
-
-            #endregion
+            // Variables
+            var username = "Clark";
 
             // ClaimsIdentity
             var claimsIdentity = new ClaimsIdentity(new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, actionModel.Username),
-                new Claim(ClaimTypes.Email, actionModel.Username + "@hotmail.com"),
-            }, "NameAuth");
+                new Claim(System.Security.Claims.ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim(System.Security.Claims.ClaimTypes.Name, username),
+                new Claim(System.Security.Claims.ClaimTypes.Email, username + "@hotmail.com"),
+            }, "Password");
 
-            // TokenString
-            var tokenString = _securityTokenFactory.CreateSecurityToken("RSAToken", claimsIdentity);
-            if (string.IsNullOrEmpty(tokenString) == true) throw new InvalidOperationException($"{nameof(tokenString)}=null");
+            // HmacToken
+            var hmacToken = _securityTokenFactory.CreateSecurityToken("HmacToken", claimsIdentity);
+            if (string.IsNullOrEmpty(hmacToken) == true) throw new InvalidOperationException($"{nameof(hmacToken)}=null");
+            this.ViewBag.HmacToken = hmacToken;
+
+            // RsaToken
+            var rsaToken = _securityTokenFactory.CreateSecurityToken("RsaToken", claimsIdentity);
+            if (string.IsNullOrEmpty(rsaToken) == true) throw new InvalidOperationException($"{nameof(rsaToken)}=null");
+            this.ViewBag.RsaToken = rsaToken;
 
             // Return
-            return (new GetTokenResultModel()
-            {
-                Token = tokenString
-            });
-        }
-
-
-        // Class
-        public class GetTokenActionModel
-        {
-            // Properties
-            public string Username { get; set; } = string.Empty;
-        }
-
-        public class GetTokenResultModel
-        {
-            // Properties
-            public string Token { get; set; } = string.Empty;
+            return View("Index");
         }
     }
 
@@ -92,14 +66,8 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
     {
         // Methods
         [Authorize]
-        public ActionResult<GetUserResultModel> GetUser([FromBody] GetUserActionModel actionModel)
+        public ActionResult<UserModel> GetUser()
         {
-            #region Contracts
-
-            if (actionModel == null) throw new ArgumentException(nameof(actionModel));
-
-            #endregion
-
             // ClaimsIdentity
             var claimsIdentity = this.User.Identity as ClaimsIdentity;
             if (claimsIdentity == null) throw new InvalidOperationException($"{nameof(claimsIdentity)}=null");
@@ -107,30 +75,15 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
             // UserModel
             var user = new UserModel();
             user.AuthenticationType = claimsIdentity.AuthenticationType!;
-            user.UserId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
-            user.UserName = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value!;
+            user.UserId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value!;
+            user.UserName = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!;
 
             // Return
-            return (new GetUserResultModel()
-            {
-                User = user
-            });
+            return user;
         }
 
 
         // Class
-        public class GetUserActionModel
-        {
-            // Properties
-
-        }
-
-        public class GetUserResultModel
-        {
-            // Properties
-            public UserModel User { get; set; }
-        }
-
         public class UserModel
         {
             // Properties

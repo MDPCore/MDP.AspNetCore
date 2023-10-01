@@ -30,14 +30,14 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
             // ClaimsPrincipal
             var claimsPrincipal = base.ValidateToken(token, validateParameters, out validatedToken);
-            if (claimsPrincipal == null) return claimsPrincipal!;
+            if (claimsPrincipal == null) return claimsPrincipal;
 
             // ClaimsIdentity
             var claimsIdentity = claimsPrincipal.Identity as ClaimsIdentity;
             if (claimsIdentity == null) return claimsPrincipal;
 
             // AuthenticationTypeClaim
-            var authenticationTypeClaim = claimsIdentity.FindFirst(SecurityTokenClaimTypes.AuthenticationType);
+            var authenticationTypeClaim = claimsIdentity.FindFirst(ClaimTypes.AuthenticationType);
             if (authenticationTypeClaim == null) return claimsPrincipal;
             if (string.IsNullOrEmpty(authenticationTypeClaim.Value) == true) return claimsPrincipal;
 

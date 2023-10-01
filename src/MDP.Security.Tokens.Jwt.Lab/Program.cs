@@ -26,12 +26,17 @@ namespace MDP.Security.Tokens.Jwt.Lab
                 new Claim(System.Security.Claims.ClaimTypes.Email, username + "@hotmail.com"),
             }, "Password");
 
-            // SecurityToken
-            var securityToken = securityTokenFactory.CreateSecurityToken("HMACToken", claimsIdentity);
-            if (string.IsNullOrEmpty(securityToken) == true) throw new InvalidOperationException($"{nameof(securityToken)}=null");
+            // HmacToken
+            var hmacToken = securityTokenFactory.CreateSecurityToken("HmacToken", claimsIdentity);
+            if (string.IsNullOrEmpty(hmacToken) == true) throw new InvalidOperationException($"{nameof(hmacToken)}=null");
+            Console.WriteLine(hmacToken);
+            Console.WriteLine();
 
-            // Execute
-            Console.WriteLine(securityToken);
+            // RsaToken
+            var rsaToken = securityTokenFactory.CreateSecurityToken("RsaToken", claimsIdentity);
+            if (string.IsNullOrEmpty(rsaToken) == true) throw new InvalidOperationException($"{nameof(rsaToken)}=null");
+            Console.WriteLine(rsaToken);
+            Console.WriteLine();
         }
 
         public static void Main(string[] args)

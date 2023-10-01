@@ -13,10 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Net;
 
 namespace MDP.AspNetCore.Authentication.Jwt
 {
-    public static class SecurityTokenAuthenticationExtensions
+    public static partial class SecurityTokenAuthenticationExtensions
     {
         // Methods
         public static AuthenticationBuilder AddSecurityTokenAuthentication(this IServiceCollection services, SecurityTokenAuthenticationSetting authenticationSetting = null)
@@ -29,60 +30,68 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
             // AuthenticationSetting
             if (authenticationSetting == null) authenticationSetting = new SecurityTokenAuthenticationSetting();
-            if (string.IsNullOrEmpty(authenticationSetting.Scheme) == true) throw new ArgumentException($"{nameof(authenticationSetting.Scheme)}=null");
-            if (string.IsNullOrEmpty(authenticationSetting.Header) == true) throw new ArgumentException($"{nameof(authenticationSetting.Header)}=null");
-            if (string.IsNullOrEmpty(authenticationSetting.SignKey) == true) throw new ArgumentException($"{nameof(authenticationSetting.SignKey)}=null");
-
-            // PolicyAuthenticationSelector
-            services.AddPolicyAuthenticationSelector(authenticationSetting);
-
-            // JwtBearer
-            return services.AddJwtBearer(authenticationSetting);
-        }
-
-        private static void AddPolicyAuthenticationSelector(this IServiceCollection services, SecurityTokenAuthenticationSetting authenticationSetting)
-        {
-            #region Contracts
-
-            if (services == null) throw new ArgumentException($"{nameof(services)}=null");
-            if (authenticationSetting == null) throw new ArgumentException($"{nameof(authenticationSetting)}=null");
-
-            #endregion
-
-            // SecurityTokenPolicyAuthenticationSelector
-            var policyAuthenticationSelector = new SecurityTokenPolicyAuthenticationSelector(
-                scheme: authenticationSetting.Scheme,
-                header: authenticationSetting.Header,
-                prefix: authenticationSetting.Prefix
-            );
-
-            // AddSingleton
-            services.AddSingleton<PolicyAuthenticationSelector>(policyAuthenticationSelector);
-        }
-
-        private static AuthenticationBuilder AddJwtBearer(this IServiceCollection services, SecurityTokenAuthenticationSetting authenticationSetting)
-        {
-            #region Contracts
-
-            if (services == null) throw new ArgumentException($"{nameof(services)}=null");
-            if (authenticationSetting == null) throw new ArgumentException($"{nameof(authenticationSetting)}=null");
-
-            #endregion
+            if (authenticationSetting.Credentials == null) throw new ArgumentException($"{nameof(authenticationSetting.Credentials)}=null");
+            foreach (var credential in authenticationSetting.Credentials)
+            {
+                // Credential
+                if (credential == null) throw new ArgumentException($"{nameof(credential)}=null");
+                if (string.IsNullOrEmpty(credential.Scheme) == true) throw new ArgumentException($"{nameof(credential.Scheme)}=null");
+                if (string.IsNullOrEmpty(credential.Header) == true) throw new ArgumentException($"{nameof(credential.Header)}=null");
+                if (string.IsNullOrEmpty(credential.SignKey) == true) throw new ArgumentException($"{nameof(credential.SignKey)}=null");
+            }
 
             // AuthenticationBuilder   
             var authenticationBuilder = services.AddAuthentication();
 
+            // AddSecurityTokenAuthentication
+            authenticationBuilder.AddSecurityTokenAuthenticationHandler(authenticationSetting);
+            authenticationBuilder.AddSecurityTokenAuthenticationSelector(authenticationSetting);
+
+            // Return
+            return authenticationBuilder;
+        }
+    }
+
+    public static partial class SecurityTokenAuthenticationExtensions
+    {
+        // Methods
+        private static void AddSecurityTokenAuthenticationHandler(this AuthenticationBuilder authenticationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
+        {
+            #region Contracts
+
+            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
+            if (authenticationSetting == null) throw new ArgumentException($"{nameof(authenticationSetting)}=null");
+
+            #endregion
+
+            // CredentialList
+            foreach (var credential in authenticationSetting.Credentials)
+            {
+                // AddSecurityTokenHandler
+                authenticationBuilder.AddSecurityTokenAuthenticationHandler(credential);
+            }
+        }
+
+        private static void AddSecurityTokenAuthenticationHandler(this AuthenticationBuilder authenticationBuilder, SecurityTokenAuthenticationCredential credential)
+        {
+            #region Contracts
+
+            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
+            if (credential == null) throw new ArgumentException($"{nameof(credential)}=null");
+
+            #endregion
+
             // JwtBearer
-            authenticationBuilder.AddJwtBearer(authenticationSetting.Scheme, null, authenticationOptions =>
+            authenticationBuilder.AddJwtBearer(credential.Scheme, null, authenticationOptions =>
             {
                 // AuthenticationType
-                authenticationOptions.TokenValidationParameters.AuthenticationType = authenticationSetting.Scheme;
+                authenticationOptions.TokenValidationParameters.AuthenticationType = credential.Scheme;
 
                 // Issuer
-                if (string.IsNullOrEmpty(authenticationSetting.Issuer) == false)
+                if (string.IsNullOrEmpty(credential.Issuer) == false)
                 {
                     authenticationOptions.TokenValidationParameters.ValidateIssuer = true;
-                    authenticationOptions.TokenValidationParameters.ValidIssuer = authenticationSetting.Issuer;
+                    authenticationOptions.TokenValidationParameters.ValidIssuer = credential.Issuer;
                 }
                 else
                 {
@@ -99,10 +108,10 @@ namespace MDP.AspNetCore.Authentication.Jwt
                 authenticationOptions.TokenValidationParameters.ClockSkew = TimeSpan.Zero;
 
                 // SignIng
-                if (string.IsNullOrEmpty(authenticationSetting.SignKey) == false)
+                if (string.IsNullOrEmpty(credential.SignKey) == false)
                 {
                     authenticationOptions.TokenValidationParameters.ValidateIssuerSigningKey = true;
-                    authenticationOptions.TokenValidationParameters.IssuerSigningKey = CreateSecurityKey(authenticationSetting.SignKey);
+                    authenticationOptions.TokenValidationParameters.IssuerSigningKey = CreareSecurityKey(credential.Algorithm, credential.SignKey);
                 }
                 else
                 {
@@ -123,7 +132,7 @@ namespace MDP.AspNetCore.Authentication.Jwt
                     OnMessageReceived = context =>
                     {
                         // Authorization
-                        string authorization = context.Request.Headers[authenticationSetting.Header];
+                        string authorization = context.Request.Headers[credential.Header];
                         if (string.IsNullOrEmpty(authorization) == true)
                         {
                             context.NoResult();
@@ -131,13 +140,13 @@ namespace MDP.AspNetCore.Authentication.Jwt
                         }
 
                         // Token
-                        if (string.IsNullOrEmpty(authenticationSetting.Prefix) == true)
+                        if (string.IsNullOrEmpty(credential.Prefix) == true)
                         {
                             context.Token = authorization;
                         }
-                        if (string.IsNullOrEmpty(authenticationSetting.Prefix) == false && authorization.StartsWith(authenticationSetting.Prefix, StringComparison.OrdinalIgnoreCase))
+                        if (string.IsNullOrEmpty(credential.Prefix) == false && authorization.StartsWith(credential.Prefix, StringComparison.OrdinalIgnoreCase))
                         {
-                            context.Token = authorization.Substring(authenticationSetting.Prefix.Length).Trim();
+                            context.Token = authorization.Substring(credential.Prefix.Length).Trim();
                         }
                         if (string.IsNullOrEmpty(context.Token) == true)
                         {
@@ -164,41 +173,110 @@ namespace MDP.AspNetCore.Authentication.Jwt
                     }
                 };
             });
-
-            // Return
-            return authenticationBuilder;
         }
 
-        private static SecurityKey CreateSecurityKey(string signKey)
+        private static SecurityKey CreareSecurityKey(string algorithm, string signKey)
         {
             #region Contracts
 
+            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentException($"{nameof(algorithm)}=null");
             if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentException($"{nameof(signKey)}=null");
 
             #endregion
 
-            // RSA
-            if (signKey.StartsWith("RSA ", StringComparison.OrdinalIgnoreCase) == true)
+            // HMAC+SHA
+            if (algorithm.StartsWith("HS", StringComparison.OrdinalIgnoreCase) == true)
             {
-                // SignKey
-                signKey = signKey.Substring("RSA ".Length).Trim();
-                if (string.IsNullOrEmpty(signKey) == false) signKey = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(signKey));
-                if (string.IsNullOrEmpty(signKey) == true) throw new InvalidOperationException($"{nameof(signKey)}=null");
+                // SignKeyBytes
+                var signKeyBytes = System.Text.Encoding.UTF8.GetBytes(signKey);
+                if (signKeyBytes == null) throw new InvalidOperationException($"{nameof(signKeyBytes)}=null");
 
-                // RsaKey
-                var rsa = RSA.Create();
-                {
-                    // Create
-                    rsa.ImportFromPem(signKey);
-                    var rsaKey = new RsaSecurityKey(rsa);
+                // SecurityKey
+                var securityKey = new SymmetricSecurityKey(signKeyBytes);
 
-                    // Return
-                    return rsaKey;
-                }
+                // Return
+                return securityKey;
             }
 
-            // Symmetric
-            return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signKey));
+            // RSA+SHA
+            if (algorithm.StartsWith("RS", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                // SignKeyString
+                var signKeyString = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(signKey));
+                if (string.IsNullOrEmpty(signKeyString) == true) throw new InvalidOperationException($"{nameof(signKeyString)}=null");
+
+                // RsaKey
+                var rsaKey = RSA.Create();
+                rsaKey.ImportFromPem(signKeyString);
+
+                // SecurityKey
+                var securityKey = new RsaSecurityKey(rsaKey);
+
+                // Return
+                return securityKey;
+            }
+
+            // ECDSA+SHA
+            if (algorithm.StartsWith("ES", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                // SignKeyString
+                var signKeyString = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(signKey));
+                if (string.IsNullOrEmpty(signKeyString) == true) throw new InvalidOperationException($"{nameof(signKeyString)}=null");
+
+                // EcdsaKey
+                var ecdsaKey = ECDsa.Create();
+                ecdsaKey.ImportFromPem(signKeyString);
+
+                // SecurityKey
+                var securityKey = new ECDsaSecurityKey(ecdsaKey);
+
+                // Return
+                return securityKey;
+            }
+
+            // Other
+            return null;
+        }
+    }
+
+    public static partial class SecurityTokenAuthenticationExtensions
+    {
+        // Methods
+        private static void AddSecurityTokenAuthenticationSelector(this AuthenticationBuilder authenticationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
+        {
+            #region Contracts
+
+            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
+            if (authenticationSetting == null) throw new ArgumentException($"{nameof(authenticationSetting)}=null");
+
+            #endregion
+
+            // CredentialList
+            foreach (var credential in authenticationSetting.Credentials)
+            {
+                // AddSecurityTokenSelector
+                authenticationBuilder.AddSecurityTokenAuthenticationSelector(credential);
+            }
+        }
+
+        private static void AddSecurityTokenAuthenticationSelector(this AuthenticationBuilder authenticationBuilder, SecurityTokenAuthenticationCredential credential)
+        {
+            #region Contracts
+
+            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
+            if (credential == null) throw new ArgumentException($"{nameof(credential)}=null");
+
+            #endregion
+
+            // SecurityTokenPolicyAuthenticationSelector
+            var securityTokenAuthenticationSelector = new SecurityTokenAuthenticationSelector(
+                scheme: credential.Scheme,
+                header: credential.Header,
+                prefix: credential.Prefix
+            );
+
+            // AddSingleton
+            authenticationBuilder.Services.AddSingleton<PolicyAuthenticationSelector>(securityTokenAuthenticationSelector);
         }
     }
 }

@@ -10,96 +10,46 @@
     <meta charset="utf-8" />
 
     <!-- script -->
-    <script src="~/mdp.web.js"></script>
     <script language="javascript">
-        window.onload = function () {
-
-            // GetTokenByName
-            document.getElementById("getTokenByName.button").addEventListener("click", event => {
-
-                // Variables
-                const username = document.getElementById("getTokenByName.username").value;
-
-                // ActionModel
-                var actionModel = {};
-                actionModel.Username = username;
-
-                // Post
-                postRequst("/Home/GetToken", actionModel)
-
-                    // Success
-                    .then(function (response) {
-                        document.getElementById("getTokenByName.result").innerText = JSON.stringify(response, null, 2);
-                    })
-
-                    // Error
-                    .catch(function (error) {
-                        document.getElementById("getTokenByName.result").innerText = JSON.stringify(error, null, 2);
-                    });
-            });
-
-            // GetUserByJwtBearer
-            document.getElementById("getUserByJwtBearer.button").addEventListener("click", event => {
-
-                // Variables
-                var token = null;
-                if (document.getElementById("getTokenByName.result").innerText != "") {
-                    token = JSON.parse(document.getElementById("getTokenByName.result").innerText).content.token;
+        async function getUserByJwtBearer() {
+            try {
+                const response = await fetch("/Home/GetUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + document.getElementById("getUserByJwtBearer.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getUserByJwtBearer.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getUserByJwtBearer.result").innerText = `getUserByJwtBearer is Failed: ${response.status}`;
                 }
-                else { document.getElementById("getUserByJwtBearer.result").innerText = "token=null"; return; }
+            }
+            catch (error) {
+                document.getElementById("getUserByJwtBearer.result").innerText = `getUserByJwtBearer is Failed: ${error}`;
+            }
+        }
 
-                // ActionModel
-                var actionModel = {};
-
-                // Headers
-                var headers = {};
-                headers["Authorization"] = "Bearer " + token;
-
-                // Post
-                postRequst("/Home/GetUser", actionModel, headers)
-
-                    // Success
-                    .then(function (response) {
-                        document.getElementById("getUserByJwtBearer.result").innerText = JSON.stringify(response, null, 2);
-                    })
-
-                    // Error
-                    .catch(function (error) {
-                        document.getElementById("getUserByJwtBearer.result").innerText = JSON.stringify(error, null, 2);
-                    });
-            });
-
-            // GetUserByJwtApiKey
-            document.getElementById("getUserByJwtApiKey.button").addEventListener("click", event => {
-
-                // Variables
-                var token = null;
-                if (document.getElementById("getTokenByName.result").innerText != "") {
-                    token = JSON.parse(document.getElementById("getTokenByName.result").innerText).content.token;
+        async function getUserByApiToken() {
+            try {
+                const response = await fetch("/Home/GetUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Api-Token": document.getElementById("getUserByApiToken.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getUserByApiToken.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getUserByApiToken.result").innerText = `getUserByApiToken is Failed: ${response.status}`;
                 }
-                else { document.getElementById("getUserByJwtApiKey.result").innerText = "token=null"; return; }
-
-                // ActionModel
-                var actionModel = {};
-
-                // Headers
-                var headers = {};
-                headers["x-api-key"] = token;
-
-                // Post
-                postRequst("/Home/GetUser", actionModel, headers)
-
-                    // Success
-                    .then(function (response) {
-                        document.getElementById("getUserByJwtApiKey.result").innerText = JSON.stringify(response, null, 2);
-                    })
-
-                    // Error
-                    .catch(function (error) {
-                        document.getElementById("getUserByJwtApiKey.result").innerText = JSON.stringify(error, null, 2);
-                    });
-            });
-        };
+            }
+            catch (error) {
+                document.getElementById("getUserByApiToken.result").innerText = `getUserByApiToken is Failed: ${error}`;
+            }
+        }
     </script>
 </head>
 <body>
@@ -108,20 +58,16 @@
     <h2>Home</h2>
     <hr />
 
-    <!--GetTokenByName-->
-    <input id="getTokenByName.button" type="button" value="GetTokenByName" /><br />
-    Username:<input type="text" id="getTokenByName.username" value="Clark" /><br />
-    <div id="getTokenByName.result"></div><br />
-    <hr />
-
     <!--GetUserByJwtBearer-->
-    <input id="getUserByJwtBearer.button" type="button" value="GetUserByJwtBearer" /><br />
+    <input type="button" value="GetUserByJwtBearer" onclick="getUserByJwtBearer()" /><br />
+    HmacToken:<div id="getUserByJwtBearer.token">@ViewBag.HmacToken</div><br />
     <div id="getUserByJwtBearer.result"></div><br />
-    <hr />
+    <hr />    
 
-    <!--GetUserByJwtApiKey-->
-    <input id="getUserByJwtApiKey.button" type="button" value="GetUserByJwtApiKey" /><br />
-    <div id="getUserByJwtApiKey.result"></div><br />
+    <!--GetUserByApiToken-->
+    <input type="button" value="GetUserByApiToken" onclick="getUserByApiToken()" /><br />
+    RsaToken:<div id="getUserByApiToken.token">@ViewBag.RsaToken</div><br />   
+    <div id="getUserByApiToken.result"></div><br />
     <hr />
 
 </body>

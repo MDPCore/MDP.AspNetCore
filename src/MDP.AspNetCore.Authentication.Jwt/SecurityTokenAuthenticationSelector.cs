@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication.Jwt
 {
-    public class SecurityTokenPolicyAuthenticationSelector : PolicyAuthenticationSelector
+    public class SecurityTokenAuthenticationSelector : PolicyAuthenticationSelector
     {
         // Fields
         private readonly string _scheme = String.Empty;
@@ -18,7 +18,7 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
 
         // Constructors
-        public SecurityTokenPolicyAuthenticationSelector(string scheme, string header, string prefix)
+        public SecurityTokenAuthenticationSelector(string scheme, string header, string prefix = null)
         {
             #region Contracts
 
@@ -50,20 +50,18 @@ namespace MDP.AspNetCore.Authentication.Jwt
             string authorization = context.Request.Headers[_header];
             if (string.IsNullOrEmpty(authorization) == true) return false;
 
-            // Token
-            string token = string.Empty;
+            // Prefix
             if (string.IsNullOrEmpty(_prefix) == true)
             {
-                token = authorization;
+                return true;
             }
             if (string.IsNullOrEmpty(_prefix) == false && authorization.StartsWith(_prefix, StringComparison.OrdinalIgnoreCase) == true)
             {
-                token = authorization.Substring(_prefix.Length).Trim();
+                return true;
             }
-            if (string.IsNullOrEmpty(token) == true) return false;
 
             // Return
-            return true;
+            return false;
         }
     }
 }

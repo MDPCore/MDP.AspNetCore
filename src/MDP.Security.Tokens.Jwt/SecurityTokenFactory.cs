@@ -121,6 +121,23 @@ namespace MDP.Security.Tokens.Jwt
 
             #endregion
 
+            // SecurityKey
+            var securityKey = this.CreareSecurityKey(algorithm, signKey);
+            if (securityKey == null) return null;
+
+            // Return
+            return new SigningCredentials(securityKey, algorithm);
+        }
+
+        private SecurityKey CreareSecurityKey(string algorithm, string signKey)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentException($"{nameof(algorithm)}=null");
+            if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentException($"{nameof(signKey)}=null");
+
+            #endregion
+
             // HMAC+SHA
             if (algorithm.StartsWith("HS", StringComparison.OrdinalIgnoreCase) == true)
             {
@@ -132,7 +149,7 @@ namespace MDP.Security.Tokens.Jwt
                 var securityKey = new SymmetricSecurityKey(signKeyBytes);
 
                 // Return
-                return new SigningCredentials(securityKey, algorithm);
+                return securityKey;
             }
 
             // RSA+SHA
@@ -150,7 +167,7 @@ namespace MDP.Security.Tokens.Jwt
                 var securityKey = new RsaSecurityKey(rsaKey);
 
                 // Return
-                return new SigningCredentials(securityKey, algorithm);
+                return securityKey;
             }
 
             // ECDSA+SHA
@@ -168,7 +185,7 @@ namespace MDP.Security.Tokens.Jwt
                 var securityKey = new ECDsaSecurityKey(ecdsaKey);
 
                 // Return
-                return new SigningCredentials(securityKey, algorithm);
+                return securityKey;
             }
 
             // Other
