@@ -1,6 +1,6 @@
 # MDP.AspNetCore.Authentication
 
-MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供Line、Google、Facebook等OAuth身分驗證模組，及Remote身分驗證、Local身分驗證、Token身分驗證等功能服務，用以簡化開發流程並滿足多變的商業需求。
+MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供Line、Google、Facebook等OAuth身分驗證模組、及Jwt等Token身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
@@ -20,12 +20,14 @@ MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員�
 
 ### 模組掛載
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Line、Google、Facebook等功能模組的掛載功能。開發人員可以透過Config設定，掛載在執行階段使用的身分認證。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Line、Google、Facebook等OAuth身分驗證模組、及Jwt等Token身分驗證模組的掛載功能。開發人員可以透過Config設定，掛載在執行階段使用的身分認證。
 
-- 模組清單：[OAuth身分認證清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/)。
+- OAuth身分驗證：[OAuth身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/)。
+
+- Token身分驗證：[Token身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/)。
 
 ```
-// Config設定
+// Config設定 - Line身分驗證模組
 {
   "Authentication": {
     "Line": {
@@ -40,11 +42,39 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
 - Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
 ```
 
+```
+// Config設定 - Jwt身分驗證模組
+  "Authentication": {
+    "Jwt": {
+      "Credentials": [
+        {
+          "Scheme": "JwtBearer",
+          "Header": "Authorization",
+          "Prefix": "Bearer ",
+          "Algorithm": "HS256",
+          "SignKey": "12345678901234567890123456789012",
+          "Issuer": "MDP",
+          "ExpireMinutes": 30
+        }
+      ]
+    }
+  },
+- 命名空間：Authentication
+- 掛載的身分驗證模組：Jwt
+- 憑證清單：Credentials
+- 憑證名稱：Scheme="JwtBearer"。
+- 憑證標頭：Header="Authorization"。(從HTTP Request的哪個Header取得Token，常見：Authorization、x-api-token)
+- 憑證前綴：Prefix="Bearer"。(Token的前綴字，常見："Bearer"、"")
+- 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
+- 簽章密鑰：SignKey="12345..."。(Token所使用的簽章密鑰，支持：PEM格式密鑰)
+- 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
+```
+
 ### Remote身分驗證
 
 ![MDP.AspNetCore.Authentication-Remote身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Remote身分驗證.png)
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Remote身分驗證流程。用來確認通過OAuth身分驗證的用戶，是否為已知用戶、是否需要引導註冊、是否拒絕存取，並於最終完成登入。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Remote身分驗證流程。用來確認通過OAuth身分驗證的身分資料，是否為已知用戶、是否需要引導註冊、是否拒絕存取，並於最終完成登入。
 
 - MDP.AspNetCore.Authentication加入Controller的擴充方法LoginAsync，用來發起Remote身分驗證流程。
 
@@ -53,7 +83,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Rem
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LoginAsync(this Controller controller, string scheme, string returnUrl = null)
@@ -70,7 +100,7 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, st
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
@@ -113,7 +143,7 @@ public virtual ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller controller)
@@ -134,7 +164,7 @@ public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller contro
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LinkAsync(this Controller controller, string scheme, string returnUrl = null)
@@ -151,7 +181,7 @@ public static async Task<ActionResult> LinkAsync(this Controller controller, str
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
@@ -178,7 +208,7 @@ public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity loc
 
 ![MDP.AspNetCore.Authentication-Local身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Local身分驗證.png)
 
-MDP.AspNetCore.Authentication也加入Local身分驗證流程。用來讓開發人員透過資料庫帳號密碼驗證、或是AD帳號密碼認證之後，直接建立身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Local身分驗證流程。用來讓開發人員透過資料庫帳號密碼驗證、或是AD帳號密碼認證之後，直接建立身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
 
 - MDP.AspNetCore.Authentication加入Controller的擴充方法LoginAsync，用來發起Local身分驗證流程。
 
@@ -187,7 +217,7 @@ MDP.AspNetCore.Authentication也加入Local身分驗證流程。用來讓開發�
 MDP.AspNetCore.Authentication
 
 // 類別定義：
-public class ControllerExtensions
+public class AuthenticationControllerExtensions
 
 // 擴充方法
 public static async Task<ActionResult> LoginAsync(this Controller controller, ClaimsIdentity localIdentity, string returnUrl = null)
@@ -196,6 +226,23 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, Cl
 - returnUrl：完成Remote身分驗證之後，要跳轉的功能頁面路徑。
 - Task<ActionResult>：回傳值，流程跳轉頁面。
 ```
+
+### Token身分驗證
+
+![MDP.AspNetCore.Authentication-Token身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
+
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來將通過Token身分驗證的身分資料，提供給後續流程使用。
+
+- 開發人員可以在HTTP Request封包裡加入代表身分資料的Token，用來發起Token身分驗證流程。
+
+```
+// HTTP headers - JwtBearer
+Authorization:Bearer Xxxxxxxxxxxxxxxx
+
+// HTTP headers - ApiToken
+X-Api-Token:Xxxxxxxxxxxxxxxx
+```
+
 
 ## 模組使用
 
@@ -219,7 +266,23 @@ MDP.AspNetCore.Authentication
 
 ### 設定參數
 
-建立包含MDP.AspNetCore.Authentication模組的專案之後，在專案裡可以透過Config設定，掛載在執行階段使用的身分驗證。
+建立包含MDP.AspNetCore.Authentication模組的專案之後，在專案裡可以透過Config設定，掛載在執行階段使用的身分驗證及相關參數。
+
+```
+// Config設定 - Line身分驗證模組
+{
+  "Authentication": {
+    "Line": {
+      "ClientId": "Xxxxx",
+      "ClientSecret": "Xxxxx"
+    }
+  }
+}
+- 命名空間：Authentication
+- 掛載的身分驗證模組：Line
+- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+```
 
 ```
 // Config設定
@@ -234,7 +297,7 @@ MDP.AspNetCore.Authentication
 
 ### 註冊AuthenticationProvider
 
-建立包含MDP.AspNetCore.Authentication模組的專案之後，就可以註冊AuthenticationProvider實作，來覆寫RemoteExchange、RemoteLink。
+建立包含MDP.AspNetCore.Authentication模組的專案之後，在專案裡可以註冊AuthenticationProvider實作，來覆寫RemoteExchange、RemoteLink。
 
 ```
 using MDP.AspNetCore.Authentication;
