@@ -51,16 +51,17 @@ namespace MDP.Members
             return _memberList.FirstOrDefault(o => o.MemberId == memberId)?.Clone();
         }
 
-        public Member FindByName(string name)
+        public Member FindByPassword(string username, string password)
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(name) == true) throw new ArgumentException($"{nameof(name)}=null");
+            if (string.IsNullOrEmpty(username) == true) throw new ArgumentException($"{nameof(username)}=null");
+            //if (string.IsNullOrEmpty(password) == true) throw new ArgumentException($"{nameof(password)}=null");
 
             #endregion
 
             // Return
-            return _memberList.FirstOrDefault(o => o.Name == name)?.Clone();
+            return _memberList.FirstOrDefault(o => o.Name == username)?.Clone();
         }
 
         public Member FindByLink(string linkType, string linkId)

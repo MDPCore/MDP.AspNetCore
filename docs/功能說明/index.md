@@ -83,7 +83,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
 
 ![MDP.AspNetCore.Authentication-Remote身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Remote身分驗證.png)
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Remote身分驗證流程。用來確認通過OAuth身分驗證的身分資料，是否為已知用戶、是否需要引導註冊、是否拒絕存取，並於最終完成登入。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Remote身分驗證流程。用來確認通過OAuth身分驗證的身分資料，是否為已知用戶、是否引導註冊，並於最終完成登入。
 
 - MDP.AspNetCore.Authentication加入Controller的擴充方法LoginAsync，用來發起Remote身分驗證流程。
 
@@ -217,7 +217,7 @@ public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity loc
 
 ![MDP.AspNetCore.Authentication-Local身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Local身分驗證.png)
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Local身分驗證流程。用來讓開發人員透過資料庫帳號密碼驗證、或是AD帳號密碼認證之後，直接建立身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Local身分驗證流程。用來讓開發人員使用資料庫、AD服務...驗證帳號及密碼之後，取得身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
 
 - MDP.AspNetCore.Authentication加入Controller的擴充方法LoginAsync，用來發起Local身分驗證流程。
 
@@ -240,7 +240,7 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, Cl
 
 ![MDP.AspNetCore.Authentication-Token身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來將通過Token身分驗證的身分資料，提供給後續流程使用。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來在HTTP Request封包通過Token身分驗證之後，取得身分資料來執行Token身分登入，將身分資料提供後續流程使用。(當次封包處理流程有效)
 
 - 開發人員可以在HTTP Request封包裡加入代表身分資料的Token，用來發起Token身分驗證流程。
 
@@ -331,10 +331,286 @@ namespace MDP.Members
 ```
 
 ```
-"MDP.Members": {
-  "MemberAuthenticationProvider": {}
+{
+  "MDP.Members": {
+    "MemberAuthenticationProvider": {}
+  }
 }
 ```
+
+## 模組範例
+
+使用資料庫驗證帳號及密碼之後，取得身分資料來登入系統，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication，逐步完成必要的設計和實作。
+
+- 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/WebApplication1.zip)
+
+### 操作步驟
+
+1.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為WebApplication1的Web站台。
+
+```
+dotnet new install MDP.WebApp
+dotnet new MDP.WebApp -n WebApplication1
+```
+
+2.使用Visual Studio開啟WebApplication1專案，在專案裡用NuGet套件管理員新增下列NuGet套件。
+
+```
+MDP.AspNetCore.Authentication
+```
+
+3.於專案內改寫appsettings.json，用以掛載MDP.AspNetCore.Authentication。
+
+```
+{
+  "Authentication": {    
+    
+  }
+}
+```
+
+4.在專案裡加入Modules\Member.cs、Modules\MemberRepository.cs，並改寫appsettings.json。用來掛載模擬的會員資料庫，提供會員資料的查詢。
+
+```
+using System;
+
+namespace MDP.Members
+{
+    public class Member
+    {
+        // Properties
+        public string MemberId { get; set; } = String.Empty;
+
+        public string Name { get; set; } = String.Empty;
+
+        public string Mail { get; set; } = String.Empty;
+    }
+}
+```
+
+```
+using MDP.Registration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace MDP.Members
+{
+    [Service<MemberRepository>(singleton: true)]
+    public class MemberRepository
+    {
+        // Fields
+        private readonly List<Member> _memberList = new List<Member>();
+
+
+        // Constructors
+        public MemberRepository()
+        {
+            // DEMO用的假資料
+            _memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Clark", Mail = "Clark@hotmail.com" });
+            _memberList.Add(new Member() { MemberId = Guid.NewGuid().ToString(), Name = "Jane", Mail = "Jane@hotmail.com" });
+        }
+
+
+        // Methods
+        public Member FindByPassword(string username, string password)
+        {
+            // DEMO用的範例。正式環境可以使用DB或AD進行驗證。(PS.儲存密碼記得雜湊處理)
+            return _memberList.FirstOrDefault(o => o.Name == username);
+        }
+    }
+}
+```
+
+```
+{
+  "MDP.Members": {
+    "MemberRepository": {}
+  }
+}
+```
+
+5.在專案裡加入Controllers\AccountController.cs、Views\Account\Login.cshtml，用來提供Password登入功能頁面。
+
+```
+using MDP.AspNetCore.Authentication;
+using MDP.Members;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace WebApplication1
+{
+    public class AccountController : Controller
+    {
+        // Fields
+        private readonly MemberRepository _memberRepository;
+
+
+        // Constructors
+        public AccountController(MemberRepository memberRepository)
+        {
+            // Default
+            _memberRepository = memberRepository;
+        }
+
+
+        // Methods
+        [AllowAnonymous]
+        public ActionResult Login()
+        {
+            // Return
+            return this.View();
+        }
+
+        [AllowAnonymous]
+        public Task<ActionResult> Logout()
+        {
+            // Return
+            return this.LogoutAsync();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> LoginByPassword(string username, string password, string returnUrl = null)
+        {
+            // Member
+            var member = _memberRepository.FindByPassword(username, password);
+            if (member == null)
+            {
+                // Message
+                this.ViewBag.Message = "Login failed";
+
+                // Return
+                return this.View("Login");
+            }
+
+            // ClaimsIdentity
+            var claimsIdentity = new ClaimsIdentity(new List<Claim>()
+            {
+                new Claim(ClaimTypes.NameIdentifier, member.MemberId),
+                new Claim(ClaimTypes.Name, member.Name),
+                new Claim(ClaimTypes.Email, member.Mail)
+            }, "Password");
+
+            // Return
+            return await this.LoginAsync(claimsIdentity, returnUrl);
+        }
+    }
+}
+```
+
+```
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Login</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Login</h2>
+    <hr />
+
+    <!--Message-->
+    <h3 style="color:red">@ViewBag.Message</h3>
+
+    <!--LoginByPassword-->
+    <form asp-controller="Account" asp-action="LoginByPassword" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        Username:<input type="text" name="username" value="Clark" /><br />
+        Password:<input type="text" name="password" value="" /><br />
+        <input type="submit" value="LoginByPassword" /><br />
+        <br />
+    </form>
+    <hr /> 
+
+</body>
+</html>
+```
+
+6.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入的身分資料。
+
+```
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebApplication1
+{
+    public class HomeController : Controller
+    {
+        // Methods
+        [Authorize]
+        public ActionResult Index()
+        {
+            // Return
+            return this.View();
+        }
+    }
+}
+```
+
+```
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
+@{
+    string GetClaimValue(string claimType)
+    {
+        return (User?.Identity as ClaimsIdentity)?.FindFirst(claimType)?.Value;
+    }
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Home</h2>
+    <hr />
+
+    <!--Identity-->
+    AuthenticationType=@User?.Identity?.AuthenticationType<br />
+    UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
+    Username=@GetClaimValue(ClaimTypes.Name)<br />
+    Mail=@GetClaimValue(ClaimTypes.Email)<br /> 
+    <br />
+    <hr />
+
+    <!--Logout-->
+    <form asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" /><br />
+        <br />
+    </form>
+    <hr />
+
+</body>
+</html>
+```
+
+7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
+
+![01.LoginPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/01.LoginPage01.png)
+
+8.於Login頁面，點擊LoginByPassword按鈕，進行Password身分驗證。在完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。
+
+![02.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/02.HomePage01.png)
 
 
 ## 版本更新

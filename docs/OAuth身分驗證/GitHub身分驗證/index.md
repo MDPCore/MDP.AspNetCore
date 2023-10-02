@@ -76,7 +76,7 @@ MDP.AspNetCore.Authentication.GitHub
 
 ## 模組範例
 
-專案開發過程，需要提供GitHub身分驗證，讓使用者能夠快速登入系統。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.GitHub，逐步完成必要的設計和實作。
+提供GitHub身分驗證，讓使用者能夠快速登入系統，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.GitHub，逐步完成必要的設計和實作。
 
 - 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/GitHub身分驗證/WebApplication1.zip)
 
@@ -182,7 +182,7 @@ namespace WebApplication1
 </html>
 ```
 
-6.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入User的身分資料。
+6.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入的身分資料。
 
 ```
 using Microsoft.AspNetCore.Authorization;
@@ -255,6 +255,6 @@ namespace WebApplication1
 
 ![07.OAuthPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/GitHub身分驗證/07.OAuthPage01.png)
 
-9.於GitHub身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示目前User的身分資料。(經由GitHub身分驗證登入)
+9.於GitHub身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。(經由GitHub身分驗證登入)
 
 ![08.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/GitHub身分驗證/08.HomePage01.png)

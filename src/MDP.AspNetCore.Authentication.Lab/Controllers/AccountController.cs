@@ -70,8 +70,8 @@ namespace MDP.AspNetCore.Authentication.Lab
 
             #endregion
 
-            // Member: Ckeck Username + Password (for demo)
-            var member = _memberRepository.FindByName(username);
+            // Member
+            var member = _memberRepository.FindByPassword(username, password);
             if (member == null)
             {
                 // Message

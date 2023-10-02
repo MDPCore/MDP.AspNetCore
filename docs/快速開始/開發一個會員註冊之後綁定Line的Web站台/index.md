@@ -48,7 +48,7 @@ MDP.AspNetCore.Authentication.Line
 }
 ```
 
-5.在專案裡加入Modules\Member.cs、Modules\MemberRepository.cs，並改寫appsettings.json。用來掛載並實做模擬會員資料庫，提供會員資料的新增、修改、查詢。
+5.在專案裡加入Modules\Member.cs、Modules\MemberRepository.cs，並改寫appsettings.json。用來掛載模擬的會員資料庫，提供會員資料的新增、修改、查詢。
 
 ```
 using System;
@@ -141,8 +141,10 @@ namespace MDP.Members
 ```
 
 ```
-"MDP.Members": {
-  "MemberRepository": {}
+{
+  "MDP.Members": {
+    "MemberRepository": {}
+  }
 }
 ```
 
@@ -274,8 +276,10 @@ namespace MDP.Members
 ```
 
 ```
-"MDP.Members": {
-  "MemberAuthenticationProvider": {}
+{
+  "MDP.Members": {
+    "MemberAuthenticationProvider": {}
+  }
 }
 ```
 
@@ -534,7 +538,7 @@ namespace WebApplication1
 </html>
 ```
 
-9.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入User的身分資料。另外，此頁也提供了LinkToLine的功能按鈕，用來提供用戶於登入之後綁定Line帳號。
+9.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入的身分資料。另外，此頁也提供了LinkToLine的功能按鈕，用來提供用戶於登入之後綁定Line帳號。
 
 ```
 using MDP.AspNetCore.Authentication;
@@ -626,7 +630,7 @@ namespace WebApplication1
 
 ![03.RegisterPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/03.RegisterPage01.png)
 
-12.完成會員資料註冊之後，Browser視窗會跳轉回Home頁面，並且顯示目前User的身分資料。(無綁定身分)
+12.完成會員資料註冊之後，Browser視窗會跳轉回Home頁面，並且顯示登入的身分資料。(無綁定身分)
 
 ![04.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/04.HomePage01.png)
 
