@@ -3,13 +3,13 @@ layout: default
 title: 開發一個會員註冊之後綁定Line的Web站台
 parent: 快速開始
 grand_parent: 身分驗證
-nav_order: 4
+nav_order: 2
 has_children: false
 ---
 
 # 開發一個會員註冊之後綁定Line的Web站台
 
-專案開發過程，常會需要在會員註冊並使用之後，才進行Line身分綁定。完成綁定之後，客戶就能使用Line進行OAuth快速登入(系統也能取得Line的UID來訊息推送)。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Line，逐步完成必要的設計和實作。
+在會員註冊並使用之後，才進行Line身分綁定，是開發系統時常見的功能需求。完成綁定之後，客戶就能使用Line進行OAuth快速登入(系統也能取得Line的UID來訊息推送)。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Line，逐步完成必要的設計和實作。
 
 - 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/WebApplication1.zip)
 

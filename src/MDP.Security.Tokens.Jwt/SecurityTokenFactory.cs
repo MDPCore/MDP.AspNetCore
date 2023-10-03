@@ -142,7 +142,7 @@ namespace MDP.Security.Tokens.Jwt
             if (algorithm.StartsWith("HS", StringComparison.OrdinalIgnoreCase) == true)
             {
                 // SignKeyBytes
-                var signKeyBytes = System.Text.Encoding.UTF8.GetBytes(signKey);
+                var signKeyBytes = Convert.FromBase64String(signKey);
                 if (signKeyBytes == null) throw new InvalidOperationException($"{nameof(signKeyBytes)}=null");
 
                 // SecurityKey
@@ -156,7 +156,7 @@ namespace MDP.Security.Tokens.Jwt
             if (algorithm.StartsWith("RS", StringComparison.OrdinalIgnoreCase) == true)
             {
                 // SignKeyString
-                var signKeyString = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(signKey));
+                var signKeyString = signKey;
                 if (string.IsNullOrEmpty(signKeyString) == true) throw new InvalidOperationException($"{nameof(signKeyString)}=null");
 
                 // RsaKey
@@ -174,7 +174,7 @@ namespace MDP.Security.Tokens.Jwt
             if (algorithm.StartsWith("ES", StringComparison.OrdinalIgnoreCase) == true)
             {
                 // SignKeyString
-                var signKeyString = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(signKey));
+                var signKeyString = signKey;
                 if (string.IsNullOrEmpty(signKeyString) == true) throw new InvalidOperationException($"{nameof(signKeyString)}=null");
 
                 // EcdsaKey

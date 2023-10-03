@@ -19,16 +19,16 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
 
 
         // Constructors
-        public HomeController(SecurityTokenFactory tokenFactory)
+        public HomeController(SecurityTokenFactory securityTokenFactory)
         {
             #region Contracts
 
-            if (tokenFactory == null) throw new ArgumentException(nameof(tokenFactory));
+            if (securityTokenFactory == null) throw new ArgumentException(nameof(securityTokenFactory));
 
             #endregion
 
             // Default
-            _securityTokenFactory = tokenFactory;
+            _securityTokenFactory = securityTokenFactory;
         }
 
 
@@ -77,6 +77,7 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
             user.AuthenticationType = claimsIdentity.AuthenticationType!;
             user.UserId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value!;
             user.UserName = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!;
+            user.Mail = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value!;
 
             // Return
             return user;
@@ -92,6 +93,8 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
             public string UserId { get; set; } = string.Empty;
 
             public string UserName { get; set; } = string.Empty;
+
+            public string Mail { get; set; } = string.Empty;
         }
     }    
 }

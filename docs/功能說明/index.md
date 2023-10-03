@@ -53,6 +53,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
 
 ```
 // Config設定 - Jwt身分驗證模組
+{
   "Authentication": {
     "Jwt": {
       "Credentials": [
@@ -67,7 +68,8 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
         }
       ]
     }
-  },
+  }
+}
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Jwt
 - 憑證清單：Credentials
@@ -75,7 +77,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
 - 憑證標頭：Header="Authorization"。(從HTTP Request的哪個Header取得Token，常見：Authorization、x-api-token)
 - 憑證前綴：Prefix="Bearer"。(Token的前綴字，常見："Bearer"、"")
 - 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
-- 簽章密鑰：SignKey="12345..."。(Token所使用的簽章密鑰，支持：PEM格式密鑰)
+- 簽章金鑰：SignKey="12345..."。(Token所使用的簽章金鑰，支持：Base64格式金鑰、PEM格式金鑰)
 - 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
 ```
 
@@ -240,7 +242,7 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, Cl
 
 ![MDP.AspNetCore.Authentication-Token身分驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來在HTTP Request封包通過Token身分驗證之後，取得身分資料來執行Token身分登入，將身分資料提供後續流程使用。(當次封包處理流程有效)
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來在HTTP Request封包內容通過Token身分驗證之後，取得身分資料來執行Token身分登入，將身分資料提供後續流程使用。(當次封包處理流程有效)
 
 - 開發人員可以在HTTP Request封包裡加入代表身分資料的Token，用來發起Token身分驗證流程。
 
@@ -608,16 +610,12 @@ namespace WebApplication1
 
 ![01.LoginPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/01.LoginPage01.png)
 
-8.於Login頁面，點擊LoginByPassword按鈕，進行Password身分驗證。在完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。
+8.於Login頁面，點擊LoginByPassword按鈕，進行Password身分驗證。在完成身分驗證之後，Browser視窗會跳轉回Home頁面，並且顯示登入的身分資料。
 
 ![02.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/功能說明/02.HomePage01.png)
 
 
 ## 版本更新
-
-### MDP.AspNetCore.Authentication 6.1.8.2
-
-- 重構MDP.AspNetCore.Authentication.Jwt，讓它能支援多組憑證。
 
 ### MDP.AspNetCore.Authentication 6.1.8.1
 
