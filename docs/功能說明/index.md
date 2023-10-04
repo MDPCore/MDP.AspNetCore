@@ -616,6 +616,14 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.8.3
+
+- 重構MDP.AspNetCore.Authentication.Jwt，調整RSA金鑰格式為PEM格式字串。
+
+### MDP.AspNetCore.Authentication 6.1.8.2
+
+- 重構MDP.AspNetCore.Authentication.Jwt，加入支援多組憑證的功能。
+
 ### MDP.AspNetCore.Authentication 6.1.8.1
 
 - 重構AuthenticationProvider，讓他更容易被理解。
