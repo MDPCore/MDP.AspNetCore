@@ -9,7 +9,7 @@ has_children: false
 
 # 開發一個HMAC簽章+JwtBearer驗證的API服務
 
-使用資料庫驗證帳號及密碼之後，發行使用HMAC簽章的JWT給用戶，讓用戶放到HTTP Request封包的Authorization表頭來進行身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Jwt，逐步完成必要的設計和實作。
+使用資料庫驗證帳號及密碼之後，發行代表身分資料並使用HMAC簽章的JWT，讓系統放到HTTP Request封包的Authorization表頭來進行身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Jwt，逐步完成必要的設計和實作。
 
 - 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/WebApplication1.zip)
 
@@ -73,7 +73,7 @@ MDP.AspNetCore.Authentication.Jwt
           "Header": "Authorization",
           "Prefix": "Bearer ",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxx",
+          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP"
         }
       ]
@@ -86,7 +86,7 @@ MDP.AspNetCore.Authentication.Jwt
         {
           "Name": "HmacToken",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxx",
+          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP",
           "ExpireMinutes": 30
         }
@@ -172,7 +172,7 @@ namespace WebApplication1
 {
     public class HomeController : Controller
     {
-        /// Fields
+        // Fields
         private readonly MemberRepository _memberRepository;
 
         private readonly SecurityTokenFactory _securityTokenFactory;
@@ -181,13 +181,6 @@ namespace WebApplication1
         // Constructors
         public HomeController(MemberRepository memberRepository, SecurityTokenFactory securityTokenFactory)
         {
-            #region Contracts
-
-            if (memberRepository == null) throw new ArgumentException($"{nameof(memberRepository)}=null");
-            if (securityTokenFactory == null) throw new ArgumentException(nameof(securityTokenFactory));
-
-            #endregion
-
             // Default
             _memberRepository = memberRepository;
             _securityTokenFactory = securityTokenFactory;
@@ -205,13 +198,6 @@ namespace WebApplication1
         [AllowAnonymous]
         public ActionResult GetTokenByPassword(string username, string password)
         {
-            #region Contracts
-
-            if (string.IsNullOrEmpty(username) == true) throw new ArgumentException($"{nameof(username)}=null");
-            //if (string.IsNullOrEmpty(password) == true) throw new ArgumentException($"{nameof(password)}=null");
-
-            #endregion
-
             // Member
             var member = _memberRepository.FindByPassword(username, password);
             if (member == null)
@@ -340,7 +326,7 @@ namespace WebApplication1
 </html>
 ```
 
-7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的的Token。
+7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的Token。
 
 ![02.GetToken01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/02.GetToken.png)
 

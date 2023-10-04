@@ -21,27 +21,6 @@ h1, h2, h3, h4, h5, h6, #toctitle, .site-title {
     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0) 100%)
 }
 
-@media (min-width: 66.5rem) {
-    .main {
-       margin-left:16.5rem;
-    }
-    .side-bar {
-        min-width:16.5rem;
-        max-width:16.5rem;
-        z-index:1;
-    }
-    .site-nav,.site-header,.site-footer {
-        width:16.5rem;
-    }
-    .site-title {
-       font-size:1.5rem !important;
-       padding-left:0rem;
-       padding-right:0rem;
-	   overflow-wrap:anywhere;
-       justify-content:center;
-    }
-}
-
 @media (min-width: 50rem) {
     .main {
        margin-left:16.5rem;
@@ -55,7 +34,7 @@ h1, h2, h3, h4, h5, h6, #toctitle, .site-title {
         width:16.5rem;
     }
     .site-title {
-       font-size:1.5rem !important;
+       font-size:1.0rem !important;
        padding-left:0rem;
        padding-right:0rem;
 	   overflow-wrap:anywhere;

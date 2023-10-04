@@ -173,12 +173,6 @@ namespace MDP.Members
         // Constructors
         public MemberAuthenticationProvider(MemberRepository memberRepository)
         {
-            #region Contracts
-
-            if (memberRepository == null) throw new ArgumentException($"{nameof(memberRepository)}=null");
-
-            #endregion
-
             // Default
             _memberRepository = memberRepository;
         }
@@ -187,12 +181,6 @@ namespace MDP.Members
         // Methods
         public override ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
         {
-            #region Contracts
-
-            if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
-
-            #endregion
-
             // Member
             var linkType = remoteIdentity.AuthenticationType;
             var linkId = remoteIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
@@ -205,13 +193,6 @@ namespace MDP.Members
 
         public override void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
         {
-            #region Contracts
-
-            if (remoteIdentity == null) throw new ArgumentException($"{nameof(remoteIdentity)}=null");
-            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
-
-            #endregion
-
             // Member
             var memberId = localIdentity.GetClaimValue(ClaimTypes.NameIdentifier);
             var member = _memberRepository.FindByMemberId(memberId);
@@ -244,13 +225,6 @@ namespace MDP.Members
         // Methods
         public static ClaimsIdentity ToIdentity(this Member member, string authenticationType)
         {
-            #region Contracts
-
-            if (member == null) throw new ArgumentException($"{nameof(member)}=null");
-            if (string.IsNullOrEmpty(authenticationType) == true) throw new ArgumentException($"{nameof(authenticationType)}=null");
-
-            #endregion
-
             // ClaimsIdentity
             var claimsIdentity = new ClaimsIdentity(new List<Claim>()
             {

@@ -63,8 +63,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
           "Prefix": "Bearer ",
           "Algorithm": "HS256",
           "SignKey": "12345678901234567890123456789012",
-          "Issuer": "MDP",
-          "ExpireMinutes": 30
+          "Issuer": "MDP"
         }
       ]
     }
@@ -75,7 +74,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Lin
 - 憑證清單：Credentials
 - 憑證名稱：Scheme="JwtBearer"。
 - 憑證標頭：Header="Authorization"。(從HTTP Request的哪個Header取得Token，常見：Authorization、x-api-token)
-- 憑證前綴：Prefix="Bearer"。(Token的前綴字，常見："Bearer"、"")
+- 憑證前綴：Prefix="Bearer "。(Token的前綴字，常見："Bearer "、"")
 - 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
 - 簽章金鑰：SignKey="12345..."。(Token所使用的簽章金鑰，支持：Base64格式金鑰、PEM格式金鑰)
 - 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)

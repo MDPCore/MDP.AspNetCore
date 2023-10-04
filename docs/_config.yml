@@ -8,7 +8,13 @@ aux_links:
   "Source Code on GitHub":
     - "//github.com/Clark159/MDP.AspNetCore.Authentication"
 color_scheme: dark
+callouts:
+  highlight:
+    color: yellow
 search_enabled: false
+footer_content: "" 
+back_to_top: true
+back_to_top_text: "Back to top"
 
 # Plugins
 plugins:
