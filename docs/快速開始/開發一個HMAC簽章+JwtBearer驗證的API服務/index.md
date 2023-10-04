@@ -328,7 +328,7 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的Token。
 
-![02.GetToken01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/02.GetToken.png)
+![02.GetToken01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/02.GetToken01.png)
 
 8.取得Token之後，點擊GetUser按鈕，進行JwtBearer身分驗證。系統會使用JavaScript，將Token放入HTTP Request封包的Authorization表頭進行身分驗證，並在完成身分驗證之後，於畫面上顯示取得的身分資料。
 
