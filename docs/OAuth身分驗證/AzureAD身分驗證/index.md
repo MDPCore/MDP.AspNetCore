@@ -22,7 +22,7 @@ MDP.AspNetCore.Authentication.AzureAD擴充ASP.NET Core既有的身分驗證，�
 
 MDP.AspNetCore.Authentication.AzureAD使用Azure官方提供的OAuth服務來進行身分驗證，依照下列操作步驟，即可申請官方所提供的OAuth服務。
 
-1.註冊並登入[AzureAD Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
+1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
 
 ![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/AzureAD身分驗證/01.建立Application01.png)
 
