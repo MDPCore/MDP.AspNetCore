@@ -1,6 +1,6 @@
 # MDP.AspNetCore.Authentication
 
-MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供Line、Google、Facebook等OAuth身分驗證模組、及Jwt等Token身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
+MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
@@ -13,6 +13,10 @@ MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員�
 
 - [開發一個會員註冊之後綁定Line的Web站台](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/)
 
+- [開發一個HMAC簽章+JwtBearer驗證的API服務](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/)
+
+- [開發一個RSA簽章+ApiToken驗證的API服務](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個RSA簽章+ApiToken驗證的API服務/)
+
 
 ## 模組功能
 
@@ -20,7 +24,7 @@ MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員�
 
 ### 模組掛載
 
-MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Line、Google、Facebook等OAuth身分驗證模組、及Jwt等Token身分驗證模組的掛載功能。開發人員可以透過Config設定，掛載在執行階段使用的身分認證。
+MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組的掛載功能。開發人員可以透過Config設定，掛載在執行階段使用的身分認證。
 
 - OAuth身分驗證：[OAuth身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/)。
 
