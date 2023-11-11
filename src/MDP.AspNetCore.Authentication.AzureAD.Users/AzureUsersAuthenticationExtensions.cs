@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public static class AzureADAuthenticationExtensions
+    public static class AzureUsersAuthenticationExtensions
     {
         // Methods
-        public static AuthenticationBuilder AddAzureADAuthentication(this IServiceCollection services, AzureADAuthenticationSetting authenticationSetting = null)
+        public static AuthenticationBuilder AddAzureUsersAuthentication(this IServiceCollection services, AzureUsersAuthenticationSetting authenticationSetting = null)
         {
             #region Contracts
 
@@ -17,7 +17,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             #endregion
 
             // AuthenticationSetting
-            if (authenticationSetting == null) authenticationSetting = new AzureADAuthenticationSetting();
+            if (authenticationSetting == null) authenticationSetting = new AzureUsersAuthenticationSetting();
             if (string.IsNullOrEmpty(authenticationSetting.TenantId) == true) throw new InvalidOperationException($"{nameof(authenticationSetting.TenantId)}=null");
             if (string.IsNullOrEmpty(authenticationSetting.ClientId) == true) throw new InvalidOperationException($"{nameof(authenticationSetting.ClientId)}=null");
             if (string.IsNullOrEmpty(authenticationSetting.ClientSecret) == true) throw new InvalidOperationException($"{nameof(authenticationSetting.ClientSecret)}=null");
@@ -25,14 +25,14 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             // AuthenticationBuilder   
             var authenticationBuilder = services.AddAuthentication();
 
-            // AzureAD
-            authenticationBuilder.AddAzureAD(options =>
+            // AzureUsers
+            authenticationBuilder.AddAzureUsers(options =>
             {
                 // Options
                 options.TenantId = authenticationSetting.TenantId; // {TenantId},organizations,common,consumers
                 options.ClientId = authenticationSetting.ClientId;
                 options.ClientSecret = authenticationSetting.ClientSecret;
-                options.CallbackPath = new PathString("/.auth/login/aad/callback");
+                options.CallbackPath = new PathString("/.auth/login/aad/users/callback");
 
                 // SignIn
                 options.ConfigureSignIn();

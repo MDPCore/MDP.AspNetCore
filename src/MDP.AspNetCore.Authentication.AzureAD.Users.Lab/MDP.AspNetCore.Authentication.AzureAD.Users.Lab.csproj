@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore.Authentication.AzureAD\MDP.AspNetCore.Authentication.AzureAD.csproj" />
+    <ProjectReference Include="..\MDP.AspNetCore.Authentication.AzureAD.Users\MDP.AspNetCore.Authentication.AzureAD.Users.csproj" />
   </ItemGroup>
 
   <ItemGroup>

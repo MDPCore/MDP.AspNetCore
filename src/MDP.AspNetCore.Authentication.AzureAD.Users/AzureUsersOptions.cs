@@ -11,22 +11,22 @@ using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public class AzureADOptions : OAuthOptions
+    public class AzureUsersOptions : OAuthOptions
     {
         // Fields
         private string _tenantId = null;
 
 
         // Constructors
-        public AzureADOptions()
+        public AzureUsersOptions()
         {
             // Options
-            this.CallbackPath = new PathString("/signin-azuread");
-            this.AuthorizationEndpoint = AzureADDefaults.AuthorizationEndpoint;
-            this.TokenEndpoint = AzureADDefaults.TokenEndpoint;
-            this.UserInformationEndpoint = AzureADDefaults.UserInformationEndpoint;
+            this.CallbackPath = new PathString("/signin-aad-users");
+            this.AuthorizationEndpoint = AzureUsersDefaults.AuthorizationEndpoint;
+            this.TokenEndpoint = AzureUsersDefaults.TokenEndpoint;
+            this.UserInformationEndpoint = AzureUsersDefaults.UserInformationEndpoint;
             this.TenantId = "common";
 
             // Scope
@@ -54,8 +54,8 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             {
                 // Set
                 _tenantId = value;
-                this.AuthorizationEndpoint = string.Format(AzureADDefaults.AuthorizationEndpoint, value);
-                this.TokenEndpoint = string.Format(AzureADDefaults.TokenEndpoint, value);
+                this.AuthorizationEndpoint = string.Format(AzureUsersDefaults.AuthorizationEndpoint, value);
+                this.TokenEndpoint = string.Format(AzureUsersDefaults.TokenEndpoint, value);
             }
         }
     }

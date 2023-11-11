@@ -13,12 +13,12 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public class AzureADHandler : OAuthHandler<AzureADOptions>
+    public class AzureUsersHandler : OAuthHandler<AzureUsersOptions>
     {
         // Constructors
-        public AzureADHandler(IOptionsMonitor<AzureADOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public AzureUsersHandler(IOptionsMonitor<AzureUsersOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
 
 
         // Methods
@@ -42,7 +42,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             {
                 var content = await response.Content.ReadAsStringAsync();
                 if (string.IsNullOrEmpty(content) == false) throw new HttpRequestException(content);
-                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving AzureAD user information ({response.StatusCode}). Please check if the authentication information is correct.");
+                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving AzureUsers user information ({response.StatusCode}). Please check if the authentication information is correct.");
             }
 
             // Payload
@@ -74,7 +74,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             {
                 var content = await response.Content.ReadAsStringAsync();
                 if (string.IsNullOrEmpty(content) == false) throw new HttpRequestException(content);
-                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving AzureAD user information ({response.StatusCode}). Please check if the authentication information is correct.");
+                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving AzureUsers user information ({response.StatusCode}). Please check if the authentication information is correct.");
             }
 
             // Payload

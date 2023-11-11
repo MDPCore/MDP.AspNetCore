@@ -1,4 +1,4 @@
-namespace MDP.AspNetCore.Authentication.AzureAD.Lab
+namespace MDP.AspNetCore.Authentication.AzureAD.Users.Lab
 {
     public class Program
     {

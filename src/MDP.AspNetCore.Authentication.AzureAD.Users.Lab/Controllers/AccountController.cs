@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MDP.AspNetCore.Authentication.AzureAD.Lab
+namespace MDP.AspNetCore.Authentication.AzureAD.Users.Lab
 {
     public class AccountController : Controller
     {
@@ -28,7 +28,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Lab
         public Task<ActionResult> LoginByAzureAD(string returnUrl = null)
         {
             // Return
-            return this.LoginAsync(AzureADDefaults.AuthenticationScheme, returnUrl);
+            return this.LoginAsync(AzureUsersDefaults.AuthenticationScheme, returnUrl);
         }
     }
 }

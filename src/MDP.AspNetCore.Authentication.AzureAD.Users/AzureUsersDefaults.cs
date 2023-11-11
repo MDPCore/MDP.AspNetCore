@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public class AzureADDefaults
+    public class AzureUsersDefaults
     {
         // Constants
-        public static readonly string AuthenticationScheme = "AzureAD";
+        public static readonly string AuthenticationScheme = "AzureAD.Users";
 
         public static readonly string AuthorizationEndpoint = "https://login.microsoftonline.com/{0}/oauth2/v2.0/authorize";
 

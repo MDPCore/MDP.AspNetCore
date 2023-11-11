@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public class AzureADAuthenticationSetting
+    public class AzureUsersAuthenticationSetting
     {
         // Properties
         public string TenantId { get; set; } = string.Empty;

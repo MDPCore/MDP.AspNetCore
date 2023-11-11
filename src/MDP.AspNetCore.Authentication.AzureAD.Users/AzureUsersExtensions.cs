@@ -15,12 +15,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MDP.AspNetCore.Authentication.AzureAD
+namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public static class AzureADExtensions
+    public static class AzureUsersExtensions
     {
         // Methods
-        public static AuthenticationBuilder AddAzureAD(this AuthenticationBuilder builder)
+        public static AuthenticationBuilder AddAzureUsers(this AuthenticationBuilder builder)
         {
             #region Contracts
 
@@ -28,11 +28,11 @@ namespace MDP.AspNetCore.Authentication.AzureAD
 
             #endregion
 
-            // AddAzureAD
-            return builder.AddAzureAD(_ => { });
+            // AddAzureUsers
+            return builder.AddAzureUsers(_ => { });
         }
 
-        public static AuthenticationBuilder AddAzureAD(this AuthenticationBuilder builder, Action<AzureADOptions> configureOptions)
+        public static AuthenticationBuilder AddAzureUsers(this AuthenticationBuilder builder, Action<AzureUsersOptions> configureOptions)
         {
             #region Contracts
 
@@ -41,11 +41,11 @@ namespace MDP.AspNetCore.Authentication.AzureAD
 
             #endregion
 
-            // AddAzureAD
-            return builder.AddAzureAD(AzureADDefaults.AuthenticationScheme, configureOptions);
+            // AddAzureUsers
+            return builder.AddAzureUsers(AzureUsersDefaults.AuthenticationScheme, configureOptions);
         }
 
-        public static AuthenticationBuilder AddAzureAD(this AuthenticationBuilder builder, string authenticationScheme, Action<AzureADOptions> configureOptions)
+        public static AuthenticationBuilder AddAzureUsers(this AuthenticationBuilder builder, string authenticationScheme, Action<AzureUsersOptions> configureOptions)
         {
             #region Contracts
 
@@ -56,7 +56,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD
             #endregion
 
             // AddOAuth
-            return builder.AddOAuth<AzureADOptions, AzureADHandler>(authenticationScheme, null, configureOptions);
+            return builder.AddOAuth<AzureUsersOptions, AzureUsersHandler>(authenticationScheme, null, configureOptions);
         }
     }
 }

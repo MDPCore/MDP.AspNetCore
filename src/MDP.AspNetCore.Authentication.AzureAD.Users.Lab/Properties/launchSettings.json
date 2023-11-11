@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MDP.AspNetCore.Authentication.AzureAD.Lab": {
+    "MDP.AspNetCore.Authentication.AzureAD.Users.Lab": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

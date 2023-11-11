@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 
-namespace MDP.AspNetCore.Authentication.AzureAD.Lab
+namespace MDP.AspNetCore.Authentication.AzureAD.Users.Lab
 {
     public class HomeController : Controller
     {

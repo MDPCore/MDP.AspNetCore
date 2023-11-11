@@ -9,7 +9,7 @@ has_children: false
 
 # MDP.AspNetCore.Authentication.AzureAD.Users
 
-MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗證，加入AzureAD的User身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的User身分驗證。
+MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗證，加入AzureAD提供的User身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的User身分驗證，用以驗證使用者(User)。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
@@ -20,13 +20,13 @@ MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗�
 
 ### 申請服務
 
-MDP.AspNetCore.Authentication.AzureAD.Users使用Azure官方提供的OAuth服務來進行身分驗證，依照下列操作步驟，即可申請官方所提供的OAuth服務。
+MDP.AspNetCore.Authentication.AzureAD.Users使用AzureAD提供的OAuth服務，透過Authorization Code流程來進行User身分驗證。依照下列操作步驟，即可申請AzureAD提供的OAuth服務。
 
 1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
 
 ![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/01.建立Application01.png)
 
-2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application，並編輯「支援的帳戶類型」及「重新導向 URI」。(支援的帳戶類型=僅此組織目錄中的帳戶、重新導向平台=Web、重新導向 URI=「程式執行網址」+「/.auth/login/aad/callback」)
+2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application，並編輯「支援的帳戶類型」及「重新導向 URI」。(支援的帳戶類型=僅此組織目錄中的帳戶、重新導向平台=Web、重新導向 URI=「程式執行網址」+「/.auth/login/aad/users/callback」)
 
 ![02.註冊Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/02.註冊Application01.png)
 
@@ -62,7 +62,7 @@ MDP.AspNetCore.Authentication.AzureAD.Users
 
 ### 設定參數
 
-建立包含MDP.AspNetCore.Authentication.AzureAD.Users的專案之後，就可以透過Config設定，掛載在專案裡使用的AzureAD身分驗證。
+建立包含MDP.AspNetCore.Authentication.AzureAD.Users的專案之後，就可以透過Config設定，掛載在專案裡使用的User身分驗證。
 
 ```
 // Config設定
@@ -105,11 +105,11 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.AzureAD.Users
 ```
 
-3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/#服務申請)的步驟流程，申請AzureAD身分驗證服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
+3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/#服務申請)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
 
 ![05.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/05.申請服務01.png)
 
-4.於專案內改寫appsettings.json，填入「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」，用以掛載AzureAD身分驗證。
+4.於專案內改寫appsettings.json，填入「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」，用以掛載User身分驗證。
 
 ```
 {
@@ -123,7 +123,7 @@ MDP.AspNetCore.Authentication.AzureAD.Users
 }
 ```
     
-5.改寫專案內的Controllers\AccountController.cs、Views\Account\Login.cshtml，提供Login頁面及AzureAD身分驗證功能。
+5.改寫專案內的Controllers\AccountController.cs、Views\Account\Login.cshtml，提供Login頁面及AzureAD提供的User身分驗證功能。
 
 ```
 using MDP.AspNetCore.Authentication;
@@ -193,7 +193,7 @@ namespace WebApplication1
 </html>
 ```
 
-6.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入的身分資料。
+6.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供需登入才能進入的Home頁面，並於該頁面顯示目前登入的User身分資料。
 
 ```
 using AzureAD.AspNetCore.Authorization;
@@ -262,10 +262,10 @@ namespace WebApplication1
 
 ![06.LoginPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/06.LoginPage01.png)
 
-8.於Login頁面，點擊LoginByAzureAD按鈕。Browser視窗會跳轉至AzureAD身分驗證服務的頁面，進行OAuth身分驗證。
+8.於Login頁面，點擊LoginByAzureAD按鈕。Browser視窗會跳轉至AzureAD提供的User身分驗證頁面，進行User身分驗證。
 
 ![07.OAuthPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/07.OAuthPage01.png)
 
-9.於AzureAD身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。(經由AzureAD身分驗證登入)
+9.於AzureAD提供的User身分驗證頁面完成User身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的User身分資料。(經由AzureAD提供的User身分驗證登入)
 
 ![08.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/08.HomePage01.png)
