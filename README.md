@@ -611,6 +611,12 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.8.4
+
+- 加入MDP.AspNetCore.Authentication.AzureAD.Users，用來驗證AzureAD裡的使用者。
+
+- 加入MDP.AspNetCore.Authentication.AzureAD.Services，用來驗證AzureAD裡的服務主體、受控識別。
+
 ### MDP.AspNetCore.Authentication 6.1.8.3
 
 - 重構MDP.AspNetCore.Authentication.Jwt，調整RSA金鑰格式為PEM格式字串。
