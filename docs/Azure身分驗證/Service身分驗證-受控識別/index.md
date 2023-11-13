@@ -3,7 +3,7 @@ layout: default
 title: Service身分驗證-受控識別
 parent: Azure身分驗證
 grand_parent: 身分驗證
-nav_order: 2
+nav_order: 3
 has_children: false
 ---
 

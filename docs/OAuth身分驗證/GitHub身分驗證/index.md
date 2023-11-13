@@ -9,7 +9,7 @@ has_children: false
 
 # MDP.AspNetCore.Authentication.GitHub
 
-MDP.AspNetCore.Authentication.GitHub擴充ASP.NET Core既有的身分驗證，加入GitHub身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的GitHub身分驗證。
+MDP.AspNetCore.Authentication.GitHub擴充ASP.NET Core既有的身分驗證，加入GitHub身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的GitHub身分驗證，用以驗證GitHub帳號登入的使用者。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 

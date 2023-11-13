@@ -9,7 +9,7 @@ has_children: false
 
 # MDP.AspNetCore.Authentication.Microsoft
 
-MDP.AspNetCore.Authentication.Microsoft擴充ASP.NET Core既有的身分驗證，加入Microsoft身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Microsoft身分驗證。
+MDP.AspNetCore.Authentication.Microsoft擴充ASP.NET Core既有的身分驗證，加入Microsoft身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Microsoft身分驗證，用以驗證Microsoft帳號登入的使用者。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
