@@ -74,10 +74,10 @@ namespace MDP.AspNetCore.Authentication.Jwt.Lab
 
             // UserModel
             var user = new UserModel();
-            user.AuthenticationType = claimsIdentity.AuthenticationType!;
-            user.UserId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value!;
-            user.UserName = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value!;
-            user.Mail = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value!;
+            user.AuthenticationType = claimsIdentity.AuthenticationType;
+            user.UserId = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            user.UserName = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value;
+            user.Mail = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
 
             // Return
             return user;

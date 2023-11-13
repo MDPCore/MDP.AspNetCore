@@ -1,0 +1,48 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+
+    <!-- script -->
+    <script language="javascript">
+        async function getClientByAccessToken() {
+            try {
+                const response = await fetch("/Home/GetClient", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + document.getElementById("getClientByAccessToken.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getClientByAccessToken.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getClientByAccessToken.result").innerText = `getClientByAccessToken is Failed: ${response.status}`;
+                }
+            }
+            catch (error) {
+                document.getElementById("getClientByAccessToken.result").innerText = `getClientByAccessToken is Failed: ${error}`;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!--Title-->
+    <h2>Home</h2>
+    <hr />
+
+    <!--GetClientByAccessToken-->
+    <input type="button" value="GetClientByAccessToken" onclick="getClientByAccessToken()" /><br />
+    AccessToken:<div id="getClientByAccessToken.token">@ViewBag.AccessToken</div><br />
+    <div id="getClientByAccessToken.result"></div><br />
+    <hr />    
+
+</body>
+</html>

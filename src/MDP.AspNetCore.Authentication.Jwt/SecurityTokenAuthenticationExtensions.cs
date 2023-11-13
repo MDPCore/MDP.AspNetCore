@@ -1,19 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
+using System;
 using System.Security.Cryptography;
-using System.Text.Json;
-using System.Net;
 
 namespace MDP.AspNetCore.Authentication.Jwt
 {
@@ -87,6 +76,12 @@ namespace MDP.AspNetCore.Authentication.Jwt
                 // AuthenticationType
                 authenticationOptions.TokenValidationParameters.AuthenticationType = credential.Scheme;
 
+                // SecurityTokenValidators
+                authenticationOptions.AttachSecurityTokenValidators();
+
+                // SecurityTokenEvents
+                authenticationOptions.AttachSecurityTokenEvents(credential.Header, credential.Prefix);
+
                 // Issuer
                 if (string.IsNullOrEmpty(credential.Issuer) == false)
                 {
@@ -118,60 +113,6 @@ namespace MDP.AspNetCore.Authentication.Jwt
                     authenticationOptions.TokenValidationParameters.ValidateIssuerSigningKey = false;
                     authenticationOptions.TokenValidationParameters.IssuerSigningKey = null;
                 }
-
-                // SecurityTokenValidators
-                {
-                    authenticationOptions.SecurityTokenValidators.Clear();
-                    authenticationOptions.SecurityTokenValidators.Add(new SecurityTokenHandler());
-                }
-
-                // SecurityTokenEvents
-                authenticationOptions.Events = new JwtBearerEvents
-                {
-                    // OnMessageReceived
-                    OnMessageReceived = context =>
-                    {
-                        // Authorization
-                        string authorization = context.Request.Headers[credential.Header];
-                        if (string.IsNullOrEmpty(authorization) == true)
-                        {
-                            context.NoResult();
-                            return Task.CompletedTask;
-                        }
-
-                        // Token
-                        if (string.IsNullOrEmpty(credential.Prefix) == true)
-                        {
-                            context.Token = authorization;
-                        }
-                        if (string.IsNullOrEmpty(credential.Prefix) == false && authorization.StartsWith(credential.Prefix, StringComparison.OrdinalIgnoreCase))
-                        {
-                            context.Token = authorization.Substring(credential.Prefix.Length).Trim();
-                        }
-                        if (string.IsNullOrEmpty(context.Token) == true)
-                        {
-                            context.NoResult();
-                            return Task.CompletedTask;
-                        }
-
-                        // Return
-                        return Task.CompletedTask;
-                    },
-
-                    // OnAuthenticationFailed
-                    OnAuthenticationFailed = context =>
-                    {
-                        // Header
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        context.Response.ContentType = "application/json";
-
-                        // Content
-                        var content = JsonSerializer.Serialize(new { message = "Authentication failed" });
-
-                        // Return
-                        return context.Response.WriteAsync(content);
-                    }
-                };
             });
         }
 

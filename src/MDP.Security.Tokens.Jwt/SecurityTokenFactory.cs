@@ -50,8 +50,8 @@ namespace MDP.Security.Tokens.Jwt
             var claimList = new List<Claim>(identity.Claims);
             {
                 // AuthenticationType
-                claimList.RemoveAll(claim => claim.Type == ClaimTypes.AuthenticationType);
-                claimList.Add(new Claim(ClaimTypes.AuthenticationType, identity.AuthenticationType));
+                claimList.RemoveAll(claim => claim.Type == SecurityTokenClaimTypes.AuthenticationType);
+                claimList.Add(new Claim(SecurityTokenClaimTypes.AuthenticationType, identity.AuthenticationType));
             }
 
             // CreateSecurityToken

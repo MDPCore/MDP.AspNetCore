@@ -9,7 +9,7 @@ has_children: false
 
 # MDP.AspNetCore.Authentication.AzureAD.Users
 
-MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗證，加入AzureAD提供的User身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的User身分驗證，用以驗證使用者(User)。
+MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗證，加入AzureAD提供的User身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的User身分驗證，用以驗證Azure裡的使用者(User)。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 

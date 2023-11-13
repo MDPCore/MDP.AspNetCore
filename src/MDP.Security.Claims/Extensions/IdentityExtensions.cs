@@ -4,7 +4,7 @@ using System.Security.Principal;
 
 namespace MDP.Security.Claims
 {
-    public static class IIdentityExtensions
+    public static class IdentityExtensions
     {
         // Methods   
         public static string GetClaimValue(this IIdentity identity, string claimType)

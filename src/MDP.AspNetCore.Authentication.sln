@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authenticati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Lab", "MDP.AspNetCore.Authentication.Lab\MDP.AspNetCore.Authentication.Lab.csproj", "{CD53A4C1-1C1D-463A-A2A0-C77698D908B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.AzureAD", "MDP.AspNetCore.Authentication.AzureAD\MDP.AspNetCore.Authentication.AzureAD.csproj", "{B5C410E5-E2DD-4897-8DFB-B2E81EFC4404}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.AzureAD.Lab", "MDP.AspNetCore.Authentication.AzureAD.Lab\MDP.AspNetCore.Authentication.AzureAD.Lab.csproj", "{DC6C0B6D-914B-4518-82EA-49FBB64F1A9E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Facebook", "MDP.AspNetCore.Authentication.Facebook\MDP.AspNetCore.Authentication.Facebook.csproj", "{5E5CEECB-F7D8-4E5A-899D-A478278BBB53}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.Facebook.Lab", "MDP.AspNetCore.Authentication.Facebook.Lab\MDP.AspNetCore.Authentication.Facebook.Lab.csproj", "{B5ED4DB4-B363-49B3-BBF4-6B749756B1F1}"
@@ -49,9 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.Security.Tokens.Jwt.Lab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.Security.Claims", "MDP.Security.Claims\MDP.Security.Claims.csproj", "{F4A08E89-3C2B-4AA6-B02B-3030863600AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.AzureAD.Users", "MDP.AspNetCore.Authentication.AzureAD.Users\MDP.AspNetCore.Authentication.AzureAD.Users.csproj", "{E18027A1-8E44-4590-9281-9088BE47FED3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.AzureAD.Users", "MDP.AspNetCore.Authentication.AzureAD.Users\MDP.AspNetCore.Authentication.AzureAD.Users.csproj", "{E18027A1-8E44-4590-9281-9088BE47FED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.AzureAD.Users.Lab", "MDP.AspNetCore.Authentication.AzureAD.Users.Lab\MDP.AspNetCore.Authentication.AzureAD.Users.Lab.csproj", "{3C3EE95C-4DD5-4D35-9079-DEDBCB10FDF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.AzureAD.Users.Lab", "MDP.AspNetCore.Authentication.AzureAD.Users.Lab\MDP.AspNetCore.Authentication.AzureAD.Users.Lab.csproj", "{3C3EE95C-4DD5-4D35-9079-DEDBCB10FDF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.AzureAD.Services", "MDP.AspNetCore.Authentication.AzureAD.Services\MDP.AspNetCore.Authentication.AzureAD.Services.csproj", "{F45FDAA6-5779-443A-9029-74A38D1AF323}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.AzureAD.Services.Lab", "MDP.AspNetCore.Authentication.AzureAD.Services.Lab\MDP.AspNetCore.Authentication.AzureAD.Services.Lab.csproj", "{179BC430-C593-4B9C-ADC1-EB4E237A33F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,14 +67,6 @@ Global
 		{CD53A4C1-1C1D-463A-A2A0-C77698D908B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD53A4C1-1C1D-463A-A2A0-C77698D908B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD53A4C1-1C1D-463A-A2A0-C77698D908B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5C410E5-E2DD-4897-8DFB-B2E81EFC4404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5C410E5-E2DD-4897-8DFB-B2E81EFC4404}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5C410E5-E2DD-4897-8DFB-B2E81EFC4404}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5C410E5-E2DD-4897-8DFB-B2E81EFC4404}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC6C0B6D-914B-4518-82EA-49FBB64F1A9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC6C0B6D-914B-4518-82EA-49FBB64F1A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC6C0B6D-914B-4518-82EA-49FBB64F1A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC6C0B6D-914B-4518-82EA-49FBB64F1A9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5E5CEECB-F7D8-4E5A-899D-A478278BBB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E5CEECB-F7D8-4E5A-899D-A478278BBB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E5CEECB-F7D8-4E5A-899D-A478278BBB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,6 +143,14 @@ Global
 		{3C3EE95C-4DD5-4D35-9079-DEDBCB10FDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C3EE95C-4DD5-4D35-9079-DEDBCB10FDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C3EE95C-4DD5-4D35-9079-DEDBCB10FDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45FDAA6-5779-443A-9029-74A38D1AF323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45FDAA6-5779-443A-9029-74A38D1AF323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45FDAA6-5779-443A-9029-74A38D1AF323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45FDAA6-5779-443A-9029-74A38D1AF323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{179BC430-C593-4B9C-ADC1-EB4E237A33F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{179BC430-C593-4B9C-ADC1-EB4E237A33F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{179BC430-C593-4B9C-ADC1-EB4E237A33F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{179BC430-C593-4B9C-ADC1-EB4E237A33F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
