@@ -50,12 +50,11 @@ MDP.AspNetCore.Authentication.Line使用Line官方提供的OAuth服務來進行�
 
 ### 加入專案
 
-服務申請完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.Line預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Line的專案。
+申請服務完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.Line預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.Line的專案。
 
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
 ```
-// 建立API服務、Web站台
 dotnet new install MDP.WebApp
 dotnet new MDP.WebApp -n WebApplication1
 ```
@@ -75,16 +74,16 @@ MDP.AspNetCore.Authentication.Line
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
-- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+- Line身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入Channel Secret)
 ```
 
 
@@ -109,7 +108,7 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Line
 ```
 
-3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#服務申請)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
+3.依照[模組使用-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#模組使用)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
 
 ![05.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/05.申請服務01.png)
 
@@ -119,8 +118,8 @@ MDP.AspNetCore.Authentication.Line
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }

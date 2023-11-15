@@ -44,15 +44,15 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
-- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+- Line身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入Channel Secret)
 ```
 
 ```
@@ -251,10 +251,10 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Tok
 
 ```
 // HTTP headers - JwtBearer
-Authorization:Bearer Xxxxxxxxxxxxxxxx
+Authorization:Bearer xxxxxxxxxxxxxxxx
 
 // HTTP headers - ApiToken
-X-Api-Token:Xxxxxxxxxxxxxxxx
+X-Api-Token:xxxxxxxxxxxxxxxx
 ```
 
 
@@ -267,7 +267,6 @@ MDP.AspNetCore.Authentication預設獨立在MDP.Net專案範本外，依照下�
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
 ```
-// 建立API服務、Web站台
 dotnet new install MDP.WebApp
 dotnet new MDP.WebApp -n WebApplication1
 ```
@@ -287,15 +286,15 @@ MDP.AspNetCore.Authentication
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
-- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+- Line身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入Channel Secret)
 ```
 
 ```

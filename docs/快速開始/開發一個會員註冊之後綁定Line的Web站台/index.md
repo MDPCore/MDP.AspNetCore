@@ -31,7 +31,7 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Line
 ```
 
-3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#服務申請)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
+3.依照[模組使用-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Line身分驗證/#模組使用)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
 
 ![01.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/快速開始/開發一個會員註冊之後綁定Line的Web站台/01.申請服務01.png)
 
@@ -41,8 +41,8 @@ MDP.AspNetCore.Authentication.Line
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }

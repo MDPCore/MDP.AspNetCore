@@ -86,7 +86,7 @@ MDP.AspNetCore.Authentication.Jwt
           "Header": "x-api-token",
           "Prefix": "",
           "Algorithm": "RS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP"
         }
       ]
@@ -99,7 +99,7 @@ MDP.AspNetCore.Authentication.Jwt
         {
           "Name": "RsaToken",
           "Algorithm": "RS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP",
           "ExpireMinutes": 60
         }

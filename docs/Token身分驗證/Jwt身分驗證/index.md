@@ -25,7 +25,6 @@ MDP.AspNetCore.Authentication.Jwt預設獨立在MDP.Net專案範本外，依照�
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
 ```
-// 建立API服務、Web站台
 dotnet new install MDP.WebApp
 dotnet new MDP.WebApp -n WebApplication1
 ```
@@ -247,7 +246,7 @@ MDP.AspNetCore.Authentication.Jwt
           "Header": "Authorization",
           "Prefix": "Bearer ",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP"
         }
       ]
@@ -260,7 +259,7 @@ MDP.AspNetCore.Authentication.Jwt
         {
           "Name": "HmacToken",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP",
           "ExpireMinutes": 30
         }

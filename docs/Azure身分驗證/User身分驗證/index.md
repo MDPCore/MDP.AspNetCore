@@ -44,12 +44,11 @@ MDP.AspNetCore.Authentication.AzureAD.Users使用AzureAD提供的OAuth服務，�
 
 ### 加入專案
 
-服務申請完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.AzureAD.Users預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.AzureAD.Users的專案。
+申請服務完成之後，就可以開始建立專案並且加入模組。MDP.AspNetCore.Authentication.AzureAD.Users預設獨立在MDP.Net專案範本外，依照下列操作步驟，即可建立加入MDP.AspNetCore.Authentication.AzureAD.Users的專案。
 
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
 ```
-// 建立API服務、Web站台
 dotnet new install MDP.WebApp
 dotnet new MDP.WebApp -n WebApplication1
 ```
@@ -69,18 +68,18 @@ MDP.AspNetCore.Authentication.AzureAD.Users
 {
   "Authentication": {
     "AzureAD.Users": {
-      "TenantId": "Xxxxx",
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "TenantId": "xxxxx",
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 
 - 命名空間：Authentication
 - 掛載的身分驗證模組：AzureAD.Users
-- AzureAD.Users身分驗證模組的租戶編號：TenantId="Xxxxx"。(Xxxxx填入目錄 (租用戶) 識別碼)
-- AzureAD.Users身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入應用程式 (用戶端) 識別碼)
-- AzureAD.Users身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入用戶端密碼)
+- AzureAD.Users身分驗證模組的租戶編號：TenantId="xxxxx"。(xxxxx填入目錄 (租用戶) 識別碼)
+- AzureAD.Users身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入應用程式 (用戶端) 識別碼)
+- AzureAD.Users身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入用戶端密碼)
 ```
 
 
@@ -105,7 +104,7 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.AzureAD.Users
 ```
 
-3.依照[服務申請](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/#服務申請)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
+3.依照[模組使用-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/#模組使用)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
 
 ![05.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/05.申請服務01.png)
 
@@ -115,9 +114,9 @@ MDP.AspNetCore.Authentication.AzureAD.Users
 {
   "Authentication": {
     "AzureAD.Users": {
-      "TenantId": "Xxxxx",
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "TenantId": "xxxxx",    // 目錄 (租用戶) 識別碼
+      "ClientId": "xxxxx",    // 應用程式 (用戶端) 識別碼
+      "ClientSecret": "xxxxx" // 用戶端密碼
     }
   }
 }

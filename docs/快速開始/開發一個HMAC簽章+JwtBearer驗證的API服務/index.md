@@ -73,7 +73,7 @@ MDP.AspNetCore.Authentication.Jwt
           "Header": "Authorization",
           "Prefix": "Bearer ",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP"
         }
       ]
@@ -86,7 +86,7 @@ MDP.AspNetCore.Authentication.Jwt
         {
           "Name": "HmacToken",
           "Algorithm": "HS256",
-          "SignKey": "Xxxxxxxxxxxxxxxxxxxxxxxxx",
+          "SignKey": "xxxxxxxxxxxxxxxxxxxxxxxxx",
           "Issuer": "MDP",
           "ExpireMinutes": 30
         }

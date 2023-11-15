@@ -68,11 +68,16 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
                 },
 
                 // MicrosoftIdentityOptions
-                microsoftIdentityOptions => {
+                microsoftIdentityOptions => 
+                {
+                    // Credential
                     microsoftIdentityOptions.Instance = authenticationSetting.Instance;
                     microsoftIdentityOptions.TenantId = authenticationSetting.TenantId;
                     microsoftIdentityOptions.ClientId = authenticationSetting.ClientId;
-                }, authenticationSetting.Scheme
+                },
+
+                // AuthenticationScheme
+                authenticationSetting.Scheme
             );
         }
     }
@@ -90,7 +95,8 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
             #endregion
                        
             // AzureServicesPolicyAuthenticationSelector
-            var securityTokenAuthenticationSelector = new AzureServicesAuthenticationSelector(
+            var securityTokenAuthenticationSelector = new AzureServicesAuthenticationSelector
+            (
                 scheme: authenticationSetting.Scheme,
                 header: authenticationSetting.Header,
                 prefix: authenticationSetting.Prefix

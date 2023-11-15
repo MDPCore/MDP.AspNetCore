@@ -16,6 +16,14 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Service.Lab
         // Fields
         private readonly TokenCredential _azureCredential;
 
+        private readonly string _tenantId = "xxxxx";
+
+        private readonly string _clientId = "xxxxx";
+
+        private readonly string _clientSecret = "xxxxx";
+
+        private readonly string _providerUri = @"api://xxxxx/.default";
+
 
         // Constructors
         public HomeController()
@@ -23,9 +31,9 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Service.Lab
             // ClientSecretCredential            
             _azureCredential = new ClientSecretCredential
             (
-                tenantId: "xxxxx",
-                clientId: "xxxxx",
-                clientSecret: "xxxxx"
+                tenantId: _tenantId,
+                clientId: _clientId,
+                clientSecret: _clientSecret
             );
 
             // DefaultAzureCredential
@@ -39,7 +47,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Service.Lab
             // Variables
             var scopes = new[]
             {
-                @"api://xxxxx/.default"
+                _providerUri
             };
 
             // AccessToken
