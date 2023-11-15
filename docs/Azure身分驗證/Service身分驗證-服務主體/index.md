@@ -15,6 +15,8 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 - 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
 
+- 特別說明：本篇範例的API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+
 ## 運作流程
 
 MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。下列兩個運作流程，說明AzureAD的憑證發放流程、服務驗證流程。(內容為簡化說明，完整細節可參考AzureAD文件)
@@ -236,11 +238,11 @@ using (var httpClient = new HttpClient())
 
 使用AzureAD提供的Service身分驗證功能，進行 Service to Service 之間的身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.AzureAD.Services，逐步完成必要的設計和實作。
 
-- 特別說明：本篇範例的API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
-
 - 範例下載：[ApiClient.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Services身分驗證-服務主體/ApiClient.zip)
 
 - 範例下載：[ApiProvider.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Services身分驗證-服務主體/ApiProvider.zip)
+
+- 特別說明：本篇範例的API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
 
 ### 建立API服務端(API Provider)
 
