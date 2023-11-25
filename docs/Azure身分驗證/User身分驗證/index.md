@@ -22,11 +22,9 @@ MDP.AspNetCore.Authentication.AzureAD.Users擴充ASP.NET Core既有的身分驗�
 
 MDP.AspNetCore.Authentication.AzureAD.Users使用AzureAD提供的OAuth服務，透過Authorization Code流程來進行User身分驗證。依照下列操作步驟，即可申請AzureAD提供的OAuth服務。
 
-1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
+1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application，並編輯「支援的帳戶類型」及「重新導向 URI」。(支援的帳戶類型=僅此組織目錄中的帳戶、重新導向平台=Web、重新導向 URI=「程式執行網址」+「/.auth/login/aad/users/callback」)
 
 ![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/01.建立Application01.png)
-
-2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application，並編輯「支援的帳戶類型」及「重新導向 URI」。(支援的帳戶類型=僅此組織目錄中的帳戶、重新導向平台=Web、重新導向 URI=「程式執行網址」+「/.auth/login/aad/users/callback」)
 
 ![02.註冊Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/02.註冊Application01.png)
 
@@ -34,7 +32,7 @@ MDP.AspNetCore.Authentication.AzureAD.Users使用AzureAD提供的OAuth服務，�
 
 ![02.註冊Application03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/02.註冊Application03.png)
 
-3.於Application頁面，取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」。接著點擊新增憑證或祕密按鈕，進入憑證及祕密頁面，然後點擊新增用戶端密碼，依照頁面提示建立並取得一個「用戶端密碼」。(記得要取「值」的內容)
+2.建立完畢後，於Application頁面，取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」。接著點擊新增憑證或祕密按鈕，進入憑證及祕密頁面，然後點擊新增用戶端密碼，依照頁面提示建立並取得一個「用戶端密碼」。(記得要取「值」的內容)
 
 ![03.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/User身分驗證/03.取得參數01.png)
 

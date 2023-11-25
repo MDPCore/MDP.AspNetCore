@@ -15,7 +15,10 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 - 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
 
-- 特別說明：本篇範例的API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+
+- 特別說明2：本篇範例的 API客戶端必需持有Secret、API服務端無需持有Secret。
+
 
 ## 運作流程
 
@@ -64,17 +67,15 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。依照下列操作步驟，即可申請AzureAD提供給API服務端(API Provider)的身分憑證。
 
-1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
+1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application。
 
 ![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/01.建立Application01.png)
 
-2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application。
+![01.建立Application02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/01.建立Application02.png)
 
-![02.註冊Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/02.註冊Application01.png)
+![01.建立Application03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/01.建立Application03.png)
 
-![02.註冊Application02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/02.註冊Application02.png)
-
-3.於Application頁面，取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」。接著點擊新增應用程式識別碼 URI按鈕，進入公開API頁面，然後點擊新增，依照頁面提示建立並取得一個「應用程式識別碼 URI」。
+2.建立完畢後，於Application頁面，點擊新增應用程式識別碼 URI按鈕，進入公開API頁面，然後點擊新增，依照頁面提示建立一個「應用程式識別碼 URI」。建立完畢後，於Application頁面取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
 
 ![03.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/03.取得參數01.png)
 
@@ -84,7 +85,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 ![03.取得參數04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/03.取得參數04.png)
 
-4.於Application頁面，點擊左側選單的應用程式角色，進入應用程式角色頁面。然後點擊建立應用程式角色，依照頁面提示建立並取得一個「應用程式角色」。
+3.於Application頁面，點擊左側選單的應用程式角色，進入應用程式角色頁面。然後點擊建立應用程式角色，依照頁面提示建立並取得一個「應用程式角色」。
 
 ![04.建立角色01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/04.建立角色01.png)
 
@@ -139,17 +140,15 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 
 MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。依照下列操作步驟，即可申請AzureAD提供給API客戶端(API Client)的身分憑證。
 
-1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
+1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application。
 
 ![11.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/11.建立Application01.png)
 
-2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application。
+![11.建立Application02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/11.建立Application02.png)
 
-![12.註冊Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/12.註冊Application01.png)
+![11.建立Application03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/11.建立Application03.png)
 
-![12.註冊Application02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/12.註冊Application02.png)
-
-3.於Application頁面，取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」。接著點擊新增憑證或祕密按鈕，進入憑證及祕密頁面，然後點擊新增用戶端密碼，依照頁面提示建立並取得一個「用戶端密碼」。(記得要取「值」的內容)
+2.建立完畢後，於Application頁面，取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」。接著點擊新增憑證或祕密按鈕，進入憑證及祕密頁面，然後點擊新增用戶端密碼，依照頁面提示建立並取得一個「用戶端密碼」。(記得要取「值」的內容)
 
 ![13.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/13.取得參數01.png)
 
@@ -157,7 +156,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 ![13.取得參數03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/13.取得參數03.png)
 
-4.於Application頁面，點擊左側選單的API權限，進入API權限頁面。然後點擊新增權限，依照頁面提示，新增「應用程式角色」給應用程式。
+3.於Application頁面，點擊左側選單的API權限，進入API權限頁面。然後點擊新增權限，依照頁面提示，新增「應用程式角色」給應用程式。
 
 ![14.設定角色01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/14.設定角色01.png)
 
@@ -167,7 +166,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 ![14.設定角色04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/14.設定角色04.png)
 
-5.停留於API權限頁面，點擊代表xxxx授予管理員同意按鈕，依照頁面提示授予API權限。(xxxx為目錄名稱)
+4.停留於API權限頁面，點擊代表xxxx授予管理員同意按鈕，依照頁面提示授予API權限。(xxxx為目錄名稱)
 
 ![15.同意授權01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/15.同意授權01.png)
 
@@ -242,7 +241,9 @@ using (var httpClient = new HttpClient())
 
 - 範例下載：[ApiProvider.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Services身分驗證-服務主體/ApiProvider.zip)
 
-- 特別說明：本篇範例的API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+
+- 特別說明2：本篇範例的 API客戶端必需持有Secret、API服務端無需持有Secret。
 
 ### 建立API服務端(API Provider)
 
@@ -261,7 +262,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 
 3.依照[模組使用-API服務端(API Provider)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/#模組使用-api服務端api-provider)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
 
-![21.申請服務02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/21.申請服務02.png)
+![21.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/21.申請服務01.png)
 
 4.於專案內改寫appsettings.json，填入「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」，用以掛載Service身分驗證。
 
