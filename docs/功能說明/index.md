@@ -39,6 +39,8 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 
 - Token身分驗證：[Token身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/)。
 
+- Azure身分驗證：[Azure身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/)。
+
 ```
 // Config設定 - Line身分驗證模組
 {
@@ -82,6 +84,25 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 - 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
 - 簽章金鑰：SignKey="12345..."。(Token所使用的簽章金鑰，支持：Base64格式金鑰、PEM格式金鑰)
 - 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
+```
+
+```
+// Config設定 - Azure身分驗證模組
+{
+  "Authentication": {
+    "AzureAD.Users": {
+      "TenantId": "xxxxx",
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
+    }
+  }
+}
+
+- 命名空間：Authentication
+- 掛載的身分驗證模組：AzureAD.Users
+- AzureAD.Users身分驗證模組的租戶編號：TenantId="xxxxx"。(xxxxx填入目錄 (租用戶) 識別碼)
+- AzureAD.Users身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入應用程式 (用戶端) 識別碼)
+- AzureAD.Users身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入用戶端密碼)
 ```
 
 ### Remote身分驗證

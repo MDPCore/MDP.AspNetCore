@@ -1,15 +1,15 @@
 ---
 layout: default
-title: Jwt身分驗證
+title: Jwt身分驗證-HMAC簽章
 parent: Token身分驗證
 grand_parent: 身分驗證
-nav_order: 1
+nav_order: 2
 has_children: false
 ---
 
-# MDP.AspNetCore.Authentication.Jwt
+# MDP.AspNetCore.Authentication.Jwt for HMAC
 
-MDP.AspNetCore.Authentication.Jwt擴充ASP.NET Core既有的身分驗證，加入支援HMAC簽章、RSA簽章的Jwt身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Jwt身分驗證。
+MDP.AspNetCore.Authentication.Jwt擴充ASP.NET Core既有的身分驗證，加入Jwt身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Jwt身分驗證，用以驗證使用HMAC簽章的JWT。
 
 - 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
 
@@ -35,7 +35,7 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Jwt
 ```
 
-### 設定參數 - HMAC簽章
+### 設定參數
 
 建立包含MDP.AspNetCore.Authentication.Jwt的專案之後，就可以透過Config設定，掛載在專案裡使用的Jwt身分驗證。
 
@@ -68,7 +68,7 @@ namespace ConsoleApp1
 }
 ```
 
-![01.GetKey01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/01.GetKey01.png)
+![01.GetKey01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證-HMAC簽章/01.GetKey01.png)
 
 - 取得HMAC金鑰後，透過Config設定，掛載在專案裡使用的Jwt身分驗證。
 
@@ -101,90 +101,12 @@ namespace ConsoleApp1
 - 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
 ```
 
-### 設定參數 - RSA簽章
-
-建立包含MDP.AspNetCore.Authentication.Jwt的專案之後，就可以透過Config設定，掛載在專案裡使用的Jwt身分驗證。
-
-- 使用RSA簽章時，需要提供RSA公鑰用來對JWT進行驗證。開發人員可以使用Visual Studio建立Console專案，執行下列程式碼來產生RSA公私鑰。
-
-```
-using System;
-using System.Security.Cryptography;
-
-namespace ConsoleApp1
-{
-    public class Program
-    {
-        // Methods
-        public static void Main(string[] args)
-        {
-            // RsaKey
-            string publicKey = string.Empty;
-            string privateKey = string.Empty;
-            using (RSA rsa = RSA.Create(2048))
-            {
-                // PublicKey
-                publicKey = Convert.ToBase64String(rsa.ExportRSAPublicKey());
-                publicKey = $"-----BEGIN RSA PUBLIC KEY-----\n{publicKey}\n-----END RSA PUBLIC KEY-----";
-                publicKey = publicKey.Replace("\r", "").Replace("\n", "");
-
-                // PrivateKey
-                privateKey = Convert.ToBase64String(rsa.ExportRSAPrivateKey());
-                privateKey = $"-----BEGIN RSA PRIVATE KEY-----\n{privateKey}\n-----END RSA PRIVATE KEY-----";
-                privateKey = privateKey.Replace("\r", "").Replace("\n", "");
-            }
-
-            // Display
-            Console.WriteLine("RSA Public Key:");
-            Console.WriteLine(publicKey);
-            Console.WriteLine();
-            Console.WriteLine("RSA Private Key:");
-            Console.WriteLine(privateKey);
-            Console.WriteLine();
-            Console.ReadLine();
-        }
-    }
-}
-```
-
-![01.GetKey02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/01.GetKey02.png)
-
-- 取得RSA公鑰後，透過Config設定，掛載在專案裡使用的Jwt身分驗證。
-
-```
-// Config設定 - Jwt身分驗證模組
-{
-  "Authentication": {
-    "Jwt": {
-      "Credentials": [
-        {
-          "Scheme": "JwtBearer",
-          "Header": "Authorization",
-          "Prefix": "Bearer ",
-          "Algorithm": "RS256",
-          "SignKey": "12345678901234567890123456789012",
-          "Issuer": "MDP"
-        }
-      ]
-    }
-  }
-}
-- 命名空間：Authentication
-- 掛載的身分驗證模組：Jwt
-- 憑證清單：Credentials
-- 憑證名稱：Scheme="JwtBearer"。
-- 憑證標頭：Header="Authorization"。(從HTTP Request的哪個Header取得Token)
-- 憑證前綴：Prefix="Bearer "。(Token的前綴字)
-- 簽章算法：Algorithm="RS256"。(Token所使用的簽章演算法，RSxxx=RSA+SHAxxx)
-- 簽章金鑰：SignKey="12345..."。(Token所使用的簽章金鑰，PEM格式金鑰)
-- 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
-```
 
 ## 模組範例
 
 使用資料庫驗證帳號及密碼之後，發行代表身分資料並使用HMAC簽章的JWT，讓系統放到HTTP Request封包的Authorization表頭來進行身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Jwt，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證-HMAC簽章/WebApplication1.zip)
 
 
 ### 操作步驟
@@ -218,7 +140,7 @@ namespace ConsoleApp1
 }
 ```
 
-![01.GetKey01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/01.GetKey01.png)
+![01.GetKey01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證-HMAC簽章/01.GetKey01.png)
 
 2.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為WebApplication1的Web站台。
 
@@ -501,8 +423,8 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的Token。
 
-![02.GetToken01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/02.GetToken01.png)
+![02.GetToken01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證-HMAC簽章/02.GetToken01.png)
 
 8.取得Token之後，點擊GetUser按鈕，進行JwtBearer身分驗證。系統會使用JavaScript，將Token放入HTTP Request封包的Authorization表頭進行身分驗證，並在完成身分驗證之後，於畫面上顯示取得的身分資料。
 
-![03.GetUser01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證/03.GetUser01.png)
+![03.GetUser01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/Jwt身分驗證-HMAC簽章/03.GetUser01.png)
