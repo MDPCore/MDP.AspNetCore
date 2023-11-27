@@ -182,7 +182,7 @@ MDP.Security.Tokens.Jwt
 MDP.AspNetCore.Authentication.Jwt
 ```
 
-4.於專案內改寫appsettings.json，用以掛載MDP.AspNetCore.Authentication.Jwt及MDP.Security.Tokens.Jwt。(Authentication/Jwt/Credentials/SignKey：填入先前步驟取得的RSA公鑰、MDP.Security.Tokens.Jwt\SecurityTokenFactory\CredentialsSignKey：填入先前步驟取得的RSA私鑰)
+4.於專案內改寫appsettings.json，用以掛載MDP.AspNetCore.Authentication.Jwt及MDP.Security.Tokens.Jwt。( Authentication…SignKey：填入先前步驟取得的RSA公鑰用來解碼、MDP.Security.Tokens.Jwt…SignKey：填入先前步驟取得的RSA私鑰用來編碼)
 
 ```
 {
