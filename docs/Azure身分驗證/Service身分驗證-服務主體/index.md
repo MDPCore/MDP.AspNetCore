@@ -260,7 +260,7 @@ dotnet new MDP.WebApp -n ApiProvider
 MDP.AspNetCore.Authentication.AzureAD.Services
 ```
 
-3.依照[模組使用-API服務端(API Provider)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/#模組使用-api服務端api-provider)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
+3.依照[模組使用-API服務端(API Provider)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/#模組使用-api服務端api-provider)的步驟流程，申請AzureAD提供的OAuth服務，並取得API服務端的：「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
 
 ![21.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/21.申請服務01.png)
 
@@ -270,8 +270,8 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 {
   "Authentication": {
     "AzureAD.Services": {
-      "TenantId": "xxxxx", // API Provider-目錄 (租用戶) 識別碼
-      "ClientId": "xxxxx"  // API Provider-應用程式 (用戶端) 識別碼
+      "TenantId": "xxxxx", // API服務端-目錄 (租用戶) 識別碼
+      "ClientId": "xxxxx"  // API服務端-應用程式 (用戶端) 識別碼
     }
   }
 }
@@ -311,6 +311,21 @@ namespace ApiProvider
 }
 ```
 
+6.改寫專案內的Properties\launchSettings.json，設定Visual Studio開啟執行專案時，使用https://localhost:7146做為Web站台入口、並且不開啟Browser。
+
+```
+{
+  "profiles": {
+    "ApiProvider": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7146"
+    }
+  }
+}
+```
+
 ### 建立API客戶端(API Client)
 
 1.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為ApiClient的Web站台。
@@ -326,7 +341,7 @@ dotnet new MDP.WebApp -n ApiClient
 Azure.Identity
 ```
 
-3.依照[模組使用-API客戶端(API Client)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/#模組使用-api客戶端api-client)的步驟流程，申請AzureAD提供的OAuth服務，並取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
+3.依照[模組使用-API客戶端(API Client)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/#模組使用-api客戶端api-client)的步驟流程，申請AzureAD提供的OAuth服務，並取得API客戶端的：「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
 
 ![21.申請服務02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/21.申請服務02.png)
 
@@ -349,12 +364,12 @@ namespace ApiClient
             // Variables
             var azureCredential = new ClientSecretCredential
             (
-                tenantId: "xxxxx",    // API Client-目錄 (租用戶) 識別碼
-                clientId: "xxxxx",    // API Client-應用程式 (用戶端) 識別碼
-                clientSecret: "xxxxx" // API Client-用戶端密碼
+                tenantId: "xxxxx",    // API客戶端-目錄 (租用戶) 識別碼
+                clientId: "xxxxx",    // API客戶端-應用程式 (用戶端) 識別碼
+                clientSecret: "xxxxx" // API客戶端-用戶端密碼
             );
-            var apiProviderURI = "api://xxxxx";                            // API Provider-「應用程式識別碼 URI」
-            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API Provider-API服務端點
+            var apiProviderURI = "api://xxxxx";                            // API服務端-應用程式識別碼 URI
+            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API服務端-API服務端點
 
             // AccessToken
             var accessToken = (await azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(new string[] { $"{apiProviderURI}/.default" }), default)).Token;
@@ -401,6 +416,21 @@ namespace ApiClient
 
 </body>
 </html>
+```
+
+5.改寫專案內的Properties\launchSettings.json，設定Visual Studio開啟執行專案時，使用https://localhost:7147做為Web站台入口、並且開啟Browser。
+
+```
+{
+  "profiles": {
+    "ApiClient": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7147"
+    }
+  }
+}
 ```
 
 ### 範例執行
