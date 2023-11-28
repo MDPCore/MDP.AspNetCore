@@ -135,8 +135,7 @@ az rest \
     \"appRoleId\": \"xxxProvider-AppRoleIdxxx\"
 }"
 
-- API客戶端的物件識別碼：xxxClient-PrincipalIdxxx。(xxxClient-PrincipalIdxxx填入先前取得的API客戶端「物件 (主體) 識別碼」,
-注意有兩個地方要改)
+- API客戶端的物件識別碼：xxxClient-PrincipalIdxxx。(xxxClient-PrincipalIdxxx填入先前取得的API客戶端「物件 (主體) 識別碼」。注意!有兩個地方要改。)
 - API服務端的物件識別碼：xxxProvider-ResourceIdxxx。(xxxProvider-ResourceIdxxx填入先前取得的API服務端「物件識別碼」)
 - API服務端的角色識別碼：xxxProvider-AppRoleIdxxx。(xxxProvider-AppRoleIdxxx填入先前取得的API服務端「應用程式角色識別碼」)
 ```
@@ -217,70 +216,6 @@ using (var httpClient = new HttpClient())
 - 特別說明2：本篇範例的 API客戶端、API服務端，兩者皆無需持有Secret。
 
 ### 建立API服務端(API Provider)
-
-1.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為ApiProvider的Web站台。
-
-```
-dotnet new install MDP.WebApp
-dotnet new MDP.WebApp -n ApiProvider
-```
-
-2.使用Visual Studio開啟ApiProvider專案，在專案裡用NuGet套件管理員新增下列NuGet套件。
-
-```
-MDP.AspNetCore.Authentication.AzureAD.Services
-```
-
-3.依照[模組使用-API服務端(API Provider)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/#模組使用-api服務端api-provider)的步驟流程，申請AzureAD提供的OAuth服務，並取得API服務端的：「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
-
-![21.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務01.png)
-
-4.於專案內改寫appsettings.json，填入「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」，用以掛載Service身分驗證。
-
-```
-{
-  "Authentication": {
-    "AzureAD.Services": {
-      "TenantId": "xxxxx", // API服務端的「目錄 (租用戶) 識別碼」
-      "ClientId": "xxxxx"  // API服務端的「應用程式 (用戶端) 識別碼」
-    }
-  }
-}
-```
-
-5.改寫專案內的Controllers\HomeController.cs，提供一個必須通過身分驗證才能使用的API服務端點：\Home\Index。
-
-```
-using MDP.AspNetCore.Authentication.AzureAD.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Security.Claims;
-
-namespace ApiProvider
-{
-    public class HomeController : Controller
-    {
-        // Methods
-        [Authorize]
-        public string Index()
-        {
-            // ClaimsIdentity
-            var claimsIdentity = this.User.Identity as ClaimsIdentity;
-            if (claimsIdentity == null) throw new InvalidOperationException($"{nameof(claimsIdentity)}=null");
-            Console.WriteLine($"this.User.AuthenticationType = {claimsIdentity.AuthenticationType}");
-            Console.WriteLine($"this.User.TenantId = {claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.TenantId)?.Value}");
-            Console.WriteLine($"this.User.ClientId = {claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.ClientId)?.Value}");
-            Console.WriteLine($"this.User.Roles = {String.Join(",", claimsIdentity.FindAll(System.Security.Claims.ClaimTypes.Role).Select(o => o.Value))}");
-            Console.WriteLine();
-            
-            // Return
-            return "Hello World";
-        }
-    }
-}
-```
 
 ### 建立API客戶端(API Client)
 
