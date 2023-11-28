@@ -75,7 +75,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 ![01.建立Application03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/01.建立Application03.png)
 
-2.建立完畢後，於Application頁面，點擊新增應用程式識別碼 URI按鈕，進入公開API頁面，然後點擊新增，依照頁面提示建立一個「應用程式識別碼 URI」。建立完畢後，於Application頁面取得「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
+2.建立完畢後，於Application頁面，點擊新增應用程式識別碼 URI按鈕，進入公開API頁面，然後點擊新增，依照頁面提示建立一個「應用程式識別碼 URI」。建立完畢後，於Application頁面取得：API服務端的「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
 
 ![03.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/03.取得參數01.png)
 
@@ -92,8 +92,6 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 ![04.建立角色02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/04.建立角色02.png)
 
 ![04.建立角色03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/04.建立角色03.png)
-
-![04.建立角色04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/04.建立角色04.png)
 
 ### 加入專案
 
@@ -129,8 +127,8 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 
 - 命名空間：Authentication
 - 掛載的身分驗證模組：AzureAD.Services
-- API服務端的租戶編號：TenantId="xxxxx"。(xxxxx填入目錄 (租用戶) 識別碼)
-- API服務端的客戶編號：ClientId="xxxxx"。(xxxxx填入應用程式 (用戶端) 識別碼)
+- API服務端的租戶編號：TenantId="xxxxx"。(xxxxx填入API服務端的「目錄 (租用戶) 識別碼」)
+- API服務端的客戶編號：ClientId="xxxxx"。(xxxxx填入API服務端的「應用程式 (用戶端) 識別碼」)
 ```
 
 
@@ -163,8 +161,6 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 ![14.設定角色02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/14.設定角色02.png)
 
 ![14.設定角色03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/14.設定角色03.png)
-
-![14.設定角色04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/14.設定角色04.png)
 
 4.停留於API權限頁面，點擊代表xxxx授予管理員同意按鈕，依照頁面提示授予API權限。(xxxx為目錄名稱)
 
@@ -206,11 +202,11 @@ var azureCredential = new ClientSecretCredential
 var apiProviderURI= "api://xxxxx";
 var apiProviderEndpoint= "https://localhost:7146/Home/Index";
 
-- API客戶端的租戶編號：tenantId: "xxxxx"。(xxxxx填入目錄 (租用戶) 識別碼)
-- API客戶端的客戶編號：clientId: "xxxxx"。(xxxxx填入應用程式 (用戶端) 識別碼)
-- API客戶端的客戶密碼：clientSecret: "xxxxx"。(xxxxx填入用戶端密碼)
-- API服務端的應用程式識別碼URI: apiProviderURI= "api://xxxxx"。(xxxxx填入應用程式識別碼URI)
-- API服務端的API服務端點: apiProviderEndpoint= "https://localhost:7146/Home/Index"。
+- API客戶端的租戶編號：tenantId: "xxxxx"。(xxxxx填入API客戶端的「目錄 (租用戶) 識別碼」)
+- API客戶端的客戶編號：clientId: "xxxxx"。(xxxxx填入API客戶端的「應用程式 (用戶端) 識別碼」)
+- API客戶端的客戶密碼：clientSecret: "xxxxx"。(xxxxx填入API客戶端的「用戶端密碼」)
+- API服務端的應用程式識別碼URI: apiProviderURI= "api://xxxxx"。(xxxxx填入API服務端的「應用程式識別碼URI」)
+- API服務端的API服務端點: apiProviderEndpoint= "https://localhost:7146/Home/Index"。(https://localhost:7146/Home/Index替換為API服務端的「API服務端點」)
 ```
 
 ```
@@ -270,14 +266,14 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 {
   "Authentication": {
     "AzureAD.Services": {
-      "TenantId": "xxxxx", // API服務端-目錄 (租用戶) 識別碼
-      "ClientId": "xxxxx"  // API服務端-應用程式 (用戶端) 識別碼
+      "TenantId": "xxxxx", // API服務端的「目錄 (租用戶) 識別碼」
+      "ClientId": "xxxxx"  // API服務端的「應用程式 (用戶端) 識別碼」
     }
   }
 }
 ```
 
-5.改寫專案內的Controllers\HomeController.cs，提供一個必須通過身分驗證才能使用的\Home\Index API服務端點。
+5.改寫專案內的Controllers\HomeController.cs，提供一個必須通過身分驗證才能使用的API服務端點：\Home\Index。
 
 ```
 using MDP.AspNetCore.Authentication.AzureAD.Services;
@@ -364,12 +360,12 @@ namespace ApiClient
             // Variables
             var azureCredential = new ClientSecretCredential
             (
-                tenantId: "xxxxx",    // API客戶端-目錄 (租用戶) 識別碼
-                clientId: "xxxxx",    // API客戶端-應用程式 (用戶端) 識別碼
-                clientSecret: "xxxxx" // API客戶端-用戶端密碼
+                tenantId: "xxxxx",    // API客戶端的「目錄 (租用戶) 識別碼」
+                clientId: "xxxxx",    // API客戶端的「應用程式 (用戶端) 識別碼」
+                clientSecret: "xxxxx" // API客戶端的「用戶端密碼」
             );
-            var apiProviderURI = "api://xxxxx";                            // API服務端-應用程式識別碼 URI
-            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API服務端-API服務端點
+            var apiProviderURI = "api://xxxxx";                            // API服務端的「應用程式識別碼 URI」
+            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API服務端的「API服務端點」
 
             // AccessToken
             var accessToken = (await azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(new string[] { $"{apiProviderURI}/.default" }), default)).Token;
