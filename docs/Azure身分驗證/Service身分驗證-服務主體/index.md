@@ -22,7 +22,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 ## 運作流程
 
-MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。下列兩個運作流程，說明AzureAD的憑證發放流程、服務驗證流程。(內容為簡化說明，完整細節可參考AzureAD文件)
+MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證，用以驗證Azure裡的服務主體(Service Principal)。下列兩個運作流程，說明AzureAD的憑證發放流程、服務驗證流程。(內容為簡化說明，完整細節可參考AzureAD文件)
 
 ### 憑證發放
 
@@ -85,7 +85,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務�
 
 ![03.取得參數04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/03.取得參數04.png)
 
-3.於Application頁面，點擊左側選單的應用程式角色，進入應用程式角色頁面。然後點擊建立應用程式角色，依照頁面提示建立並取得一個「應用程式角色」。
+3.於Application頁面，點擊左側選單的應用程式角色，進入應用程式角色頁面。然後點擊建立應用程式角色，依照頁面提示建立一個「應用程式角色」。建立完畢後，於應用程式角色頁面取得：API服務端的「應用程式角色識別碼」。
 
 ![04.建立角色01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/04.建立角色01.png)
 
@@ -136,7 +136,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services
 
 ### 申請服務(API Client)
 
-MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。依照下列操作步驟，即可申請AzureAD提供給API客戶端(API Client)的身分憑證。
+MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。依照下列操作步驟，即可申請API客戶端(API Client)的服務主體，用以提供身分憑證。
 
 1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application。
 

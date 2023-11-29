@@ -22,11 +22,47 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 ## 運作流程
 
-MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證。下列兩個運作流程，說明AzureAD的憑證發放流程、服務驗證流程。(內容為簡化說明，完整細節可參考AzureAD文件)
+MDP.AspNetCore.Authentication.AzureAD.Services使用AzureAD提供的OAuth服務，透過Client Credentials流程來進行Service身分驗證，用以驗證Azure裡的受控識別(Managed Identity)。下列兩個運作流程，說明AzureAD的憑證發放流程、服務驗證流程。(內容為簡化說明，完整細節可參考AzureAD文件)
 
 ### 憑證發放
 
+![Service身分驗證-憑證發放.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/Service身分驗證-憑證發放.png)
+
+0.建立Azure資源，用來執行API Client應用程式時，Azure資源內會同時掛載IMDS服務(Azure Instance Metadata Service)。
+
+1.開發人員至AzureAD，在執行API Client應用程式的Azure資源內，開啟系統指派的受控識別(Managed Identity)。
+
+2.AzureAD建立API Client的身分憑證，發送給IMDS服務儲存。
+
+3.開發人員至AzureAD，建立API Provider的應用程式註冊。
+
+4.開發人員從AzureAD，取得API Provider的身分憑證，內容包含：TenantId、ClientId。(沒有ClientSecret)
+
+5.開發人員將API Provider的身分憑證，設定在API Provider應用程式的Config參數。
+
 ### 服務驗證
+
+![Service身分驗證-服務驗證.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/Service身分驗證-服務驗證.png)
+
+1.使用者開啟API Client提供的URL。
+
+2.API Client發送GetToken指令，給同Azure資源內的IMDS服務。
+
+3.IMDS服務從儲存空間，取得API Client的身分憑證發送給AzureAD，內容包含：TenantId、ClientId、ClientSecret。
+
+4.AzureAD依照API Client的身分憑證，使用內建的公私鑰加密機制，回傳代表API Client的AccessToken。
+
+5.IMDS服務，回傳代表API Client的AccessToken。
+
+6.API Client調用API，並且將AccessToken放置在API Request封包的Header。
+
+7.API Provider從Config參數，取得API Provider的身分憑證發送給AzureAD，內容包含：TenantId、ClientId。(沒有ClientSecret)
+
+8.AzureAD依照API Provider的身分憑證，使用內建的公私鑰管理機制，回傳可以驗證AccessToken的公鑰(Public Key)。
+
+9.API Provider使用Public Key驗證AccessToken簽章，確認合法就依照系統邏輯回傳API Response。(不合法回傳401 Unauthorized)
+
+10.API Client依照API Response，回傳Page給使用者。
 
 
 ## 模組使用-API服務端(API Provider)
@@ -171,7 +207,7 @@ Azure.Identity
 
 ### 使用憑證
 
-建立包含Azure.Identity的專案之後，就可以在程式碼裡使用受控識別，建立代表API客戶端身分的AccessToken，用來通過API服務端的Service身分驗證。
+建立包含Azure.Identity的專案之後，就可以在程式碼裡使用受控識別，建立代表API客戶端身分的AccessToken，用來通過API服務端的Service身分驗證。(必需在Azure資源執行)
 
 ```
 // 參數設定
