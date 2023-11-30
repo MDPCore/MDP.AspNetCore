@@ -15,7 +15,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 - 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
 
-- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署執行。
 
 - 特別說明2：本篇範例的 API客戶端必需持有Secret、API服務端無需持有Secret。
 
@@ -200,13 +200,13 @@ var azureCredential = new ClientSecretCredential
     clientSecret: "xxxxx"
 );
 var apiProviderURI= "api://xxxxx";
-var apiProviderEndpoint= "https://localhost:7146/Home/Index";
+var apiProviderEndpoint= "https://xxxxx/Home/Index";
 
 - API客戶端的租戶編號：tenantId: "xxxxx"。(xxxxx填入API客戶端的「目錄 (租用戶) 識別碼」)
 - API客戶端的客戶編號：clientId: "xxxxx"。(xxxxx填入API客戶端的「應用程式 (用戶端) 識別碼」)
 - API客戶端的客戶密碼：clientSecret: "xxxxx"。(xxxxx填入API客戶端的「用戶端密碼」)
 - API服務端的應用程式識別碼URI: apiProviderURI= "api://xxxxx"。(xxxxx填入API服務端的「應用程式識別碼URI」)
-- API服務端的API服務端點: apiProviderEndpoint= "https://localhost:7146/Home/Index"。(https://localhost:7146/Home/Index替換為API服務端的「API服務端點」)
+- API服務端的API服務端點: apiProviderEndpoint= "https://xxxxx/Home/Index"。(https://xxxxx/Home/Index填入API服務端的API服務端點)
 ```
 
 ```
@@ -237,7 +237,7 @@ using (var httpClient = new HttpClient())
 
 - 範例下載：[ApiProvider.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Services身分驗證-服務主體/ApiProvider.zip)
 
-- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署使用。
+- 特別說明1：本篇範例的 API客戶端、API服務端，兩者皆可以在Azure環境之外部署執行。
 
 - 特別說明2：本篇範例的 API客戶端必需持有Secret、API服務端無需持有Secret。
 
@@ -341,7 +341,7 @@ Azure.Identity
 
 ![21.申請服務02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/21.申請服務02.png)
 
-4.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供Home頁面。並於Home頁面，使用憑證，建立代表API客戶端身分的AccessToken，用來通過API服務端的Service身分驗證後，取得資料顯示於頁面。
+4.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供Home頁面。並於Home頁面使用服務主體憑證，建立代表API客戶端身分的AccessToken，用來通過API服務端的Service身分驗證後，取得資料顯示於頁面。
 
 ```
 using Azure.Identity;
@@ -365,7 +365,7 @@ namespace ApiClient
                 clientSecret: "xxxxx" // API客戶端的「用戶端密碼」
             );
             var apiProviderURI = "api://xxxxx";                            // API服務端的「應用程式識別碼 URI」
-            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API服務端的「API服務端點」
+            var apiProviderEndpoint = "https://localhost:7146/Home/Index"; // API服務端的「Web站台入口」+/Home/Index
 
             // AccessToken
             var accessToken = (await azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(new string[] { $"{apiProviderURI}/.default" }), default)).Token;
@@ -439,6 +439,6 @@ namespace ApiClient
 
 ![22.執行結果01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/22.執行結果01.png)
 
-4.於ApiProvider專案，執行所開啟的Console視窗內，可以看到通過Service身分驗證的API客戶端身分資料(Controller.User屬性)。
+4.於ApiProvider專案，執行所開啟的Console視窗內，可以看到通過Service身分驗證的API客戶端身分資料(Controller.User屬性)，並且包含「應用程式角色」的資料。
 
 ![22.執行結果02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-服務主體/22.執行結果02.png)

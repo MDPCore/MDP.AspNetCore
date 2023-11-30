@@ -15,7 +15,7 @@ MDP.AspNetCore.Authentication.AzureAD.Services擴充ASP.NET Core既有的身分�
 
 - 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
 
-- 特別說明1：本篇範例的 API客戶端必需在Azure環境佈署使用、API服務端不限制在Azure環境部署使用。
+- 特別說明1：本篇範例的 API客戶端必需在Azure環境佈署執行、API服務端不限制在Azure環境部署執行。
 
 - 特別說明2：本篇範例的 API客戶端、API服務端，兩者皆無需持有Secret。
 
@@ -213,10 +213,10 @@ Azure.Identity
 // 參數設定
 var azureCredential = new DefaultAzureCredential();
 var apiProviderURI= "api://xxxxx";
-var apiProviderEndpoint= "https://localhost:7146/Home/Index";
+var apiProviderEndpoint= "https://xxxxx/Home/Index";
 
 - API服務端的應用程式識別碼URI: apiProviderURI= "api://xxxxx"。(xxxxx填入API服務端的「應用程式識別碼URI」)
-- API服務端的API服務端點: apiProviderEndpoint= "https://localhost:7146/Home/Index"。(https://localhost:7146/Home/Index替換為API服務端的「API服務端點」)
+- API服務端的API服務端點: apiProviderEndpoint= "https://xxxxx/Home/Index"。(https://xxxxx/Home/Index填入API服務端的API服務端點)
 ```
 
 ```
@@ -247,12 +247,163 @@ using (var httpClient = new HttpClient())
 
 - 範例下載：[ApiProvider.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Services身分驗證-受控識別/ApiProvider.zip)
 
-- 特別說明1：本篇範例的 API客戶端必需在Azure環境佈署使用、API服務端不限制在Azure環境部署使用。
+- 特別說明1：本篇範例的 API客戶端必需在Azure環境佈署執行、API服務端不限制在Azure環境部署執行。
 
 - 特別說明2：本篇範例的 API客戶端、API服務端，兩者皆無需持有Secret。
 
 ### 建立API服務端(API Provider)
 
+1.依照[開發一個從GitHub持續佈署到Azure Container Apps的Web站台](https://clark159.github.io/MDP.Net/持續部署/使用Azure Portal，開發一個從GitHub持續佈署到Azure Container Apps的Web站台/)的步驟流程，建立：api-provider容器應用、ApiProvider程式專案，並且取得API服務端的：「應用程式 URL」。
+
+![21.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務01.png)
+
+![21.申請服務02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務02.png)
+
+2.依照[模組使用-API服務端(API Provider)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/#模組使用-api服務端api-provider)的步驟流程，申請AzureAD提供的OAuth服務，並取得API服務端的：「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」、「應用程式識別碼 URI」。
+
+![21.申請服務03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務03.png)
+
+3.於專案內改寫appsettings.json，填入「目錄 (租用戶) 識別碼」、「應用程式 (用戶端) 識別碼」，用以掛載Service身分驗證。
+
+```
+{
+  "Authentication": {
+    "AzureAD.Services": {
+      "TenantId": "xxxxx", // API服務端的「目錄 (租用戶) 識別碼」
+      "ClientId": "xxxxx"  // API服務端的「應用程式 (用戶端) 識別碼」
+    }
+  }
+}
+```
+
+4.改寫專案內的Controllers\HomeController.cs，提供一個必須通過身分驗證才能使用的API服務端點：\Home\Index。
+
+```
+using MDP.AspNetCore.Authentication.AzureAD.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security.Claims;
+
+namespace ApiProvider
+{
+    public class HomeController : Controller
+    {
+        // Methods
+        [Authorize]
+        public string Index()
+        {
+            // ClaimsIdentity
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            if (claimsIdentity == null) throw new InvalidOperationException($"{nameof(claimsIdentity)}=null");
+            Console.WriteLine($"this.User.AuthenticationType = {claimsIdentity.AuthenticationType}");
+            Console.WriteLine($"this.User.TenantId = {claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.TenantId)?.Value}");
+            Console.WriteLine($"this.User.ClientId = {claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.ClientId)?.Value}");
+            Console.WriteLine($"this.User.Roles = {String.Join(",", claimsIdentity.FindAll(System.Security.Claims.ClaimTypes.Role).Select(o => o.Value))}");
+            Console.WriteLine();
+            
+            // Return
+            return "Hello World";
+        }
+    }
+}
+```
+
+5.完成專案程式碼改寫的步驟之後，將程式碼簽入GitHub用以啟動GitHub Action流程，編譯並部署API服務端程式到Azure Container Apps。
+
+![21.申請服務04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務04.png)
+
 ### 建立API客戶端(API Client)
 
+1.依照[開發一個從GitHub持續佈署到Azure Container Apps的Web站台](https://clark159.github.io/MDP.Net/持續部署/使用Azure Portal，開發一個從GitHub持續佈署到Azure Container Apps的Web站台/)的步驟流程，建立：api-client容器應用、ApiClient程式專案，並且取得API客戶端的：「應用程式 URL」。
+
+![22.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/22.申請服務01.png)
+
+![22.申請服務02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/22.申請服務02.png)
+
+2.依照[模組使用-API客戶端(API Client)-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/#模組使用-api客戶端api-client)的步驟流程，開啟API客戶端的受控識別。
+
+![21.申請服務03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/21.申請服務03.png)
+
+3.改寫專案內的Controllers\HomeController.cs、Views\Home\Index.cshtml，提供Home頁面。並於Home頁面使用受控識別憑證，建立代表API客戶端身分的AccessToken，用來通過API服務端的Service身分驗證後，取得資料顯示於頁面。
+
+```
+using Azure.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace ApiClient
+{
+    public class HomeController : Controller
+    {
+        // Methods
+        public async Task<ActionResult> Index()
+        {
+            // Variables
+            var azureCredential = new DefaultAzureCredential();
+            var apiProviderURI = "api://xxxxx";                   // API服務端的「應用程式識別碼 URI」
+            var apiProviderEndpoint = "https://xxxxx/Home/Index"; // API服務端的「應用程式 URL」+/Home/Index
+
+            // AccessToken
+            var accessToken = (await azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(new string[] { $"{apiProviderURI}/.default" }), default)).Token;
+            if (string.IsNullOrEmpty(accessToken) == true) throw new InvalidOperationException($"{nameof(accessToken)}=null");
+
+            // Call API
+            var responseContent = string.Empty;
+            using (var httpClient = new HttpClient())
+            {
+                // Headers
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+                // Send
+                var response = await httpClient.GetAsync(apiProviderEndpoint);
+                responseContent = await response?.Content?.ReadAsStringAsync();
+            }
+            if (string.IsNullOrEmpty(responseContent) == true) throw new InvalidOperationException($"{nameof(responseContent)}=null");
+
+            // ViewBag
+            this.ViewBag.Message = responseContent;
+
+            // Return
+            return View();
+        }
+    }
+}
+```
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ApiClient</title>
+</head>
+<body>
+
+    <!--Title-->
+    <h2>ApiClient</h2>
+    <hr />
+
+    <!--Message-->
+    <h3>@ViewBag.Message</h3>
+
+</body>
+</html>
+```
+
+5.完成專案程式碼改寫的步驟之後，將程式碼簽入GitHub用以啟動GitHub Action流程，編譯並部署API客戶端程式到Azure Container Apps。
+
+![22.申請服務04.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/22.申請服務04.png)
+
 ### 範例執行
+
+1.使用Browser視窗，開啟API客戶端的「應用程式 URL」。於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面，並且顯示API服務端回傳的"Hello World"。
+
+![23.執行結果01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/23.執行結果01.png)
+
+2.登入[Microsoft Azure Portal](https://portal.azure.com/)。於API服務端的容器應用頁面，進入紀錄資料流頁籤，可以看到通過Service身分驗證的API客戶端身分資料(Controller.User屬性)，並且包含「應用程式角色」的資料。
+
+![23.執行結果02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/Service身分驗證-受控識別/23.執行結果02.png)
