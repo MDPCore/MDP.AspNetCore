@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Line
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, LineAuthenticationSetting>("Authentication", "Line")]
-    public class LineAuthenticationFactory
+    public class LineAuthenticationFactory : Factory<WebApplicationBuilder, LineAuthenticationSetting>
     {
+        // Constructors
+        public LineAuthenticationFactory() : base("Authentication", "Line") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, LineAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, LineAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,10 @@ namespace MDP.AspNetCore.Authentication.Line
 
             // AddLineAuthentication
             webApplicationBuilder.Services.AddLineAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }
+

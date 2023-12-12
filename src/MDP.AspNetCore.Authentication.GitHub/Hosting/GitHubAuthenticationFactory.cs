@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.GitHub
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, GitHubAuthenticationSetting>("Authentication", "GitHub")]
-    public class GitHubAuthenticationFactory
+    public class GitHubAuthenticationFactory : Factory<WebApplicationBuilder, GitHubAuthenticationSetting>
     {
+        // Constructors
+        public GitHubAuthenticationFactory() : base("Authentication", "GitHub") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, GitHubAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, GitHubAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.GitHub
 
             // AddGitHubAuthentication
             webApplicationBuilder.Services.AddGitHubAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

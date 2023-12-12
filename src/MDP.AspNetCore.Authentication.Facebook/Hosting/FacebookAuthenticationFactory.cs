@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Facebook
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, FacebookAuthenticationSetting>("Authentication", "Facebook")]
-    public class FacebookAuthenticationFactory
+    public class FacebookAuthenticationFactory : Factory<WebApplicationBuilder, FacebookAuthenticationSetting>
     {
+        // Constructors
+        public FacebookAuthenticationFactory() : base("Authentication", "Facebook") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, FacebookAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, FacebookAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.Facebook
 
             // AddFacebookAuthentication
             webApplicationBuilder.Services.AddFacebookAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

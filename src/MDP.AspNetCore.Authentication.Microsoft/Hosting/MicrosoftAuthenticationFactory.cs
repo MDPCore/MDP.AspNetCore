@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Microsoft
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, MicrosoftAuthenticationSetting>("Authentication", "Microsoft")]
-    public class MicrosoftAuthenticationFactory
+    public class MicrosoftAuthenticationFactory : Factory<WebApplicationBuilder, MicrosoftAuthenticationSetting>
     {
+        // Constructors
+        public MicrosoftAuthenticationFactory() : base("Authentication", "Microsoft") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, MicrosoftAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, MicrosoftAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.Microsoft
 
             // AddMicrosoftAuthentication
             webApplicationBuilder.Services.AddMicrosoftAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

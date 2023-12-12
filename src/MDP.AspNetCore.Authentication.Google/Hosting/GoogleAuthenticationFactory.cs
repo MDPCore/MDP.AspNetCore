@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Google
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, GoogleAuthenticationSetting>("Authentication", "Google")]
-    public class GoogleAuthenticationFactory
+    public class GoogleAuthenticationFactory : Factory<WebApplicationBuilder, GoogleAuthenticationSetting>
     {
+        // Constructors
+        public GoogleAuthenticationFactory() : base("Authentication", "Google") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, GoogleAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, GoogleAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.Google
 
             // AddGoogleAuthentication
             webApplicationBuilder.Services.AddGoogleAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

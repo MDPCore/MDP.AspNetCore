@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Liff
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, LiffAuthenticationSetting>("Authentication", "Liff")]
-    public class LiffAuthenticationFactory
+    public class LiffAuthenticationFactory : Factory<WebApplicationBuilder, LiffAuthenticationSetting>
     {
+        // Constructors
+        public LiffAuthenticationFactory() : base("Authentication", "Liff") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, LiffAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, LiffAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.Liff
 
             // AddLiffAuthentication
             webApplicationBuilder.Services.AddLiffAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

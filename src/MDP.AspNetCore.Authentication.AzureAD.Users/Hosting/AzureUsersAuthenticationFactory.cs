@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, AzureUsersAuthenticationSetting>("Authentication", "AzureAD.Users")]
-    public class AzureUsersAuthenticationFactory
+    public class AzureUsersAuthenticationFactory : Factory<WebApplicationBuilder, AzureUsersAuthenticationSetting>
     {
+        // Constructors
+        public AzureUsersAuthenticationFactory() : base("Authentication", "AzureAD.Users") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, AzureUsersAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, AzureUsersAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -18,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
 
             // AddAzureUsersAuthentication
             webApplicationBuilder.Services.AddAzureUsersAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }

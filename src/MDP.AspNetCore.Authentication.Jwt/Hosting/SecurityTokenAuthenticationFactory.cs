@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MDP.Registration;
+using Microsoft.AspNetCore.Builder;
 using System;
 using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Jwt
 {
-    [MDP.Registration.Factory<WebApplicationBuilder, SecurityTokenAuthenticationSetting>("Authentication", "Jwt")]
-    public class SecurityTokenAuthenticationFactory
+    public class SecurityTokenAuthenticationFactory : Factory<WebApplicationBuilder, SecurityTokenAuthenticationSetting>
     {
+        // Constructors
+        public SecurityTokenAuthenticationFactory() : base("Authentication", "Jwt") { }
+
+
         // Methods
-        public void ConfigureService(WebApplicationBuilder webApplicationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
+        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -19,6 +23,9 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
             // AddSecurityTokenAuthentication
             webApplicationBuilder.Services.AddSecurityTokenAuthentication(authenticationSetting);
+
+            // Return
+            return null;
         }
     }
 }
