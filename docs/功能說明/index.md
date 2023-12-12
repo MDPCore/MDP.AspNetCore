@@ -640,6 +640,10 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.9
+
+- 跟隨MDP.NetCore 6.1.9版本更新。
+
 ### MDP.AspNetCore.Authentication 6.1.8.4
 
 - 加入MDP.AspNetCore.Authentication.AzureAD.Users，用來驗證AzureAD裡的使用者。
@@ -668,4 +672,4 @@ namespace WebApplication1
 
 ### MDP.AspNetCore.Authentication 6.1.5
 
-- 跟隨 MDP.Net進版。
+- 跟隨MDP.NetCore 6.1.5版本更新。

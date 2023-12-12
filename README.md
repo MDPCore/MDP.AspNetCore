@@ -30,20 +30,22 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 
 - Token身分驗證：[Token身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/Token身分驗證/)。
 
+- Azure身分驗證：[Azure身分認證模組清單](https://clark159.github.io/MDP.AspNetCore.Authentication/Azure身分驗證/)。
+
 ```
 // Config設定 - Line身分驗證模組
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
-- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+- Line身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入Channel Secret)
 ```
 
 ```
@@ -73,6 +75,25 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 - 簽章算法：Algorithm="HS256"。(Token所使用的簽章演算法，支持：HSxxx、RSxxx)
 - 簽章金鑰：SignKey="12345..."。(Token所使用的簽章金鑰，支持：Base64格式金鑰、PEM格式金鑰)
 - 憑證發行：Issuer="MDP"。(檢核用，Token的核發單位)
+```
+
+```
+// Config設定 - Azure身分驗證模組
+{
+  "Authentication": {
+    "AzureAD.Users": {
+      "TenantId": "xxxxx",
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
+    }
+  }
+}
+
+- 命名空間：Authentication
+- 掛載的身分驗證模組：AzureAD.Users
+- AzureAD.Users身分驗證模組的租戶編號：TenantId="xxxxx"。(xxxxx填入目錄 (租用戶) 識別碼)
+- AzureAD.Users身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入應用程式 (用戶端) 識別碼)
+- AzureAD.Users身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入用戶端密碼)
 ```
 
 ### Remote身分驗證
@@ -242,10 +263,10 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Tok
 
 ```
 // HTTP headers - JwtBearer
-Authorization:Bearer Xxxxxxxxxxxxxxxx
+Authorization:Bearer xxxxxxxxxxxxxxxx
 
 // HTTP headers - ApiToken
-X-Api-Token:Xxxxxxxxxxxxxxxx
+X-Api-Token:xxxxxxxxxxxxxxxx
 ```
 
 
@@ -258,7 +279,6 @@ MDP.AspNetCore.Authentication預設獨立在MDP.Net專案範本外，依照下�
 - 在命令提示字元輸入下列指令，使用MDP.Net專案範本建立專案。
 
 ```
-// 建立API服務、Web站台
 dotnet new install MDP.WebApp
 dotnet new MDP.WebApp -n WebApplication1
 ```
@@ -278,15 +298,15 @@ MDP.AspNetCore.Authentication
 {
   "Authentication": {
     "Line": {
-      "ClientId": "Xxxxx",
-      "ClientSecret": "Xxxxx"
+      "ClientId": "xxxxx",
+      "ClientSecret": "xxxxx"
     }
   }
 }
 - 命名空間：Authentication
 - 掛載的身分驗證模組：Line
-- Line身分驗證模組的客戶編號：ClientId="Xxxxx"。(Xxxxx填入Channel ID)
-- Line身分驗證模組的客戶密碼：ClientSecret="Xxxxx"。(Xxxxx填入Channel Secret)
+- Line身分驗證模組的客戶編號：ClientId="xxxxx"。(xxxxx填入Channel ID)
+- Line身分驗證模組的客戶密碼：ClientSecret="xxxxx"。(xxxxx填入Channel Secret)
 ```
 
 ```
@@ -611,6 +631,10 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.9
+
+- 跟隨MDP.NetCore 6.1.9版本更新。
+
 ### MDP.AspNetCore.Authentication 6.1.8.4
 
 - 加入MDP.AspNetCore.Authentication.AzureAD.Users，用來驗證AzureAD裡的使用者。
@@ -639,4 +663,4 @@ namespace WebApplication1
 
 ### MDP.AspNetCore.Authentication 6.1.5
 
-- 跟隨 MDP.Net進版。
+- 跟隨MDP.NetCore 6.1.5版本更新。
