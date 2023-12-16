@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, SecurityTokenAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Jwt
 
             // AddSecurityTokenAuthentication
             webApplicationBuilder.Services.AddSecurityTokenAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

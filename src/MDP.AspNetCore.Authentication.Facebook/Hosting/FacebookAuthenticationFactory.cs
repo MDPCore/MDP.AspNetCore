@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Facebook
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, FacebookAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, FacebookAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Facebook
 
             // AddFacebookAuthentication
             webApplicationBuilder.Services.AddFacebookAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

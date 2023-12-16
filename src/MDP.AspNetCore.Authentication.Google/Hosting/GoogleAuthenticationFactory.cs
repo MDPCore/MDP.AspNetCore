@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Google
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, GoogleAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, GoogleAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Google
 
             // AddGoogleAuthentication
             webApplicationBuilder.Services.AddGoogleAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

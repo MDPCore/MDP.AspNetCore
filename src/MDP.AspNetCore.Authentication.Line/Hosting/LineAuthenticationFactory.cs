@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Line
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, LineAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, LineAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Line
 
             // AddLineAuthentication
             webApplicationBuilder.Services.AddLineAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

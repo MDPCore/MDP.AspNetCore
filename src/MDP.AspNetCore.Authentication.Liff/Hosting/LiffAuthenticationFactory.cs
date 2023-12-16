@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Liff
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, LiffAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, LiffAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Liff
 
             // AddLiffAuthentication
             webApplicationBuilder.Services.AddLiffAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

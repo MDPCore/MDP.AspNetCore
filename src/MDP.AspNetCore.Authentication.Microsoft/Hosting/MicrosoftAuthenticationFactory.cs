@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.Microsoft
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, MicrosoftAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, MicrosoftAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.Microsoft
 
             // AddMicrosoftAuthentication
             webApplicationBuilder.Services.AddMicrosoftAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

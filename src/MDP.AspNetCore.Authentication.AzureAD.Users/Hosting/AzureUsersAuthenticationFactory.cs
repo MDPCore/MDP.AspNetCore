@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, AzureUsersAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, AzureUsersAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
 
             // AddAzureUsersAuthentication
             webApplicationBuilder.Services.AddAzureUsersAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MDP.AspNetCore.Authentication.GitHub
 
 
         // Methods
-        public override List<ServiceRegistration> ConfigureService(WebApplicationBuilder webApplicationBuilder, GitHubAuthenticationSetting authenticationSetting)
+        public override void ConfigureService(WebApplicationBuilder webApplicationBuilder, GitHubAuthenticationSetting authenticationSetting)
         {
             #region Contracts
 
@@ -23,9 +23,6 @@ namespace MDP.AspNetCore.Authentication.GitHub
 
             // AddGitHubAuthentication
             webApplicationBuilder.Services.AddGitHubAuthentication(authenticationSetting);
-
-            // Return
-            return null;
         }
     }
 }
