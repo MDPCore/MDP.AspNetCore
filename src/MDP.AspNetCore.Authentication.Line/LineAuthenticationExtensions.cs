@@ -30,7 +30,6 @@ namespace MDP.AspNetCore.Authentication.Line
                 // Options
                 options.ClientId = authenticationSetting.ClientId;
                 options.ClientSecret = authenticationSetting.ClientSecret;
-                options.CallbackPath = new PathString("/.auth/login/line/callback");
 
                 // SignIn
                 options.ConfigureSignIn();

@@ -1,7 +1,6 @@
 ﻿using MDP.AspNetCore.Authentication;
 using MDP.AspNetCore.Authentication.Line;
 using MDP.Members;
-using MDP.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

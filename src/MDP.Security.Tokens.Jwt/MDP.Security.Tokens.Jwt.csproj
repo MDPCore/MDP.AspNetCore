@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.21.0" />
-    <PackageReference Include="MDP.Registration" Version="6.1.11" />
+    <PackageReference Include="MDP.Registration" Version="6.1.13" />
   </ItemGroup>
 
   <PropertyGroup>

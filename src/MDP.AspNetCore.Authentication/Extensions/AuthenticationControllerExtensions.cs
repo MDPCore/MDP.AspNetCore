@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // Require
-            returnUrl = returnUrl ?? controller.Url.Content("~/");
+            returnUrl = controller.NormalizeReturnUrl(returnUrl);            
             if (scheme.Equals(PolicyAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(LocalAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(RemoteAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
@@ -51,7 +52,7 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // Require
-            returnUrl = returnUrl ?? controller.Url.Content("~/");
+            returnUrl = controller.NormalizeReturnUrl(returnUrl);
             if (scheme.Equals(PolicyAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(LocalAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(RemoteAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
@@ -78,7 +79,7 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // Require
-            returnUrl = returnUrl ?? controller.Url.Content("~/");
+            returnUrl = controller.NormalizeReturnUrl(returnUrl);
             if (localIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(localIdentity.IsAuthenticated)}=false");
 
             // Sign
@@ -98,7 +99,7 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // Require
-            returnUrl = returnUrl ?? controller.Url.Content("~/");
+            returnUrl = controller.NormalizeReturnUrl(returnUrl);
 
             // Sign
             await controller.HttpContext.RemoteSignOutAsync();
@@ -146,7 +147,7 @@ namespace MDP.AspNetCore.Authentication
             #endregion
 
             // Require
-            returnUrl = returnUrl ?? controller.Url.Content("~/");
+            returnUrl = controller.NormalizeReturnUrl(returnUrl);
 
             // AuthenticationProvider
             var authenticationProvider = controller.HttpContext.RequestServices.GetService<AuthenticationProvider>();
@@ -207,6 +208,63 @@ namespace MDP.AspNetCore.Authentication
 
                 // Forbid
                 return controller.Forbid();
+            }
+        }
+    }
+
+    public static partial class AuthenticationControllerExtensions
+    {
+        // Methods
+        public static string NormalizeReturnUrl(this Controller controller, string returnUrl = null)
+        {
+            // Require
+            if (returnUrl == "/") return "/";
+            if (string.IsNullOrEmpty(returnUrl) == true) return "/";
+
+            // Absolute
+            if (Uri.IsWellFormedUriString(returnUrl, UriKind.Absolute) == true)
+            {
+                try
+                {
+                    // Uri
+                    var returnUri = new Uri(returnUrl);
+
+                    // RelativePath
+                    var relativePath = returnUri.AbsolutePath;
+                    if (relativePath.StartsWith("/") == false)
+                    {
+                        relativePath = "/" + relativePath;
+                    }
+
+                    // QueryString
+                    if (string.IsNullOrEmpty(returnUri.Query) == false)
+                    {
+                        relativePath += returnUri.Query;
+                    }
+
+                    // Return
+                    return relativePath;
+                }
+                catch (UriFormatException)
+                {
+                    // Return
+                    return "/";
+                }
+            }
+
+            // Relative
+            {
+                // RelativePath
+                var relativePath = returnUrl;
+
+                // StartsWith
+                if (relativePath.StartsWith("/") == false)
+                {
+                    relativePath = "/" + relativePath;
+                }
+
+                // Return
+                return relativePath;
             }
         }
     }

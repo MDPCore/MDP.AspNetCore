@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Facebook
 {
-    public class FacebookAuthenticationFactory : Factory<WebApplicationBuilder, FacebookAuthenticationSetting>
+    public class FacebookAuthenticationFactory : ServiceFactory<WebApplicationBuilder, FacebookAuthenticationSetting>
     {
         // Constructors
         public FacebookAuthenticationFactory() : base("Authentication", "Facebook") { }

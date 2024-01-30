@@ -20,34 +20,22 @@ namespace MDP.AspNetCore.Authentication.Line
         public LineOptions()
         {
             // Options
-            this.CallbackPath = new PathString("/signin-line");
+            this.CallbackPath = new PathString("/.auth/login/line/callback");
             this.ClaimsIssuer = LineDefaults.AuthenticationScheme;
             this.AuthorizationEndpoint = LineDefaults.AuthorizationEndpoint;
             this.TokenEndpoint = LineDefaults.TokenEndpoint;
             this.UserInformationEndpoint = LineDefaults.UserInformationEndpoint;
-            this.VerifyEndpoint = LineDefaults.VerifyEndpoint;
 
             // Scope
             this.Scope.Add("profile");
             this.Scope.Add("openid");
             this.Scope.Add("email");
 
-            // AccessTokenIdentityClaimActions
-            this.AccessTokenIdentityClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "userId");
-            this.AccessTokenIdentityClaimActions.MapJsonKey(ClaimTypes.Name, "displayName");
-
-            // IdTokenIdentityClaimActions
-            this.IdTokenIdentityClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
-            this.IdTokenIdentityClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-            this.IdTokenIdentityClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            // Claim
+            this.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+            this.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+            this.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            this.ClaimActions.MapJsonKey(ProfileClaimTypes.Picture, "picture");
         }
-
-
-        // Properties
-        public string VerifyEndpoint { get; set; }
-
-        public ClaimActionCollection AccessTokenIdentityClaimActions { get; } = new ClaimActionCollection();
-
-        public ClaimActionCollection IdTokenIdentityClaimActions { get; } = new ClaimActionCollection();
     }
 }

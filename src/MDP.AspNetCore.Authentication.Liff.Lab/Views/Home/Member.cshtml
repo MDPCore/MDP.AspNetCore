@@ -7,19 +7,22 @@
     }
 }
 <!DOCTYPE html>
-
 <html>
 <head>
     <!-- title -->
-    <title>Home</title>
+    <title>Landing</title>
 
     <!-- meta -->
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- script -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
 </head>
 <body>
 
     <!--Title-->
-    <h2>Home</h2>
+    <h2>============== Member ==============</h2>
     <hr />
 
     <!--Identity-->
@@ -27,8 +30,6 @@
     UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
     Username=@GetClaimValue(ClaimTypes.Name)<br />
     Mail=@GetClaimValue(ClaimTypes.Email)<br />
-
-    <!--Profile-->
     Picture=<img src="@GetClaimValue(ProfileClaimTypes.Picture)" style="width:36px;height:36px;border-radius:50%" /><br />
     <br />
     <hr />
@@ -38,6 +39,20 @@
         <input type="submit" value="Logout" /><br />
         <br />
     </form>
+    <br />
+    <hr />
+
+    <!--sendMessages-->
+    <form asp-controller="Home" asp-action="SendMessages">
+        <input type="submit" value="SendMessages" /><br />
+        <br />
+    </form>
+    <br />
+    <hr />
+
+    <!--closeWindow-->
+    <input type="button" value="closeWindow" onclick="liff.closeWindow();" />
+    <br />
     <hr />
 
 </body>

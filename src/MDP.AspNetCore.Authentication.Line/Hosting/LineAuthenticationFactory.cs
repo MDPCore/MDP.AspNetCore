@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Line
 {
-    public class LineAuthenticationFactory : Factory<WebApplicationBuilder, LineAuthenticationSetting>
+    public class LineAuthenticationFactory : ServiceFactory<WebApplicationBuilder, LineAuthenticationSetting>
     {
         // Constructors
         public LineAuthenticationFactory() : base("Authentication", "Line") { }

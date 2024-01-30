@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MDP.AspNetCore.Authentication.Line;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MDP.AspNetCore.Authentication.Liff
 {
@@ -25,6 +26,34 @@ namespace MDP.AspNetCore.Authentication.Liff
 
 
         // Methods
+        protected override string BuildChallengeUrl(AuthenticationProperties properties, string redirectUri)
+        {
+            #region Contracts
+
+            if (properties == null) throw new ArgumentException(nameof(properties));
+
+            #endregion
+
+            // ReturnUrl
+            var returnUrl = string.Empty;
+            properties.Items.TryGetValue(".redirect", out returnUrl);
+            if (string.IsNullOrEmpty(returnUrl) == true) returnUrl = string.Empty;
+                                    
+            // ChallengeParameters
+            var challengeParameters = new Dictionary<string, string>
+            {
+                { "authenticationScheme", this.Scheme.Name },
+                { "returnUrl", returnUrl }
+            };
+
+            // ChallengeUrl
+            var challengeUrl = this.Options.ChallengeUrl;
+            if (string.IsNullOrEmpty(challengeUrl) == true) throw new InvalidOperationException($"{nameof(challengeUrl)}=null");
+
+            // return
+            return QueryHelpers.AddQueryString(challengeUrl, challengeParameters);
+        }
+
         protected override async Task<HandleRequestResult> HandleRemoteAuthenticateAsync()
         {
             // AccessToken

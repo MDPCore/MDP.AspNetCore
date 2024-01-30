@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MDP.Security.Claims;
 using System.Xml.Schema;
 
 namespace MDP.Members

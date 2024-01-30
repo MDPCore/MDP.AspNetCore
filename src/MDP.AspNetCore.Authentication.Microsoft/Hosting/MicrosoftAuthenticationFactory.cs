@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Microsoft
 {
-    public class MicrosoftAuthenticationFactory : Factory<WebApplicationBuilder, MicrosoftAuthenticationSetting>
+    public class MicrosoftAuthenticationFactory : ServiceFactory<WebApplicationBuilder, MicrosoftAuthenticationSetting>
     {
         // Constructors
         public MicrosoftAuthenticationFactory() : base("Authentication", "Microsoft") { }

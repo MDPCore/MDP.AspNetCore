@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public class DefaultAuthenticationFactory : Factory<WebApplicationBuilder, DefaultAuthenticationSetting>
+    public class DefaultAuthenticationFactory : ServiceFactory<WebApplicationBuilder, DefaultAuthenticationSetting>
     {
         // Constructors
         public DefaultAuthenticationFactory() : base("Authentication") { }

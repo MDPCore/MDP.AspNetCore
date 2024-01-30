@@ -1,10 +1,8 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using MDP.AspNetCore.Authentication.Liff
 @{
 
 }
 <!DOCTYPE html>
-
 <html>
 <head>
     <!-- title -->
@@ -19,8 +17,12 @@
     <h2>Login</h2>
     <hr />
 
-    <!--Message-->
-    請使用LineAPP進行測試
+    <!--LoginByLine-->
+    <form asp-controller="Account" asp-action="LoginByLiff" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" value="LoginByLiff" /><br />
+        <br />
+    </form>
+    <hr />
 
 </body>
 </html>

@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="6.1.11" />
+    <PackageReference Include="MDP.Registration" Version="6.1.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MDP.Security.Claims\MDP.Security.Claims.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -27,9 +31,6 @@
   <ItemGroup>
     <None Include="..\..\Package.png" Pack="true" PackagePath="\Package.png" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MDP.Security.Claims\MDP.Security.Claims.csproj" />
   </ItemGroup>
 
 </Project>

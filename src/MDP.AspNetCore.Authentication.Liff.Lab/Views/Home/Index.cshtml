@@ -7,7 +7,6 @@
     }
 }
 <!DOCTYPE html>
-
 <html>
 <head>
     <!-- title -->
@@ -27,11 +26,12 @@
     UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
     Username=@GetClaimValue(ClaimTypes.Name)<br />
     Mail=@GetClaimValue(ClaimTypes.Email)<br />
+    Picture=<img src="@GetClaimValue(ProfileClaimTypes.Picture)" style="width:36px;height:36px;border-radius:50%" /><br />
     <br />
     <hr />
 
     <!--Logout-->
-    <form asp-route="/.auth/logout">
+    <form asp-controller="Account" asp-action="Logout">
         <input type="submit" value="Logout" /><br />
         <br />
     </form>

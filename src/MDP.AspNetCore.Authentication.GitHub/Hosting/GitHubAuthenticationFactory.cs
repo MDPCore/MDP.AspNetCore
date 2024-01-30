@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.GitHub
 {
-    public class GitHubAuthenticationFactory : Factory<WebApplicationBuilder, GitHubAuthenticationSetting>
+    public class GitHubAuthenticationFactory : ServiceFactory<WebApplicationBuilder, GitHubAuthenticationSetting>
     {
         // Constructors
         public GitHubAuthenticationFactory() : base("Authentication", "GitHub") { }

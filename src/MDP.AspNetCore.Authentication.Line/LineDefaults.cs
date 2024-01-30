@@ -14,8 +14,6 @@ namespace MDP.AspNetCore.Authentication.Line
 
         public static readonly string TokenEndpoint = "https://api.line.me/oauth2/v2.1/token";
 
-        public static readonly string UserInformationEndpoint = "https://api.line.me/v2/profile";
-
-        public static readonly string VerifyEndpoint = "https://api.line.me/oauth2/v2.1/verify";
+        public static readonly string UserInformationEndpoint = "https://api.line.me/oauth2/v2.1/verify";
     }
 }

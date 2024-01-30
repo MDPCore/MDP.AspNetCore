@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Jwt
 {
-    public class SecurityTokenAuthenticationFactory : Factory<WebApplicationBuilder, SecurityTokenAuthenticationSetting>
+    public class SecurityTokenAuthenticationFactory : ServiceFactory<WebApplicationBuilder, SecurityTokenAuthenticationSetting>
     {
         // Constructors
         public SecurityTokenAuthenticationFactory() : base("Authentication", "Jwt") { }

@@ -31,8 +31,7 @@ namespace MDP.AspNetCore.Authentication.Liff
                 // Options
                 options.LiffId = authenticationSetting.LiffId;
                 options.ClientId = authenticationSetting.ClientId;
-                options.ClientSecret = authenticationSetting.ClientSecret;
-                options.CallbackPath = new PathString("/.auth/login/liff/callback");
+                options.ClientSecret = authenticationSetting.ClientSecret;                
 
                 // SignIn
                 options.ConfigureSignIn();

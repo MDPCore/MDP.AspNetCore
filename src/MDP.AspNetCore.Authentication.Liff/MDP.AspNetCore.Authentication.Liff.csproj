@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.6" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.Line\MDP.AspNetCore.Authentication.Line.csproj" />

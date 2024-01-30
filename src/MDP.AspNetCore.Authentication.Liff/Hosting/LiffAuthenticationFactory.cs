@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Liff
 {
-    public class LiffAuthenticationFactory : Factory<WebApplicationBuilder, LiffAuthenticationSetting>
+    public class LiffAuthenticationFactory : ServiceFactory<WebApplicationBuilder, LiffAuthenticationSetting>
     {
         // Constructors
         public LiffAuthenticationFactory() : base("Authentication", "Liff") { }

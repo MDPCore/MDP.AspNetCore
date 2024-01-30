@@ -1,0 +1,105 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- title -->
+    <title>LINE</title>
+
+    <!-- meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- stylesheet -->
+    <style>
+        body {
+            padding: 100px;
+            color: #111111;
+            background-color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .message > * {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+        .loader {
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .loader::after,
+        .loader::before {
+            content: '';
+            box-sizing: border-box;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #00c300;
+            position: absolute;
+            opacity: 0;
+            animation: animloader 2s linear infinite;
+        }
+
+        .loader::after {
+            animation-delay: 1s;
+        }
+
+        @@keyframes animloader {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- loader -->
+    <span class="loader"></span>
+
+    <!-- message -->
+    <div class="message hidden">
+        <h1>系統登入異常</h1>
+        <h2>請稍後再試或聯絡系統管理員</h2>
+        <div></div>
+    </div>
+    
+    <!-- script -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
+    <script src="/lib/mdp-devkit-liff/mdp-devkit-liff.js?v=1"></script>
+    <script>
+        (function () {
+
+            // mdp.liff.login
+            mdp.liff.login({ 
+                liffId: "@ViewBag.LiffId",
+                returnUrl: "@ViewBag.returnUrl"
+            })
+            .catch((ex) => {
+
+                // loader
+                document.querySelector(".loader").classList.add("hidden");
+
+                // message
+                document.querySelector(".message").classList.remove("hidden");
+                document.querySelector(".message div").textContent = ex;
+            });
+        })();
+    </script>
+</body>
+</html>

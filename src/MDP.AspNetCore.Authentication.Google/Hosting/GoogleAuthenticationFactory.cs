@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.Google
 {
-    public class GoogleAuthenticationFactory : Factory<WebApplicationBuilder, GoogleAuthenticationSetting>
+    public class GoogleAuthenticationFactory : ServiceFactory<WebApplicationBuilder, GoogleAuthenticationSetting>
     {
         // Constructors
         public GoogleAuthenticationFactory() : base("Authentication", "Google") { }

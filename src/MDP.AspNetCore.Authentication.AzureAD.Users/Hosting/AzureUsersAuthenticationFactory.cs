@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.AzureAD.Users
 {
-    public class AzureUsersAuthenticationFactory : Factory<WebApplicationBuilder, AzureUsersAuthenticationSetting>
+    public class AzureUsersAuthenticationFactory : ServiceFactory<WebApplicationBuilder, AzureUsersAuthenticationSetting>
     {
         // Constructors
         public AzureUsersAuthenticationFactory() : base("Authentication", "AzureAD.Users") { }
