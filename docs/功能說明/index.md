@@ -640,6 +640,10 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore.Authentication 6.1.13
+
+- 跟隨MDP.NetCore 6.1.13版本更新。
+
 ### MDP.AspNetCore.Authentication 6.1.11
 
 - 跟隨MDP.NetCore 6.1.11版本更新。
