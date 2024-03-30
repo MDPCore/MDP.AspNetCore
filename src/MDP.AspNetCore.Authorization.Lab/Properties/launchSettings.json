@@ -1,13 +1,15 @@
 ﻿{
   "profiles": {
-    "MDP.AspNetCore.Authentication.Lab": {
+    "MDP.AspNetCore.Authorization.Lab": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7239",
+      "launchUrl": "T0001/Home/Index",
+      "applicationUrl": "https://localhost:7146",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }
 }
+

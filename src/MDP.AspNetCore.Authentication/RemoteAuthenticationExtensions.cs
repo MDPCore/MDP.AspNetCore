@@ -109,7 +109,7 @@ namespace MDP.AspNetCore.Authentication
             remoteAuthenticationOptions.Events.OnTicketReceived = context =>
             {
                 // ReturnUrl
-                var returnUrl = new PathString(signInPath).Add(QueryString.Create(new Dictionary<string, string>()
+                var returnUrl = new PathString(signInPath).Add(QueryString.Create(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
                     { "returnUrl", context.ReturnUri! }
                 }!));

@@ -31,7 +31,7 @@ namespace MDP.Members
 
 
         // Methods
-        public override ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
+        public override ClaimsIdentity RemoteLogin(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 

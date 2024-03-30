@@ -1,0 +1,192 @@
+
+
+/* ---------- bootstrap ---------- */
+
+/* navbar */
+.mdp-wrapper .navbar-toggler-button {
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* button */
+.mdp-wrapper .btn-flex {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: normal;
+    align-items: center;
+}
+
+/* form-label */
+.mdp-wrapper .form-label {
+    white-space: nowrap;
+}
+
+/* form-switch */
+.mdp-wrapper .form-switch {
+    margin-bottom: 0rem;
+}
+
+.mdp-wrapper .form-switch .form-check-input {
+    clear: left;
+    margin-top: 0rem;
+}
+
+.mdp-wrapper .form-switch.form-switch-sm .form-check-input {
+    height: 1rem;
+    width: calc(1rem + 0.75rem);
+    border-radius: 2rem;
+}
+
+.mdp-wrapper .form-switch.form-switch-md .form-check-input {
+    height: 1.5rem;
+    width: calc(2rem + 0.75rem);
+    border-radius: 3rem;
+}
+
+.mdp-wrapper .form-switch.form-switch-lg .form-check-input {
+    height: 2rem;
+    width: calc(3rem + 0.75rem);
+    border-radius: 4rem;
+}
+
+.mdp-wrapper .form-switch.form-switch-xl .form-check-input {
+    height: 2.5rem;
+    width: calc(4rem + 0.75rem);
+    border-radius: 5rem;
+}
+
+/* card */
+.mdp-wrapper .card-outline.card-primary {
+    border-top: 3px solid var(--bs-primary);
+}
+
+.mdp-wrapper .card-outline.card-secondary {
+    border-top: 3px solid var(--bs-secondary);
+}
+
+.mdp-wrapper .card-outline.card-success {
+    border-top: 3px solid var(--bs-success);
+}
+
+.mdp-wrapper .card-outline.card-info {
+    border-top: 3px solid var(--bs-info);
+}
+
+.mdp-wrapper .card-outline.card-warning {
+    border-top: 3px solid var(--bs-warning);
+}
+
+.mdp-wrapper .card-outline.card-danger {
+    border-top: 3px solid var(--bs-danger);
+}
+
+.mdp-wrapper .card-outline.card-light {
+    border-top: 3px solid var(--bs-light);
+}
+
+.mdp-wrapper .card-outline.card-dark {
+    border-top: 3px solid var(--bs-dark);
+}
+
+
+/* ---------- swiper ---------- */
+
+/* init */
+.mdp-wrapper .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mdp-wrapper .swiper-button-next {
+    display: none;
+    color: white;
+}
+
+.mdp-wrapper .swiper-button-prev {
+    display: none;
+    color: white;
+}
+
+.mdp-wrapper .swiper-button-close {
+    display: none;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    font-size: 50px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* fullscreen */
+.mdp-wrapper .swiper-slide-fullscreen {
+    position: fixed;
+    top: 0px !important;
+    left: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.mdp-wrapper .swiper-slide-fullscreen .swiper-slide {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.mdp-wrapper .swiper-slide-fullscreen .swiper-slide img {
+    object-fit: contain !important;
+}
+
+.mdp-wrapper .swiper-slide-fullscreen .swiper-button-next {
+    display: block;
+}
+
+.mdp-wrapper .swiper-slide-fullscreen .swiper-button-prev {
+    display: block;
+}
+
+.mdp-wrapper .swiper-slide-fullscreen .swiper-button-close {
+    display: block;
+}
+
+
+/* ---------- pikaday ---------- */
+
+/* init */
+.mdp-wrapper .pikaday {
+    width: fit-content;
+}
+
+.mdp-wrapper .pika-single abbr[title] {
+    text-decoration: none;
+}
+
+.mdp-wrapper .pika-single .pika-button {
+    text-align: center;
+}
+
+.mdp-wrapper .pika-single .pika-button:hover {
+    color: #fff !important;
+    background: #33aaff !important;
+}
+
+.mdp-wrapper .pika-single .is-inrange .pika-button,
+.mdp-wrapper .pika-single .is-disabled .pika-button {
+    background-color: #f5f5f5;
+    opacity: .3;
+}

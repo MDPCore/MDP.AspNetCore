@@ -1,0 +1,247 @@
+
+
+/* ---------- theme ---------- */
+
+/* root */
+:root {
+    --bs-body-bg: #ffffff;
+    --bs-body-color: #000000a6;
+}
+
+
+/* ---------- reset ---------- */
+
+/* element */
+.mdp-wrapper * {
+    font-family: 'Arial', 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+}
+
+.mdp-wrapper *:focus {
+    box-shadow: none;
+}
+
+.mdp-wrapper a {
+    text-decoration: none;
+}
+
+.mdp-wrapper a,
+.mdp-wrapper p,
+.mdp-wrapper hr,
+.mdp-wrapper h1,
+.mdp-wrapper h2,
+.mdp-wrapper h3,
+.mdp-wrapper h4,
+.mdp-wrapper h5,
+.mdp-wrapper h6,
+.mdp-wrapper h7 {
+    margin: 0rem;
+    margin-block: 0rem;
+}
+
+/* scroll */
+.mdp-wrapper *::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.mdp-wrapper *::-webkit-scrollbar-thumb {
+    background-color: #ffffff20;
+    border-radius: 10px;
+}
+
+.mdp-wrapper *::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+/* ---------- layout ---------- */
+
+/* container */
+.mdp-wrapper .container-sm,
+.mdp-wrapper .container-md,
+.mdp-wrapper .container-fluid {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: normal;
+    align-items: normal;
+}
+
+.mdp-wrapper .container-sm-fixed {
+    max-width: 540px !important;
+}
+
+.mdp-wrapper .container-md-fixed {
+    max-width: 720px !important;
+}
+
+.mdp-wrapper .container-fluid-fixed {
+    max-width: 100% !important;
+}
+
+
+/* ---------- utilities ---------- */
+
+/* padding */
+.mdp-wrapper .p-100px {
+    padding-top: 100px !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+    padding-bottom: 100px !important;
+}
+
+.mdp-wrapper .pt-100px {
+    padding-top: 100px !important;
+}
+
+.mdp-wrapper .py-100px {
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+}
+
+.mdp-wrapper .px-100px {
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+}
+
+/* image  */
+.img-circle {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-circle-xs {
+    width: 1rem;
+    height: 1rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-circle-sm {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-circle-md {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-circle-lg {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-circle-xl {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.img-square {
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.img-square-xs {
+    width: 1rem;
+    height: 1rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.img-square-sm {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.img-square-md {
+    width: 4rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.img-square-lg {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.img-square-xl {
+    width: 8rem;
+    height: 8rem;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* text-color */
+.mdp-wrapper .text-inherit {
+    color: inherit !important;
+}
+
+/* background-color */
+.mdp-wrapper .bg-inherit {
+    background-color: inherit !important;
+}
+
+.mdp-wrapper .bg-blue {
+    background-color: var(--bs-blue) !important;
+}
+
+.mdp-wrapper .bg-indigo {
+    background-color: var(--bs-indigo) !important;
+}
+
+.mdp-wrapper .bg-purple {
+    background-color: var(--bs-purple) !important;
+}
+
+.mdp-wrapper .bg-pink {
+    background-color: var(--bs-blue) !important;
+}
+
+.mdp-wrapper .bg-red {
+    background-color: var(--bs-red) !important;
+}
+
+.mdp-wrapper .bg-orange {
+    background-color: var(--bs-orange) !important;
+}
+
+.mdp-wrapper .bg-yellow {
+    background-color: var(--bs-yellow) !important;
+}
+
+.mdp-wrapper .bg-green {
+    background-color: var(--bs-green) !important;
+}
+
+.mdp-wrapper .bg-teal {
+    background-color: var(--bs-teal) !important;
+}
+
+.mdp-wrapper .bg-cyan {
+    background-color: var(--bs-cyan) !important;
+}
+
+.mdp-wrapper .bg-black {
+    background-color: var(--bs-black) !important;
+}
+
+.mdp-wrapper .bg-white {
+    background-color: var(--bs-white) !important;
+}
+
+.mdp-wrapper .bg-gray {
+    background-color: var(--bs-gray) !important;
+}

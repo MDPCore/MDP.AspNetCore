@@ -10,7 +10,7 @@ namespace MDP.AspNetCore.Authentication
     public class AuthenticationProvider
     {
         // Methods
-        public virtual ClaimsIdentity RemoteExchange(ClaimsIdentity remoteIdentity)
+        public virtual ClaimsIdentity RemoteLogin(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
 

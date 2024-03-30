@@ -16,7 +16,7 @@ namespace MDP.Members
 
         public string Nickname { get; set; } = String.Empty;
 
-        public Dictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Links { get; set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
 
         // Methods

@@ -88,7 +88,7 @@
             // mdp.liff.init
             mdp.liff.init({
                 liffId: "@ViewBag.LiffId",
-                returnUrl: "@ViewBag.returnUrl"
+                returnUrl: "@Html.Raw(@ViewBag.ReturnUrl)",
             })
             .catch((ex) => {
 

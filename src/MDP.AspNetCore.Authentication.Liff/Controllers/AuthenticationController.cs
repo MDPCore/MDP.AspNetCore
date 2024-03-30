@@ -57,10 +57,18 @@ namespace MDP.AspNetCore.Authentication.Liff
                 return View("_auth/liff/init");
             }
 
-            // SecondaryURL
+            // SecondaryURL: AutoLogin
+            if (this.Request.Query.ContainsKey("autoLogin") == true)
+            {
+                // Redirect
+                var autoLogin = this.Request.Query["autoLogin"].ToString().ToLower();
+                if (autoLogin == "true") return this.Login(scheme, returnUrl);
+            }
+
+            // SecondaryURL: ReturnUrl
             if (this.Request.Query.ContainsKey("returnUrl") == true)
             {
-                // Return
+                // Redirect
                 return this.Redirect(returnUrl);
             }
 

@@ -88,8 +88,8 @@
             // mdp.liff.login
             mdp.liff.sendMessages({
                 liffId: "@ViewBag.LiffId",
-                returnUrl: "@ViewBag.ReturnUrl",
-                messages: @Html.Raw(ViewBag.Messages)
+                returnUrl: "@Html.Raw(@ViewBag.ReturnUrl)",
+                messages: "@Html.Raw(ViewBag.Messages)"
             })
             .catch((ex) => {
 
