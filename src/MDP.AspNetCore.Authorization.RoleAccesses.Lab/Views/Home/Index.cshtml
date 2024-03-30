@@ -1,0 +1,29 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+   
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MDP.AspNetCore.Authorization.RoleAccesses.Lab</title>
+</head>
+<body>
+
+    <!--Title-->
+    <h2>MDP.AspNetCore.Authorization.RoleAccesses.Lab</h2>
+    <hr />
+
+    <!--Message-->
+    <h3>@ViewBag.Message</h3>
+    <hr />
+
+    <!--Logout-->
+    <form asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" /><br />
+        <br />
+    </form>
+    <hr />
+
+</body>
+</html>
