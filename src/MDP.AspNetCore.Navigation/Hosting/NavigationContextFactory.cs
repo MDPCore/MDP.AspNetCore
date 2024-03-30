@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Navigation
 {
-    public class NavigationContextFactory : Factory<WebApplicationBuilder, NavigationContextFactory.Setting>
+    public class NavigationContextFactory : ServiceFactory<WebApplicationBuilder, NavigationContextFactory.Setting>
     {
         // Constructors
         public NavigationContextFactory() : base("Navigation") { }

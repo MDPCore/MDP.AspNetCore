@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="6.1.11" />
-    <PackageReference Include="CLK.Caching.Memory" Version="6.1.11" />
+    <PackageReference Include="MDP.Registration" Version="6.1.15" />
+    <PackageReference Include="CLK.Caching.Memory" Version="6.1.15" />
   </ItemGroup>
   
   <PropertyGroup>

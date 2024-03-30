@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.AspNetCore" Version="6.1.13" />
+    <PackageReference Include="MDP.AspNetCore" Version="6.1.15" />
   </ItemGroup>
 
   <ItemGroup>    

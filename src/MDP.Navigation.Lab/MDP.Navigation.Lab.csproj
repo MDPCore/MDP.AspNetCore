@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.NetCore" Version="6.1.11" />
+    <PackageReference Include="MDP.NetCore" Version="6.1.15" />
   </ItemGroup>
 
   <ItemGroup>

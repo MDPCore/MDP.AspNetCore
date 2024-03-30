@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Navigation
 {
-    public class MenuNodeRepositoryFactory : Factory<WebApplicationBuilder, MenuNodeRepositoryFactory.Setting>
+    public class MenuNodeRepositoryFactory : ServiceFactory<WebApplicationBuilder, MenuNodeRepositoryFactory.Setting>
     {
         // Constructors
         public MenuNodeRepositoryFactory() : base("Navigation") { }

@@ -12,8 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Application" Version="6.1.11" />
-    <PackageReference Include="MDP.Registration" Version="6.1.11" />
+    <PackageReference Include="MDP.Registration" Version="6.1.15" />
   </ItemGroup>
 
   <ItemGroup>

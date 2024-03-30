@@ -1,5 +1,4 @@
-﻿using MDP.Application;
-using MDP.Navigation;
+﻿using MDP.Navigation;
 using MDP.Registration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Navigation
 {
-    public class MenuRepositoryFactory : Factory<WebApplicationBuilder, MenuRepositoryFactory.Setting>
+    public class MenuRepositoryFactory : ServiceFactory<WebApplicationBuilder, MenuRepositoryFactory.Setting>
     {
         // Constructors
         public MenuRepositoryFactory() : base("Navigation") { }
