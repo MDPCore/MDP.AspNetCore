@@ -16,7 +16,7 @@ namespace MDP.AspNetCore.Authentication.Liff
     public static partial class ControllerExtensions
     {
         // Methods
-        public static ActionResult SendMessages(this Controller controller, string message, string returnUrl = null, string scheme = null)
+        public static ActionResult SendMessages(this Controller controller, string message, string returnUrl = null)
         {
             #region Contracts
 
@@ -26,10 +26,10 @@ namespace MDP.AspNetCore.Authentication.Liff
             #endregion
 
             // SendMessage
-            return controller.SendMessages(new List<string> { message }, returnUrl, scheme);
+            return controller.SendMessages(new List<string> { message }, returnUrl);
         }
 
-        public static ActionResult SendMessages(this Controller controller, List<string> messageList, string returnUrl = null, string scheme = null)
+        public static ActionResult SendMessages(this Controller controller, List<string> messageList, string returnUrl = null)
         {
             #region Contracts
 
@@ -40,15 +40,14 @@ namespace MDP.AspNetCore.Authentication.Liff
 
             // Require
             returnUrl = controller.NormalizeReturnUrl(returnUrl);
-            scheme = scheme ?? LiffDefaults.AuthenticationScheme;
             if (messageList.Count==0) return controller.Redirect(returnUrl);
-
+            
             // OptionsMonitor
             var optionsMonitor = controller.HttpContext.RequestServices.GetService<IOptionsMonitor<LiffOptions>>();
             if (optionsMonitor == null) throw new InvalidOperationException($"{nameof(optionsMonitor)}=null");
 
             // LiffOptions
-            var liffOptions = optionsMonitor.Get(scheme);
+            var liffOptions = optionsMonitor.Get(LiffDefaults.AuthenticationScheme);
             if (liffOptions == null) throw new InvalidOperationException($"{nameof(liffOptions)}=null");
             if (liffOptions.LiffId == null) throw new InvalidOperationException($"{nameof(liffOptions.LiffId)}=null");
 

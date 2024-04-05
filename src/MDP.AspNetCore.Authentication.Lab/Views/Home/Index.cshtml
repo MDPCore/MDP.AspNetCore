@@ -1,15 +1,13 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @using System.Security.Claims
 @{
-    string GetClaimValue(string claimType)
-    {
-        return (User?.Identity as ClaimsIdentity)?.FindFirst(claimType)?.Value;
-    }
+    
 }
-<!DOCTYPE html>
 
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
+
     <!-- title -->
     <title>Home</title>
 
@@ -18,28 +16,20 @@
 </head>
 <body>
 
-    <!--Title-->
+    <!-- title -->
     <h2>Home</h2>
     <hr />
 
-    <!--Identity-->
+    <!-- identity -->
     AuthenticationType=@User?.Identity?.AuthenticationType<br />
-    UserId=@GetClaimValue(ClaimTypes.NameIdentifier)<br />
-    Username=@GetClaimValue(ClaimTypes.Name)<br />
-    Mail=@GetClaimValue(ClaimTypes.Email)<br />    
-    Nickname=@GetClaimValue("Nickname")<br />    
-    Links=@GetClaimValue("Links")<br />    
+    UserId=@User.GetClaimValue(ClaimTypes.NameIdentifier)<br />
+    UserName=@User.GetClaimValue(ClaimTypes.Name)<br />
+    Mail=@User.GetClaimValue(ClaimTypes.Email)<br />
+    Role=@String.Join(",", User.GetAllClaimValue(ClaimTypes.Role))<br />
     <br />
     <hr />
 
-    <!--LinkByLine-->
-    <form asp-controller="Home" asp-action="LinkByLine">
-        <input type="submit" value="LinkByLine" /><br />
-        <br />
-    </form>
-    <hr />
-
-    <!--Logout-->
+    <!-- logout -->
     <form asp-controller="Account" asp-action="Logout">
         <input type="submit" value="Logout" /><br />
         <br />

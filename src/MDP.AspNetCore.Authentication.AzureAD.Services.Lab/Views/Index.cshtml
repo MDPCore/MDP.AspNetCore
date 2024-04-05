@@ -1,8 +1,12 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-<!DOCTYPE html>
+@{
+    
+}
 
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
+
     <!-- title -->
     <title>Home</title>
 
@@ -11,37 +15,37 @@
 
     <!-- script -->
     <script language="javascript">
-        async function getClientByAccessToken() {
+        async function getClientBySecurityToken() {
             try {
-                const response = await fetch("/Home/GetClient", {
+                const response = await fetch("/Home/GetUser", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer " + document.getElementById("getClientByAccessToken.token").innerText
+                        "Authorization": "Bearer " + document.getElementById("getClientBySecurityToken.token").innerText
                     }
                 });
                 if (response.ok) {
-                    document.getElementById("getClientByAccessToken.result").innerText = JSON.stringify(await response.json(), null, 2);
+                    document.getElementById("getClientBySecurityToken.result").innerText = JSON.stringify(await response.json(), null, 2);
                 } else {
-                    document.getElementById("getClientByAccessToken.result").innerText = `getClientByAccessToken is Failed: ${response.status}`;
+                    document.getElementById("getClientBySecurityToken.result").innerText = `getClientBySecurityToken is Failed: ${response.status}`;
                 }
             }
             catch (error) {
-                document.getElementById("getClientByAccessToken.result").innerText = `getClientByAccessToken is Failed: ${error}`;
+                document.getElementById("getClientBySecurityToken.result").innerText = `getClientBySecurityToken is Failed: ${error}`;
             }
         }
     </script>
 </head>
 <body>
 
-    <!--Title-->
+    <!-- title -->
     <h2>Home</h2>
     <hr />
 
-    <!--GetClientByAccessToken-->
-    <input type="button" value="GetClientByAccessToken" onclick="getClientByAccessToken()" /><br />
-    AccessToken:<div id="getClientByAccessToken.token">@ViewBag.AccessToken</div><br />
-    <div id="getClientByAccessToken.result"></div><br />
+    <!--GetUserBySecurityToken-->
+    <input type="button" value="GetUserBySecurityToken" onclick="getClientBySecurityToken()" /><br />
+    SecurityToken:<div id="getClientBySecurityToken.token">@ViewBag.SecurityToken</div><br />
+    <div id="getClientBySecurityToken.result"></div><br />
     <hr />    
 
 </body>

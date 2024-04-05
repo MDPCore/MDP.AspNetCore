@@ -11,7 +11,7 @@ namespace MDP.AspNetCore.Authentication
     public class AuthenticationFactory : ServiceFactory<WebApplicationBuilder, AuthenticationFactory.Setting>
     {
         // Constructors
-        public AuthenticationFactory() : base("Authentication") { }
+        public AuthenticationFactory() : base("Authentication", null, true) { }
 
 
         // Methods
@@ -30,13 +30,14 @@ namespace MDP.AspNetCore.Authentication
             if (string.IsNullOrEmpty(setting.LogoutPath) == true) throw new InvalidOperationException("authenticationSetting.LogoutPath=null");
             if (string.IsNullOrEmpty(setting.AccessDeniedPath) == true) throw new InvalidOperationException("authenticationSetting.AccessDeniedPath=null");
 
-            // Authentication   
+            // Authentication
             var authenticationBuilder = applicationBuilder.Services.AddAuthentication(options =>
             {
                 // Options
                 options.DefaultScheme = setting.DefaultScheme;
                 options.DefaultAuthenticateScheme = PolicyAuthenticationDefaults.AuthenticationScheme;
             });
+            if (authenticationBuilder == null) throw new InvalidOperationException($"{nameof(authenticationBuilder)}=null");
 
             // PolicyAuthentication
             authenticationBuilder.AddPolicy(new PolicyAuthenticationSetting()

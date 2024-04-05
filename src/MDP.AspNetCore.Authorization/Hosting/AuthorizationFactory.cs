@@ -13,7 +13,7 @@ namespace MDP.AspNetCore.Authorization
     public class AuthorizationFactory : ServiceFactory<WebApplicationBuilder, AuthorizationFactory.Setting>
     {
         // Constructors
-        public AuthorizationFactory() : base("Authorization") { }
+        public AuthorizationFactory() : base("Authorization", null, true) { }
 
 
         // Methods
@@ -26,7 +26,7 @@ namespace MDP.AspNetCore.Authorization
 
             #endregion
 
-            // RoleAuthorizationRequirement
+            // Authorization
             applicationBuilder.Services.AddAuthorization(options =>
             {
                 // RequirementList
@@ -45,18 +45,19 @@ namespace MDP.AspNetCore.Authorization
                 options.DefaultPolicy = policyBuilder.Build();
             });
 
-            // RoleAuthorizationRequirementHandler
-            applicationBuilder.Services.AddSingleton<IAuthorizationHandler,RoleAuthorizationRequirementHandler>();
+            // RoleAuthorizationHandler
+            applicationBuilder.Services.AddSingleton<IAuthorizationHandler>(serviceProvider=>
+            {
+                // PermissionList
+                var permissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
+                if (permissionList == null) permissionList = new List<Permission>();
 
-            // RoleAuthorizationRequirementHandlerSetting
-            applicationBuilder.Services.TryAddSingleton(serviceProvider => 
-            { 
-                // Create
-                var roleAuthorizationRequirementHandlerSetting = new RoleAuthorizationRequirementHandlerSetting();
-                roleAuthorizationRequirementHandlerSetting.PermissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
-                
+                // AuthorizationProvider
+                var authorizationProvider = serviceProvider.ResolveTyped<AuthorizationProvider>();
+                if (authorizationProvider == null) authorizationProvider = new AuthorizationProvider();
+
                 // Return
-                return roleAuthorizationRequirementHandlerSetting;
+                return new RoleAuthorizationHandler(permissionList, authorizationProvider);
             });
         }
 

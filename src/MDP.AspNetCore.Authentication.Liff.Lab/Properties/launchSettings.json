@@ -2,14 +2,13 @@
   "profiles": {
     "MDP.AspNetCore.Authentication.Liff.Lab": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
-      //"launchUrl": "https://liff.line.me/2002796916-0W875Aa3?returnUrl=/Home/Member",
-      //"launchUrl": "https://localhost:7239/Home/Landing",
+      "applicationUrl": "https://localhost:7239",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7239",
-      "dotnetRunMessages": true
+      //"launchUrl": "https://liff.line.me/2002796916-0W875Aa3?returnUrl=/Home/Member"
     }
   }
 }

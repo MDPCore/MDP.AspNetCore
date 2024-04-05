@@ -50,43 +50,43 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Service.Lab
                 _providerUri
             };
 
-            // AccessToken
-            var accessToken = (await _azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(scopes), default)).Token;
-            if (string.IsNullOrEmpty(accessToken) == true) throw new InvalidOperationException($"{nameof(accessToken)}=null");
+            // SecurityToken
+            var securityToken = (await _azureCredential.GetTokenAsync(new Azure.Core.TokenRequestContext(scopes), default)).Token;
+            if (string.IsNullOrEmpty(securityToken) == true) throw new InvalidOperationException($"{nameof(securityToken)}=null");
 
             // ViewBag
-            this.ViewBag.AccessToken = accessToken;
+            this.ViewBag.SecurityToken = securityToken;
 
             // Return
             return View("Index");
         }
     }
 
-    // GetClient
+    // GetUser
     public partial class HomeController : Controller
     {
         // Methods
         [Authorize]
-        public ActionResult<ClientModel> GetClient()
+        public ActionResult<UserModel> GetUser()
         {
             // ClaimsIdentity
             var claimsIdentity = this.User.Identity as ClaimsIdentity;
             if (claimsIdentity == null) throw new InvalidOperationException($"{nameof(claimsIdentity)}=null");
             
-            // ClientModel
-            var clientModel = new ClientModel();
-            clientModel.AuthenticationType = claimsIdentity.AuthenticationType;
-            clientModel.TenantId = claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.TenantId)?.Value;
-            clientModel.ClientId = claimsIdentity.FindFirst(AzureServicesAuthenticationClaimTypes.ClientId)?.Value;
-            clientModel.Roles = String.Join(",", claimsIdentity.FindAll(System.Security.Claims.ClaimTypes.Role).Select(o => o.Value));
+            // UserModel
+            var userModel = new UserModel();
+            userModel.AuthenticationType = claimsIdentity.AuthenticationType;
+            userModel.TenantId = claimsIdentity.GetClaimValue(AzureClaimTypes.TenantId);
+            userModel.ClientId = claimsIdentity.GetClaimValue(AzureClaimTypes.ClientId);
+            userModel.Roles = String.Join(",", claimsIdentity.GetAllClaimValue(System.Security.Claims.ClaimTypes.Role));
 
             // Return
-            return clientModel;
+            return userModel;
         }
 
 
         // Class
-        public class ClientModel
+        public class UserModel
         {
             // Properties
             public string AuthenticationType { get; set; } = string.Empty;

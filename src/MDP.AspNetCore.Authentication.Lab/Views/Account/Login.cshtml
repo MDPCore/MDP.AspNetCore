@@ -2,10 +2,11 @@
 @{
 
 }
-<!DOCTYPE html>
 
-<html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
+
     <!-- title -->
     <title>Login</title>
 
@@ -14,32 +15,15 @@
 </head>
 <body>
 
-    <!--Title-->
+    <!-- title -->
     <h2>Login</h2>
     <hr />
-
-    <!--Message-->
-    <h3 style="color:red">@ViewBag.Message</h3>
 
     <!--LoginByPassword-->
     <form asp-controller="Account" asp-action="LoginByPassword" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
         Username:<input type="text" name="username" value="Clark" /><br />
         Password:<input type="text" name="password" value="" /><br />
         <input type="submit" value="LoginByPassword" /><br />
-        <br />
-    </form>
-    <hr />    
-
-    <!--LoginByLine-->
-    <form asp-controller="Account" asp-action="LoginByLine" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
-        <input type="submit" value="LoginByLine" /><br />
-        <br />
-    </form>
-    <hr />
-
-    <!--Register-->
-    <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
-        <input type="submit" value="Register" /><br />
         <br />
     </form>
     <hr />

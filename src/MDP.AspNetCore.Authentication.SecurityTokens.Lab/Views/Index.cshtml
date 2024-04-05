@@ -1,0 +1,50 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+
+    <!-- script -->
+    <script language="javascript">
+        async function getUserBySecurityToken() {
+            try {
+                const response = await fetch("/Home/GetUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Api-Token": document.getElementById("getUserBySecurityToken.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getUserBySecurityToken.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getUserBySecurityToken.result").innerText = `getUserBySecurityToken is Failed: ${response.status}`;
+                }
+            }
+            catch (error) {
+                document.getElementById("getUserBySecurityToken.result").innerText = `getUserBySecurityToken is Failed: ${error}`;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- title -->
+    <h2>Home</h2>
+    <hr />
+
+    <!--GetUserBySecurityToken-->
+    <input type="button" value="GetUserBySecurityToken" onclick="getUserBySecurityToken()" /><br />
+    SecurityToken:<div id="getUserBySecurityToken.token">@ViewBag.SecurityToken</div><br />   
+    <div id="getUserBySecurityToken.result"></div><br />
+    <hr />
+
+</body>
+</html>

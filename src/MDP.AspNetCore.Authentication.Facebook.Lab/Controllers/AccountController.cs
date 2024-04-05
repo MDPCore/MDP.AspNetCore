@@ -18,10 +18,10 @@ namespace MDP.AspNetCore.Authentication.Facebook.Lab
         }
 
         [AllowAnonymous]
-        public Task<ActionResult> Logout()
+        public Task<ActionResult> Logout(string returnUrl = null)
         {
             // Return
-            return this.LogoutAsync();
+            return this.LogoutAsync(returnUrl);
         }
 
         [AllowAnonymous]

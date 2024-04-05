@@ -1,6 +1,10 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+
+}
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hant">
 <head>
 
     <!-- title -->
@@ -89,7 +93,7 @@
             mdp.liff.sendMessages({
                 liffId: "@ViewBag.LiffId",
                 returnUrl: "@Html.Raw(@ViewBag.ReturnUrl)",
-                messages: "@Html.Raw(ViewBag.Messages)"
+                messages: @Html.Raw(ViewBag.Messages)
             })
             .catch((ex) => {
 
