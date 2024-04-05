@@ -7,9 +7,9 @@ permalink: /
 ---
 
 
-# MDP.AspNetCore.Authentication
+# MDP.AspNetCore
 
-MDP.AspNetCore.Authentication是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
+MDP.AspNetCore是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
 
 - 說明文件：[https://mdpnetcore.github.io/MDP.AspNetCore/](https://mdpnetcore.github.io/MDP.AspNetCore/)
 
