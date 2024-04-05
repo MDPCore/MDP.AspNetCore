@@ -11,9 +11,9 @@ has_children: false
 
 MDP.AspNetCore.Authentication.Microsoft擴充ASP.NET Core既有的身分驗證，加入Microsoft身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Microsoft身分驗證，用以驗證Microsoft帳號登入的使用者。
 
-- 說明文件：[https://clark159.github.io/MDP.AspNetCore.Authentication/](https://clark159.github.io/MDP.AspNetCore.Authentication/)
+- 說明文件：[https://mdpnetcore.github.io/MDP.AspNetCore/](https://mdpnetcore.github.io/MDP.AspNetCore/)
 
-- 程式源碼：[https://github.com/Clark159/MDP.AspNetCore.Authentication/](https://github.com/Clark159/MDP.AspNetCore.Authentication/)
+- 程式源碼：[https://github.com/MDPNetCore/MDP.AspNetCore/](https://github.com/MDPNetCore/MDP.AspNetCore/)
 
 
 ## 模組使用
@@ -24,23 +24,23 @@ MDP.AspNetCore.Authentication.Microsoft使用Microsoft官方提供的OAuth服務
 
 1.註冊並登入[Microsoft Azure Portal](https://portal.azure.com/)。於首頁左上角的選單裡，點擊應用程式註冊後，進入應用程式註冊頁面。
 
-![01.建立Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/01.建立Application01.png)
+![01.建立Application01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/01.建立Application01.png)
 
 2.於應用程式註冊頁面，點擊新增註冊按鈕，依照頁面提示建立一個Application，並編輯「支援的帳戶類型」及「重新導向 URI」。(支援的帳戶類型=僅限個人 Microsoft 帳戶、重新導向平台=Web、重新導向 URI=「程式執行網址」+「/.auth/login/microsoft/callback」)
 
-![02.註冊Application01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/02.註冊Application01.png)
+![02.註冊Application01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/02.註冊Application01.png)
 
-![02.註冊Application02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/02.註冊Application02.png)
+![02.註冊Application02.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/02.註冊Application02.png)
 
-![02.註冊Application03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/02.註冊Application03.png)
+![02.註冊Application03.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/02.註冊Application03.png)
 
 3.於Application頁面，取得「應用程式 (用戶端) 識別碼」。接著點擊新增憑證或祕密按鈕，進入憑證及祕密頁面，然後點擊新增用戶端密碼，依照頁面提示建立並取得一個「用戶端密碼」。(記得要取「值」的內容)
 
-![03.取得參數01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/03.取得參數01.png)
+![03.取得參數01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/03.取得參數01.png)
 
-![03.取得參數02.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/03.取得參數02.png)
+![03.取得參數02.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/03.取得參數02.png)
 
-![03.取得參數03.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/03.取得參數03.png)
+![03.取得參數03.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/03.取得參數03.png)
 
 ### 加入專案
 
@@ -85,7 +85,7 @@ MDP.AspNetCore.Authentication.Microsoft
 
 提供Microsoft身分驗證，讓使用者能夠快速登入系統，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Microsoft，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/WebApplication1.zip)
 
 ### 操作步驟
 
@@ -102,9 +102,9 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Microsoft
 ```
 
-3.依照[模組使用-申請服務](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/#模組使用)的步驟流程，申請Microsoft身分驗證服務，並取得「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
+3.依照[模組使用-申請服務](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/#模組使用)的步驟流程，申請Microsoft身分驗證服務，並取得「應用程式 (用戶端) 識別碼」、「用戶端密碼」。
 
-![05.申請服務01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/05.申請服務01.png)
+![05.申請服務01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/05.申請服務01.png)
 
 4.於專案內改寫appsettings.json，填入「應用程式 (用戶端) 識別碼」、「用戶端密碼」，用以掛載Microsoft身分驗證。
 
@@ -256,12 +256,12 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
 
-![06.LoginPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/06.LoginPage01.png)
+![06.LoginPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/06.LoginPage01.png)
 
 8.於Login頁面，點擊LoginByMicrosoft按鈕。Browser視窗會跳轉至Microsoft身分驗證服務的頁面，進行OAuth身分驗證。
 
-![07.OAuthPage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/07.OAuthPage01.png)
+![07.OAuthPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/07.OAuthPage01.png)
 
 9.於Microsoft身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。(經由Microsoft身分驗證登入)
 
-![08.HomePage01.png](https://clark159.github.io/MDP.AspNetCore.Authentication/OAuth身分驗證/Microsoft身分驗證/08.HomePage01.png)
+![08.HomePage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Microsoft身分驗證/08.HomePage01.png)
