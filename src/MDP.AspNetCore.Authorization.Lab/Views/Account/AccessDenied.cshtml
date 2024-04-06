@@ -19,9 +19,9 @@
     <h2>AccessDenied</h2>
     <hr />
 
-    <!--Login-->
-    <form asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
-        <input type="submit" value="Login" /><br />
+    <!-- logout -->
+    <form asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" value="Logout" /><br />
         <br />
     </form>
     <hr />
