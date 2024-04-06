@@ -631,6 +631,10 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore 8.0.1
+
+- MDP.AspNetCore：升級至.NET8.0
+
 ### MDP.AspNetCore 6.1.18
 
 - 加入AutoRegister，削減Config設定內容。
