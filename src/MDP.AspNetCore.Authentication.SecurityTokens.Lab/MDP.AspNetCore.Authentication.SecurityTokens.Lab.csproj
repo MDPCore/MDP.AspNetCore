@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.AspNetCore" Version="8.0.1" />
-    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.1" />
+    <PackageReference Include="MDP.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
