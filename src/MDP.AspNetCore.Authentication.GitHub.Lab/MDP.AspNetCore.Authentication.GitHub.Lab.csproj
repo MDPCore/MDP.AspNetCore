@@ -6,10 +6,6 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MDP.AspNetCore" Version="8.0.2" />
-  </ItemGroup>
-
   <ItemGroup>    
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.GitHub\MDP.AspNetCore.Authentication.GitHub.csproj" />
   </ItemGroup>

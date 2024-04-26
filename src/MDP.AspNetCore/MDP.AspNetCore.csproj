@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -9,14 +9,10 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="8.0.2" />
-    <PackageReference Include="MDP.Security.Claims" Version="8.0.2" />
-  </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
+    <PackageReference Include="MDP.NetCore" Version="8.0.2" />
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
   </ItemGroup>
 
   <PropertyGroup>

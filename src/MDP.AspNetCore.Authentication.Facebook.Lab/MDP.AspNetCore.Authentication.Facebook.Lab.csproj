@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.AspNetCore" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.Facebook\MDP.AspNetCore.Authentication.Facebook.csproj" />
   </ItemGroup>
 

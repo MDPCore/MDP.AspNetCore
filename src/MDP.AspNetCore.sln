@@ -47,11 +47,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authorizatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02.MDP.AspNetCore.Authentication", "02.MDP.AspNetCore.Authentication", "{37B13F09-6874-4083-839E-4EFC815809AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.SecurityTokens", "MDP.AspNetCore.Authentication.SecurityTokens\MDP.AspNetCore.Authentication.SecurityTokens.csproj", "{F5EF6F8C-A7A3-4FFA-82A0-BF9C52C0983D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.SecurityTokens", "MDP.AspNetCore.Authentication.SecurityTokens\MDP.AspNetCore.Authentication.SecurityTokens.csproj", "{F5EF6F8C-A7A3-4FFA-82A0-BF9C52C0983D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.SecurityTokens.Lab", "MDP.AspNetCore.Authentication.SecurityTokens.Lab\MDP.AspNetCore.Authentication.SecurityTokens.Lab.csproj", "{7169617A-447F-4F96-AA73-6F3E48858BF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authentication.SecurityTokens.Lab", "MDP.AspNetCore.Authentication.SecurityTokens.Lab\MDP.AspNetCore.Authentication.SecurityTokens.Lab.csproj", "{7169617A-447F-4F96-AA73-6F3E48858BF0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01.MDP.AspNetCore", "01.MDP.AspNetCore", "{E4705273-E2D2-43EB-B431-8943CA3595B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore", "MDP.AspNetCore\MDP.AspNetCore.csproj", "{E65728DD-FA90-4C78-A289-805462F8B818}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Lab", "MDP.AspNetCore.Lab\MDP.AspNetCore.Lab.csproj", "{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +151,14 @@ Global
 		{7169617A-447F-4F96-AA73-6F3E48858BF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7169617A-447F-4F96-AA73-6F3E48858BF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7169617A-447F-4F96-AA73-6F3E48858BF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E65728DD-FA90-4C78-A289-805462F8B818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E65728DD-FA90-4C78-A289-805462F8B818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E65728DD-FA90-4C78-A289-805462F8B818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E65728DD-FA90-4C78-A289-805462F8B818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,6 +186,8 @@ Global
 		{9215427F-9042-43E6-80D3-C16D643A688B} = {C73DDDF6-CF5C-4935-9F8F-8AE5717C8A2E}
 		{F5EF6F8C-A7A3-4FFA-82A0-BF9C52C0983D} = {37B13F09-6874-4083-839E-4EFC815809AB}
 		{7169617A-447F-4F96-AA73-6F3E48858BF0} = {37B13F09-6874-4083-839E-4EFC815809AB}
+		{E65728DD-FA90-4C78-A289-805462F8B818} = {E4705273-E2D2-43EB-B431-8943CA3595B8}
+		{13009256-0BE8-4CC2-A38A-CA35D7DFFFEB} = {E4705273-E2D2-43EB-B431-8943CA3595B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BB6772C-B470-4A8E-93F5-DACAD77AC5D2}

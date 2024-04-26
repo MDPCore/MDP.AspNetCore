@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.AspNetCore" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication.AzureAD.Users\MDP.AspNetCore.Authentication.AzureAD.Users.csproj" />
   </ItemGroup>
 
