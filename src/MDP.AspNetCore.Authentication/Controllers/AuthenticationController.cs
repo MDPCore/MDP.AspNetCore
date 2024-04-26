@@ -38,6 +38,34 @@ namespace MDP.AspNetCore.Authentication
 
         // Methods
         [AllowAnonymous]
+        [Route("/.auth/login/{scheme}", Name = "/.auth/login")]
+        public Task<ActionResult> Login(string scheme, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException(nameof(scheme));
+
+            #endregion
+
+            // Require
+            returnUrl = this.NormalizeReturnUrl(returnUrl);
+
+            // Login
+            return this.LoginAsync(scheme, returnUrl);
+        }
+
+        [AllowAnonymous]
+        [Route("/.auth/logout", Name = "/.auth/logout")]
+        public Task<ActionResult> Logout(string returnUrl = null)
+        {
+            // Require
+            returnUrl = this.NormalizeReturnUrl(returnUrl);
+
+            // Login
+            return this.LogoutAsync(returnUrl);
+        }
+
+        [AllowAnonymous]
         [Route("/.auth/signin", Name = "/.auth/signin")]
         public async Task<ActionResult> SignIn(string returnUrl = null)
         {

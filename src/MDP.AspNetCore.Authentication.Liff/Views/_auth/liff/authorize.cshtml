@@ -85,12 +85,12 @@
     
     <!-- script -->
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
-    <script src="/lib/mdp-devkit-liff/mdp-devkit-liff.js?v=1"></script>
+    <script src="/lib/mdp-liff/mdp-liff.js?v=1"></script>
     <script>
         (function () {
 
-            // mdp.liff.login
-            mdp.liff.login({ 
+            // mdp.liff.authenticationManager.login
+            mdp.liff.authenticationManager.login({ 
                 liffId: "@ViewBag.LiffId",
                 returnUrl: "@Html.Raw(@ViewBag.ReturnUrl)",
             })

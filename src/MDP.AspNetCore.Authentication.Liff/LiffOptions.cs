@@ -10,7 +10,7 @@ namespace MDP.AspNetCore.Authentication.Liff
         public LiffOptions()
         {
             // Options
-            this.ChallengeUrl = new PathString("/.auth/login/liff");
+            this.ChallengeUrl = new PathString("/.auth/login/liff/authorize");
             this.CallbackPath = new PathString("/.auth/login/liff/callback");
             this.ClaimsIssuer = LiffDefaults.ClaimsIssuer;
         }

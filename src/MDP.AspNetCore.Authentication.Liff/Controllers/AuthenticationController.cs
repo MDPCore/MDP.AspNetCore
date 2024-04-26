@@ -34,15 +34,14 @@ namespace MDP.AspNetCore.Authentication.Liff
 
         // Methods
         [AllowAnonymous]
-        [Route("/.auth/init/liff")]
-        public ActionResult Init(string scheme = null, string returnUrl = null)
+        [Route("/.auth/login/liff/init")]
+        public ActionResult Init(string returnUrl = null)
         {
             // Require
             returnUrl = this.NormalizeReturnUrl(returnUrl);
-            scheme = scheme ?? LiffDefaults.AuthenticationScheme;
 
             // LiffOptions
-            var liffOptions = _optionsMonitor.Get(scheme);
+            var liffOptions = _optionsMonitor.Get(LiffDefaults.AuthenticationScheme);
             if (liffOptions == null) throw new InvalidOperationException($"{nameof(liffOptions)}=null");
             if (liffOptions.LiffId == null) throw new InvalidOperationException($"{nameof(liffOptions.LiffId)}=null");
 
@@ -62,7 +61,7 @@ namespace MDP.AspNetCore.Authentication.Liff
             {
                 // Redirect
                 var autoLogin = this.Request.Query["autoLogin"].ToString().ToLower();
-                if (autoLogin == "true") return this.Login(scheme, returnUrl);
+                if (autoLogin == "true") return this.Login(returnUrl);
             }
 
             // SecondaryURL: ReturnUrl
@@ -77,15 +76,14 @@ namespace MDP.AspNetCore.Authentication.Liff
         }
 
         [AllowAnonymous]
-        [Route("/.auth/login/liff")]
-        public ActionResult Login(string scheme = null, string returnUrl = null)
+        [Route("/.auth/login/liff/authorize")]
+        public ActionResult Login(string returnUrl = null)
         {
             // Require
             returnUrl = this.NormalizeReturnUrl(returnUrl);
-            scheme = scheme ?? LiffDefaults.AuthenticationScheme;
 
             // LiffOptions
-            var liffOptions = _optionsMonitor.Get(scheme);
+            var liffOptions = _optionsMonitor.Get(LiffDefaults.AuthenticationScheme);
             if (liffOptions == null) throw new InvalidOperationException($"{nameof(liffOptions)}=null");
             if (liffOptions.LiffId == null) throw new InvalidOperationException($"{nameof(liffOptions.LiffId)}=null");
 
@@ -101,7 +99,7 @@ namespace MDP.AspNetCore.Authentication.Liff
             }
 
             // Return
-            return View("_auth/liff/login");
+            return View("_auth/liff/authorize");
         }
     }
 }

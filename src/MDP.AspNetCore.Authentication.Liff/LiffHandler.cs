@@ -38,20 +38,12 @@ namespace MDP.AspNetCore.Authentication.Liff
             var returnUrl = string.Empty;
             properties.Items.TryGetValue(".redirect", out returnUrl);
             if (string.IsNullOrEmpty(returnUrl) == true) returnUrl = string.Empty;
-                                    
-            // ChallengeParameters
-            var challengeParameters = new Dictionary<string, string>
-            {
-                { "authenticationScheme", this.Scheme.Name },
-                { "returnUrl", returnUrl }
-            };
-
-            // ChallengeUrl
-            var challengeUrl = this.Options.ChallengeUrl;
-            if (string.IsNullOrEmpty(challengeUrl) == true) throw new InvalidOperationException($"{nameof(challengeUrl)}=null");
-
+                
             // return
-            return QueryHelpers.AddQueryString(challengeUrl, challengeParameters);
+            return QueryHelpers.AddQueryString(this.Options.ChallengeUrl, new Dictionary<string, string>
+            {
+                { "returnUrl", returnUrl }
+            });
         }
 
         protected override async Task<HandleRequestResult> HandleRemoteAuthenticateAsync()

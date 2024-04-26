@@ -1,14 +1,24 @@
-// mdp
+// namespace
 var mdp = mdp || {};
+mdp.liff = mdp.liff || {};
 
-// mdp.liff
-mdp.liff = (function () {
+
+// mdp.liff.liffManager
+mdp.liff.liffManager = (function () {
 
     // fields
     var _isInitialized = false;
 
 
     // methods
+    var initialize = function (config) {
+        return execute(config, () => {
+
+            // redirect
+            window.location.href = config.returnUrl;
+        });
+    };
+
     var execute = function (config, action) {
 
         // execute
@@ -27,19 +37,24 @@ mdp.liff = (function () {
         }
     }
 
-    var init = function (config) {
-        return execute(config, () => {
-            
-            // redirect
-            window.location.href = config.returnUrl;
-        });
+    
+    // return
+    return {
+        initialize: initialize,
+        execute: execute
     };
+})();
 
+
+// mdp.liff.authenticationManager
+mdp.liff.authenticationManager = (function () {
+
+    // methods
     var login = function (config) {
-        return execute(config, () => {
-            
+        return mdp.liff.liffManager.execute(config, () => {
+
             // redirectUri
-            var redirectUri = new URL("/.auth/init/liff", window.location.href);
+            var redirectUri = new URL("/.auth/login/liff/init", window.location.href);
             redirectUri += "?returnUrl=" + encodeURIComponent(window.location.href);
 
             // liff.login
@@ -57,6 +72,18 @@ mdp.liff = (function () {
         });
     };
 
+
+    // return
+    return {
+        login: login
+    };
+})();
+
+
+// mdp.liff.messageManager
+mdp.liff.messageManager = (function () {
+
+    // methods
     var sendMessages = function (config) {
 
         // liff.isInClient
@@ -67,17 +94,16 @@ mdp.liff = (function () {
         }
 
         // execute
-        return execute(config, () => {
+        return mdp.liff.liffManager.execute(config, () => {
 
             // liff.sendMessages
             return liff.sendMessages(config.messages).then(() => { window.location.href = config.returnUrl; });
         });
     };
-    
+
+
     // return
     return {
-        init: init,
-        login: login,
         sendMessages: sendMessages
     };
 })();
