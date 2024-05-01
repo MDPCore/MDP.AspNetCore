@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication.SecurityTokens
 {
@@ -33,9 +34,6 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
             {
                 // AuthenticationType
                 authenticationOptions.TokenValidationParameters.AuthenticationType = scheme;
-
-                // SecurityTokenValidators
-                authenticationOptions.AttachSecurityTokenValidators();
 
                 // SecurityTokenEvents
                 authenticationOptions.AttachSecurityTokenEvents(header, prefix);
@@ -66,28 +64,6 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
             });
         }
 
-        private static JwtBearerOptions AttachSecurityTokenValidators(this JwtBearerOptions securityTokenOptions)
-        {
-            #region Contracts
-
-            if (securityTokenOptions == null) throw new ArgumentException($"{nameof(securityTokenOptions)}=null");
-
-            #endregion
-
-            // SecurityTokenValidatorArray
-            var securityTokenValidatorArray = securityTokenOptions.SecurityTokenValidators.ToArray();
-            securityTokenOptions.SecurityTokenValidators.Clear();
-
-            // SecurityTokenValidatorDecoratorList
-            foreach (var securityTokenValidator in securityTokenValidatorArray)
-            {
-                securityTokenOptions.SecurityTokenValidators.Add(new SecurityTokenValidatorDecorator(securityTokenValidator));
-            }
-
-            // Return
-            return securityTokenOptions;
-        }
-
         private static JwtBearerOptions AttachSecurityTokenEvents(this JwtBearerOptions securityTokenOptions, string authenticationHeader, string authenticationPrefix = null)
         {
             #region Contracts
@@ -99,6 +75,35 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
 
             // JwtBearerEvents
             securityTokenOptions.Events ??= new JwtBearerEvents();
+
+            // OnTokenValidated 
+            var onTokenValidated = securityTokenOptions.Events.OnTokenValidated;
+            securityTokenOptions.Events.OnTokenValidated = async context =>
+            {
+                // Base
+                if (onTokenValidated != null)
+                {
+                    await onTokenValidated(context);
+                }
+
+                // ClaimsPrincipal
+                var claimsPrincipal = context.Principal;
+                if (claimsPrincipal == null) return;
+
+                // ClaimsIdentity
+                var claimsIdentity = claimsPrincipal.Identity as ClaimsIdentity;
+                if (claimsIdentity == null) return;
+
+                // AuthenticationType
+                var authenticationType = string.Empty;
+                if (string.IsNullOrEmpty(authenticationType) == true) authenticationType = claimsIdentity.FindFirst(AuthenticationClaimTypes.AuthenticationType)?.Value;
+                if (string.IsNullOrEmpty(authenticationType) == true) return;
+
+                // Attach
+                claimsIdentity = new ClaimsIdentity(claimsIdentity.Claims, authenticationType);
+                claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                context.Principal = claimsPrincipal;
+            };
 
             // OnMessageReceived
             var onMessageReceived = securityTokenOptions.Events.OnMessageReceived;
@@ -216,68 +221,6 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
 
             // Other
             return null;
-        }
-
-
-        // Class
-        private class SecurityTokenValidatorDecorator : ISecurityTokenValidator
-        {
-            // Fields
-            private readonly ISecurityTokenValidator _securityTokenValidator = null;
-
-
-            // Constructors
-            public SecurityTokenValidatorDecorator(ISecurityTokenValidator securityTokenValidator) : base()
-            {
-                #region Contracts
-
-                if (securityTokenValidator == null) throw new ArgumentException($"{nameof(securityTokenValidator)}=null");
-
-                #endregion
-
-                // Default
-                _securityTokenValidator = securityTokenValidator;
-            }
-
-
-            // Properties
-            public bool CanValidateToken { get => _securityTokenValidator.CanValidateToken; }
-
-            public int MaximumTokenSizeInBytes { get => _securityTokenValidator.MaximumTokenSizeInBytes; set => _securityTokenValidator.MaximumTokenSizeInBytes = value; }
-
-
-            // Methods
-            public bool CanReadToken(string securityToken) { return _securityTokenValidator.CanReadToken(securityToken); }
-
-            public ClaimsPrincipal ValidateToken(string token, TokenValidationParameters validateParameters, out SecurityToken validatedToken)
-            {
-                #region Contracts
-
-                if (string.IsNullOrEmpty(token) == true) throw new ArgumentException($"{nameof(token)}=null");
-                if (validateParameters == null) throw new ArgumentException($"{nameof(validateParameters)}=null");
-
-                #endregion
-
-                // ClaimsPrincipal
-                var claimsPrincipal = _securityTokenValidator.ValidateToken(token, validateParameters, out validatedToken);
-                if (claimsPrincipal == null) return claimsPrincipal;
-
-                // ClaimsIdentity
-                var claimsIdentity = claimsPrincipal.Identity as ClaimsIdentity;
-                if (claimsIdentity == null) return claimsPrincipal;
-
-                // AuthenticationType
-                var authenticationType = string.Empty;
-                if (string.IsNullOrEmpty(authenticationType) == true) authenticationType = claimsIdentity.FindFirst(AuthenticationClaimTypes.AuthenticationType)?.Value;
-                if (string.IsNullOrEmpty(authenticationType) == true) return claimsPrincipal;
-
-                // Create
-                claimsIdentity = new ClaimsIdentity(claimsIdentity.Claims, authenticationType);
-                claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                // Return
-                return claimsPrincipal;
-            }
         }
     }
 }

@@ -15,44 +15,62 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens.Lab
     public partial class HomeController : Controller
     {
         // Fields
-        private readonly SecurityTokenFactory _securityTokenFactory;
+        private readonly TokenProviderFactory _tokenProviderFactory;
 
 
         // Constructors
-        public HomeController(SecurityTokenFactory securityTokenFactory)
+        public HomeController(TokenProviderFactory tokenProviderFactory)
         {
             #region Contracts
 
-            if (securityTokenFactory == null) throw new ArgumentException(nameof(securityTokenFactory));
+            if (tokenProviderFactory == null) throw new ArgumentException(nameof(tokenProviderFactory));
 
             #endregion
 
             // Default
-            _securityTokenFactory = securityTokenFactory;
+            _tokenProviderFactory = tokenProviderFactory;
         }
 
 
         // Methods
         public ActionResult Index()
         {
-            // Variables
-            var username = "Clark";
-
             // ClaimsIdentity
-            var claimsIdentity = new ClaimsIdentity(authenticationType: "Password", claims: new[]
+            var claimsIdentity = new ClaimsIdentity(authenticationType: "TestAuth", claims: new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, $"{username}"),
-                new Claim(ClaimTypes.Email, $"{username}@example.com"),
+                new Claim(ClaimTypes.Name, "Clark"),
+                new Claim(ClaimTypes.Email, "Clark@example.com"),
                 new Claim(ClaimTypes.Role, "User")
             });
 
-            // SecurityToken
-            var securityToken = _securityTokenFactory.CreateToken(claimsIdentity);
-            if (string.IsNullOrEmpty(securityToken) == true) throw new InvalidOperationException($"{nameof(securityToken)}=null");
+            // JwtBearer
+            {
+                // TokenProvider
+                var tokenProvider = _tokenProviderFactory.CreateProvider("JwtBearer");
+                if (tokenProvider == null) throw new InvalidOperationException($"{nameof(tokenProvider)}=null");
 
-            // ViewBag
-            this.ViewBag.SecurityToken = securityToken;
+                // SecurityToken
+                var securityToken = tokenProvider.CreateToken(claimsIdentity);
+                if (string.IsNullOrEmpty(securityToken) == true) throw new InvalidOperationException($"{nameof(securityToken)}=null");
+
+                // ViewBag
+                this.ViewBag.JwtBearer = securityToken;
+            }
+
+            // ApiToken
+            {
+                // TokenProvider
+                var tokenProvider = _tokenProviderFactory.CreateProvider("ApiToken");
+                if (tokenProvider == null) throw new InvalidOperationException($"{nameof(tokenProvider)}=null");
+
+                // SecurityToken
+                var securityToken = tokenProvider.CreateToken(claimsIdentity);
+                if (string.IsNullOrEmpty(securityToken) == true) throw new InvalidOperationException($"{nameof(securityToken)}=null");
+
+                // ViewBag
+                this.ViewBag.ApiToken = securityToken;
+            }
 
             // Return
             return View("Index");

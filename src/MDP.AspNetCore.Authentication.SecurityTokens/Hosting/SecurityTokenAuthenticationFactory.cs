@@ -2,51 +2,60 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 
 namespace MDP.AspNetCore.Authentication.SecurityTokens
 {
-    public class SecurityTokenAuthenticationFactory : ServiceFactory<WebApplicationBuilder, SecurityTokenAuthenticationFactory.Setting>
+    public class SecurityTokenAuthenticationFactory : ServiceFactory<WebApplicationBuilder, SecurityTokenAuthenticationFactory.SettingDictionary>
     {
         // Constructors
         public SecurityTokenAuthenticationFactory() : base("Authentication", "SecurityTokens", false) { }
 
 
         // Methods
-        public override void ConfigureService(WebApplicationBuilder applicationBuilder, SecurityTokenAuthenticationFactory.Setting setting)
+        public override void ConfigureService(WebApplicationBuilder applicationBuilder, SecurityTokenAuthenticationFactory.SettingDictionary settingDictionary)
         {
             #region Contracts
 
             if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (setting == null) throw new ArgumentException($"{nameof(setting)}=null");
+            if (settingDictionary == null) throw new ArgumentException($"{nameof(settingDictionary)}=null");
 
             #endregion
-
-            // Require
-            if (string.IsNullOrEmpty(setting.Scheme) == true) throw new ArgumentException($"{nameof(setting.Scheme)}=null");
-            if (string.IsNullOrEmpty(setting.Header) == true) throw new ArgumentException($"{nameof(setting.Header)}=null");
-            //if (string.IsNullOrEmpty(setting.Prefix) == true) throw new ArgumentException($"{nameof(setting.Prefix)}=null");
-            if (string.IsNullOrEmpty(setting.Algorithm) == true) throw new ArgumentException($"{nameof(setting.Algorithm)}=null");
-            if (string.IsNullOrEmpty(setting.SignKey) == true) throw new ArgumentException($"{nameof(setting.SignKey)}=null");
-            //if (string.IsNullOrEmpty(setting.Issuer) == true) throw new ArgumentException($"{nameof(setting.Issuer)}=null");
 
             // AuthenticationBuilder   
             var authenticationBuilder = applicationBuilder.Services.AddAuthentication();
             if (authenticationBuilder == null) throw new InvalidOperationException($"{nameof(authenticationBuilder)}=null");
 
             // SecurityTokenAuthentication
-            authenticationBuilder.AddSecurityTokenAuthentication(setting.Scheme, setting.Header, setting.Prefix, setting.Algorithm, setting.SignKey, setting.Issuer);
+            foreach (var setting in settingDictionary)
+            {
+                // Require
+                if (string.IsNullOrEmpty(setting.Key) == true) throw new InvalidOperationException($"{nameof(setting.Key)}=null");
+                if (setting.Value == null) throw new InvalidOperationException($"{nameof(setting.Value)}=null");
+                if (string.IsNullOrEmpty(setting.Value.Header) == true) throw new ArgumentException($"{nameof(setting.Value.Header)}=null");
+                //if (string.IsNullOrEmpty(setting.Value.Prefix) == true) throw new ArgumentException($"{nameof(setting.Value.Prefix)}=null");
+                if (string.IsNullOrEmpty(setting.Value.Algorithm) == true) throw new ArgumentException($"{nameof(setting.Value.Algorithm)}=null");
+                if (string.IsNullOrEmpty(setting.Value.SignKey) == true) throw new ArgumentException($"{nameof(setting.Value.SignKey)}=null");
+                //if (string.IsNullOrEmpty(setting.Issuer) == true) throw new ArgumentException($"{nameof(setting.Value.Issuer)}=null");
 
-            // SecurityTokenAuthenticationSelector
-            authenticationBuilder.AddSecurityTokenAuthenticationSelector(setting.Scheme, setting.Header, setting.Prefix);
+                // SecurityTokenAuthentication
+                authenticationBuilder.AddSecurityTokenAuthentication(setting.Key, setting.Value.Header, setting.Value.Prefix, setting.Value.Algorithm, setting.Value.SignKey, setting.Value.Issuer);
+
+                // SecurityTokenAuthenticationSelector
+                authenticationBuilder.AddSecurityTokenAuthenticationSelector(setting.Key, setting.Value.Header, setting.Value.Prefix);
+            }
         }
 
 
         // Class
+        public class SettingDictionary : Dictionary<string, Setting>
+        {
+
+        }
+
         public class Setting
         {
             // Properties
-            public string Scheme { get; set; } = "JwtBearer";
-
             public string Header { get; set; } = "Authorization";
 
             public string Prefix { get; set; } = "Bearer";
