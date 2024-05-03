@@ -631,9 +631,17 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore 8.0.5
+
+- MDP.AspNetCore.Authentication.OAuthSSO: 加入使用OAuth實作SSO登入功能。
+
+### MDP.AspNetCore 8.0.2
+
+- MDP.AspNetCore.Authentication.Liff：調整Login路徑，與其他登入方式統一。
+
 ### MDP.AspNetCore 8.0.1
 
-- MDP.AspNetCore：升級至.NET8.0
+- MDP.AspNetCore：升級至.NET8.0。
 
 ### MDP.AspNetCore 6.1.18
 
