@@ -1,0 +1,35 @@
+[MDP.AspNetCore] 實作OAuth協定SSO Server/Client專案範例
+.
+團隊負責的系統變多的時候，使用SSO Server提供統一身分驗證，讓團隊只需要維護一份用戶資料及一個身分驗證服務。除了減少團隊維護成本之外，也讓使用者不用記憶多個站台的帳號密碼，提供更好的使用者體驗。
+
+本篇文章，介紹使用MDP.AspNetCore的NuGet套件，所建立的實作OAuth協定SSO Server/Client專案範例。為自己留個紀錄，也希望能幫助到有需要的開發人員。
+.
+特別說明：
+
+本專案 SSO Server使用Password登入做範例。開發人員可依專案需求，在SSO Server掛載多種身分驗證：Facebook、Google、AzureAD、Line...。
+
+驗證模組使用說明：https://mdpnetcore.github.io/MDP.AspNetCore/
+.
+專案下載：
+
+https://github.com/MDPNetCore/MDP.AspNetCore/tree/main/samples/OAuthSSOSamples
+.
+專案執行：
+
+1.使用Visual Studio開啟，下載的OAuthSSOSamples.sln
+
+2.於方案總管上的OAuthSSOSamples.sln點擊右鍵選單，設定啟動專案。
+
+3.選擇「多個啟動專案」，將OAuthSSOServer/OAuthSSOClient都設定為啟動。
+
+4.回到Visual Studio主畫面，按下執行專案，就可以看到Clint端的Login頁面。
+
+5.點擊Clint端的Login頁面「LoginByOAuthSSO」按鈕，會發動SSO流程，跳轉到Server端的Login頁面。
+
+6.Server端的Login頁面，點擊「LoginByPassword」按鈕，會發動Server端的Password登入，並完成SSO流程，跳轉到Client的Home頁面。
+
+7.Client端的Home頁面，可以看到目前登入的用戶資料。
+.
+程式源碼：
+
+https://github.com/MDPNetCore/MDP.AspNetCore
