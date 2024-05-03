@@ -1,0 +1,35 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+
+}
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+
+    <!-- title -->
+    <title>Login</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <!-- title -->
+    <h2>Client.Login</h2>
+    <hr />
+
+    <!-- loginByOAuthSSO.submit -->
+    <form asp-controller="Account" asp-action="LoginByOAuthSSO" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
+        <input type="submit" id="submitButton" value="LoginByOAuthSSO" /><br />
+        <br />
+    </form>
+    (範例展示用。實際使用時，可以直接自動跳轉，略過此頁)
+    <hr />
+
+    <!-- loginByOAuthSSO.redirect -->
+    <script>        
+        // window.location.href = "/Account/LoginByOAuthSSO?ReturnUrl=" + encodeURIComponent(window.location.href);
+    </script>
+</body>
+</html>

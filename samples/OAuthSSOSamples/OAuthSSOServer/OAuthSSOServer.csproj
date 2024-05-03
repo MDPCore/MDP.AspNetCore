@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MDP.Domain" Version="8.0.5" />
+    <PackageReference Include="MDP.AspNetCore" Version="8.0.5" />
+    <PackageReference Include="MDP.AspNetCore.Authentication" Version="8.0.5" />
+    <PackageReference Include="MDP.AspNetCore.Authentication.OAuthSSO.Server" Version="8.0.5" />
+  </ItemGroup>
+  
+</Project>
