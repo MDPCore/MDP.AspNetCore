@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "MDP.AspNetCore.Authentication.OAuthSSO.Lab": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:44392",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

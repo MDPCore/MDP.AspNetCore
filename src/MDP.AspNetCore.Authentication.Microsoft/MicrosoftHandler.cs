@@ -42,7 +42,7 @@ namespace MDP.AspNetCore.Authentication.Microsoft
             {
                 var content = await response.Content.ReadAsStringAsync();
                 if (string.IsNullOrEmpty(content) == false) throw new HttpRequestException(content);
-                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving Microsoft user information ({response.StatusCode}). Please check if the authentication information is correct.");
+                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving user information ({response.StatusCode}). Please check if the authentication information is correct.");
             }
 
             // Payload
@@ -74,7 +74,7 @@ namespace MDP.AspNetCore.Authentication.Microsoft
             {
                 var content = await response.Content.ReadAsStringAsync();
                 if (string.IsNullOrEmpty(content) == false) throw new HttpRequestException(content);
-                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving Microsoft user information ({response.StatusCode}). Please check if the authentication information is correct.");
+                if (string.IsNullOrEmpty(content) == true) throw new HttpRequestException($"An error occurred when retrieving user information ({response.StatusCode}). Please check if the authentication information is correct.");
             }
 
             // Payload

@@ -89,8 +89,12 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
                 if (string.IsNullOrEmpty(authenticationType) == true) authenticationType = claimsIdentity.FindFirst(AuthenticationClaimTypes.AuthenticationType)?.Value;
                 if (string.IsNullOrEmpty(authenticationType) == true) return;
 
-                // Attach
-                claimsIdentity = new ClaimsIdentity(claimsIdentity.Claims, authenticationType);
+                // ClaimList
+                var claimList = claimsIdentity.Claims.ToList();
+                claimList.RemoveAll(o => o.Type == AuthenticationClaimTypes.AuthenticationType);
+
+                // Replace
+                claimsIdentity = new ClaimsIdentity(claimList, authenticationType);
                 claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 context.Principal = claimsPrincipal;
             };

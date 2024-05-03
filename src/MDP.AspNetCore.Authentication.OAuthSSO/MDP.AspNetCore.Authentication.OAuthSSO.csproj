@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="MDP.NetCore" Version="8.0.3" />
-    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.3" />
+    <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -23,7 +17,7 @@
     <PackageIcon>Package.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Clark159/MDP.Net</PackageProjectUrl>
+    <PackageProjectUrl>https://oauthsso.com/Clark159/MDP.Net</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\Package.png" Pack="true" PackagePath="\Package.png" />

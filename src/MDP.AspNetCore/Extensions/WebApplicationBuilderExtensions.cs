@@ -44,9 +44,6 @@ namespace MDP.AspNetCore
                 }
                 ContainerRegister.RegisterModule(serviceCollection, applicationBuilder.Configuration);                
 
-                // ProblemDetails
-                serviceCollection.AddProblemDetails();
-
                 // HttpContext
                 serviceCollection.AddHttpContextAccessor();
 
@@ -54,7 +51,10 @@ namespace MDP.AspNetCore
                 serviceCollection.AddSingleton<HtmlEncoder>
                 (
                     HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs)
-                );               
+                );
+
+                // ProblemDetails
+                serviceCollection.AddProblemDetails();
 
                 // LoggerOptions
                 serviceCollection.AddLogging(builder =>
@@ -70,6 +70,9 @@ namespace MDP.AspNetCore
                     options.KnownNetworks.Clear();
                     options.KnownProxies.Clear();
                 });
+
+                // DataProtection
+                serviceCollection.AddDataProtection();
             }
 
             // MvcBuilder
@@ -184,7 +187,7 @@ namespace MDP.AspNetCore
                     dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
                 }
 
-                // Parse
+                // Read
                 return dateTime;
             }
 
