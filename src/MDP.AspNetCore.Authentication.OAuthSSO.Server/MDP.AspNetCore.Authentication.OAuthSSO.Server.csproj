@@ -13,8 +13,9 @@
   <ItemGroup>
     <PackageReference Include="MDP.Registration" Version="8.0.5" />
     <PackageReference Include="MDP.Security.Claims" Version="8.0.5" />
+    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.5" />
   </ItemGroup>
-  
+
   <PropertyGroup>
     <authors>CLK Software Studio</authors>
     <copyright>Copyright © 2014 CLK Software Studio</copyright>
