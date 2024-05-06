@@ -631,6 +631,10 @@ namespace WebApplication1
 
 ## 版本更新
 
+### MDP.AspNetCore 8.0.5.1
+
+- MDP.AspNetCore.Authentication.OAuthSSO.Server: 加入對 RFC 8693 OAuth 2.0 Token Exchange的支持。
+
 ### MDP.AspNetCore 8.0.5
 
 - MDP.AspNetCore.Authentication.OAuthSSO: 加入使用OAuth實作SSO登入功能。
