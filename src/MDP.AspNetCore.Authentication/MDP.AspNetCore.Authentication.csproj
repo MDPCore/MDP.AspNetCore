@@ -14,10 +14,6 @@
     <PackageReference Include="MDP.Registration" Version="8.0.5" />
     <PackageReference Include="MDP.Security.Claims" Version="8.0.5" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
-  </ItemGroup>
 
   <PropertyGroup>
     <authors>CLK Software Studio</authors>
