@@ -57,7 +57,7 @@ namespace MDP.AspNetCore.Authorization
             });
 
             // RoleAuthorizationHandler
-            applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
+            applicationBuilder.Services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
         }
 
 
