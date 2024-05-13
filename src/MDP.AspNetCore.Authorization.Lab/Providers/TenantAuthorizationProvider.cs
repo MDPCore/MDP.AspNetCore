@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization.Lab
 {
-    [MDP.Registration.Service<AuthorizationProvider>(singleton: true, autoRegister: true)]
-    public class TenantAuthorizationProvider : AuthorizationProvider
+    [MDP.Registration.Service<IRoleAssignmentProvider>(singleton: true, autoRegister: true)]
+    public class TenantAuthorizationProvider : IRoleAssignmentProvider
     {
         // Methods
-        public override List<RoleAssignment> FindAllRoleAssignment(ClaimsIdentity claimsIdentity)
+        public List<RoleAssignment> FindAll(ClaimsIdentity claimsIdentity)
         {
             #region Contracts
 

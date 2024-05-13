@@ -45,24 +45,19 @@ namespace MDP.AspNetCore.Authorization
                 options.DefaultPolicy = policyBuilder.Build();
             });
 
-            // RoleAuthorizationHandler
-            applicationBuilder.Services.AddSingleton<IAuthorizationHandler>(serviceProvider=>
+            // PermissionProvider
+            applicationBuilder.Services.AddSingleton<IPermissionProvider>(serviceProvider =>
             {
                 // PermissionList
                 var permissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
                 if (permissionList == null) permissionList = new List<Permission>();
 
-                // AuthorizationProvider
-                AuthorizationProvider authorizationProvider = null;
-                if( serviceProvider.TryResolveTyped(typeof(AuthorizationProvider), out var instance) ==true)
-                {
-                    authorizationProvider = instance as AuthorizationProvider;
-                }
-                if (authorizationProvider == null) authorizationProvider = new AuthorizationProvider();
-
                 // Return
-                return new RoleAuthorizationHandler(permissionList, authorizationProvider);
+                return new DefaultPermissionProvider(permissionList);
             });
+
+            // RoleAuthorizationHandler
+            applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
         }
 
 

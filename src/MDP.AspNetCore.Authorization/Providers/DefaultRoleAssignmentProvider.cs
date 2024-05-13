@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class AuthorizationProvider
+    public class DefaultRoleAssignmentProvider : IRoleAssignmentProvider
     {
         // Methods
-        public virtual List<RoleAssignment> FindAllRoleAssignment(ClaimsIdentity claimsIdentity)
+        public List<RoleAssignment> FindAll(ClaimsIdentity claimsIdentity)
         {
             #region Contracts
 
@@ -36,20 +36,6 @@ namespace MDP.AspNetCore.Authorization
 
             // Return
             return roleAssignmentList;
-        }
-
-        public virtual List<Permission> FindAllPermission(string roleId, string accessProvider, string accessType)
-        {
-            #region Contracts
-
-            if (string.IsNullOrEmpty(roleId) == true) throw new ArgumentException($"{nameof(roleId)}=null");
-            if (string.IsNullOrEmpty(accessProvider) == true) throw new ArgumentException($"{nameof(accessProvider)}=null");
-            if (string.IsNullOrEmpty(accessType) == true) throw new ArgumentException($"{nameof(accessType)}=null");
-
-            #endregion
-
-            // Return
-            return new List<Permission>();
         }
     }
 }

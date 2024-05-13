@@ -12,24 +12,33 @@ namespace MDP.AspNetCore.Authorization
     public class RoleAuthorizationHandler : AuthorizationHandler<RoleAuthorizationRequirement>
     {
         // Fields
-        private readonly List<Permission> _permissionList = null;
+        private readonly IList<IPermissionProvider> _permissionProviderList = null;
 
-        private readonly AuthorizationProvider _authorizationProvider = null;
+        private readonly IList<IRoleAssignmentProvider> _roleAssignmentProviderList = null;
+
+        private readonly IResourceProvider _resourceProvider = null;
 
 
         // Constructors
-        public RoleAuthorizationHandler(List<Permission> permissionList, AuthorizationProvider authorizationProvider)
+        public RoleAuthorizationHandler(IList<IPermissionProvider> permissionProviderList, IList<IRoleAssignmentProvider> roleAssignmentProviderList, IResourceProvider resourceProvider =null)
         {
             #region Contracts
 
-            if (permissionList == null) throw new ArgumentException($"{nameof(permissionList)}=null");
-            if (authorizationProvider == null) throw new ArgumentException($"{nameof(authorizationProvider)}=null");
+            if (permissionProviderList == null) throw new ArgumentException($"{nameof(permissionProviderList)}=null");
+            if (roleAssignmentProviderList == null) throw new ArgumentException($"{nameof(roleAssignmentProviderList)}=null");
 
             #endregion
 
             // Default
-            _permissionList = permissionList;
-            _authorizationProvider = authorizationProvider;
+            _permissionProviderList= permissionProviderList;
+            _roleAssignmentProviderList = roleAssignmentProviderList;
+            _resourceProvider = resourceProvider;
+
+            // RoleAssignmentProviderList
+            if (roleAssignmentProviderList.Count <= 0)
+            {
+                roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
+            }
         }
 
 
@@ -43,22 +52,32 @@ namespace MDP.AspNetCore.Authorization
 
             #endregion
 
-            // HttpContext
-            var httpContext = context.Resource as HttpContext;
-            if (httpContext == null) return Task.CompletedTask;
+            // ResourceProvider
+            IResourceProvider resourceProvider = null;
+            if (context.Resource == null) resourceProvider = _resourceProvider;
+            if (context.Resource != null) resourceProvider = new DefaultResourceProvider(context);
+            if (resourceProvider == null) return Task.CompletedTask;
 
             // Resource
-            var resourceUri = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}{httpContext.Request.Path}";
-            var resource = new Resource(resourceUri);
+            var resource = resourceProvider.Create();
+            if (resource == null) return Task.CompletedTask;
 
             // ClaimsIdentity
-            var claimsIdentity = httpContext.User?.Identity as ClaimsIdentity;
+            var claimsIdentity = context.User?.Identity as ClaimsIdentity;
             if (claimsIdentity == null) return Task.CompletedTask;
             if (claimsIdentity.IsAuthenticated == false) return Task.CompletedTask;
 
             // RoleAssignmentList
-            var roleAssignmentList = _authorizationProvider.FindAllRoleAssignment(claimsIdentity);
-            if (roleAssignmentList == null) throw new InvalidOperationException($"{nameof(roleAssignmentList)}=null");
+            var roleAssignmentList = new List<RoleAssignment>();
+            foreach (var roleAssignmentProvider in _roleAssignmentProviderList)
+            {
+                // FindAll
+                var roleAssignmentListSource = roleAssignmentProvider.FindAll(claimsIdentity);
+                if (roleAssignmentListSource == null) throw new InvalidOperationException($"{nameof(roleAssignmentListSource)}=null");
+
+                // Add
+                roleAssignmentList.AddRange(roleAssignmentListSource);
+            }
 
             // RoleAssignmentList.ForEach
             foreach (var roleAssignment in roleAssignmentList)
@@ -87,62 +106,29 @@ namespace MDP.AspNetCore.Authorization
 
             #endregion
 
-            // LocalAuthorization
+            // PermissionList
+            var permissionList = new List<Permission>();
+            foreach (var permissionProvider in _permissionProviderList)
             {
-                // PermissionList
-                var permissionList = this.FindAllPermission(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
-                if (permissionList == null) throw new InvalidOperationException($"{nameof(permissionList)}=null");
+                // FindAll
+                var permissionListSource = permissionProvider.FindAll(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
+                if (permissionListSource == null) throw new InvalidOperationException($"{nameof(permissionListSource)}=null");
 
-                // HasAccess
-                foreach (var permission in permissionList)
-                {
-                    if (permission.HasAccess(roleAssignment, resource) == true)
-                    {
-                        return true;
-                    }
-                }
+                // Add
+                permissionList.AddRange(permissionListSource);
             }
 
-            // RemoteAuthorization
+            // HasAccess
+            foreach (var permission in permissionList)
             {
-                // PermissionList
-                var permissionList = _authorizationProvider.FindAllPermission(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
-                if (permissionList == null) throw new InvalidOperationException($"{nameof(permissionList)}=null");
-
-                // HasAccess
-                foreach (var permission in permissionList)
+                if (permission.HasAccess(roleAssignment, resource) == true)
                 {
-                    if (permission.HasAccess(roleAssignment, resource) == true)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
             // Return
             return false;
-        }
-
-        private List<Permission> FindAllPermission(string roleId, string accessProvider, string accessType)
-        {
-            #region Contracts
-
-            if (string.IsNullOrEmpty(roleId) == true) throw new ArgumentException($"{nameof(roleId)}=null");
-            if (string.IsNullOrEmpty(accessProvider) == true) throw new ArgumentException($"{nameof(accessProvider)}=null");
-            if (string.IsNullOrEmpty(accessType) == true) throw new ArgumentException($"{nameof(accessType)}=null");
-
-            #endregion
-
-            // Require
-            if (_permissionList == null) return new List<Permission>();
-            if (_permissionList.Count <= 0) return new List<Permission>();
-
-            // FindAll
-            return _permissionList.FindAll(o =>
-                o.RoleId.Equals(roleId, StringComparison.OrdinalIgnoreCase) == true &&
-                o.AccessProvider.Equals(accessProvider, StringComparison.OrdinalIgnoreCase) == true &&
-                o.AccessType.Equals(accessType, StringComparison.OrdinalIgnoreCase) == true
-            ).ToList();
         }
     }
 }
