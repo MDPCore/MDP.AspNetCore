@@ -53,7 +53,11 @@ namespace MDP.AspNetCore.Authorization
                 if (permissionList == null) permissionList = new List<Permission>();
 
                 // AuthorizationProvider
-                var authorizationProvider = serviceProvider.ResolveTyped<AuthorizationProvider>();
+                AuthorizationProvider authorizationProvider = null;
+                if( serviceProvider.TryResolveTyped(typeof(AuthorizationProvider), out var instance) ==true)
+                {
+                    authorizationProvider = instance as AuthorizationProvider;
+                }
                 if (authorizationProvider == null) authorizationProvider = new AuthorizationProvider();
 
                 // Return
