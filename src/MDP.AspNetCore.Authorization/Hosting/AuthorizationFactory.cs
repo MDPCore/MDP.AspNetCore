@@ -45,6 +45,9 @@ namespace MDP.AspNetCore.Authorization
                 options.DefaultPolicy = policyBuilder.Build();
             });
 
+            // RoleAuthorizationHandler
+            applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
+
             // PermissionProvider
             applicationBuilder.Services.AddSingleton<IPermissionProvider>(serviceProvider =>
             {
@@ -56,8 +59,10 @@ namespace MDP.AspNetCore.Authorization
                 return new DefaultPermissionProvider(permissionList);
             });
 
-            // RoleAuthorizationHandler
-            applicationBuilder.Services.AddTransient<IAuthorizationHandler, RoleAuthorizationHandler>();
+            // RoleAssignmentProvider
+
+            // ResourceProvider
+            
         }
 
 

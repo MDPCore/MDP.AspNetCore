@@ -71,8 +71,8 @@ namespace MDP.AspNetCore.Authorization
             var roleAssignmentList = new List<RoleAssignment>();
             foreach (var roleAssignmentProvider in _roleAssignmentProviderList)
             {
-                // FindAll
-                var roleAssignmentListSource = roleAssignmentProvider.FindAll(claimsIdentity);
+                // Create
+                var roleAssignmentListSource = roleAssignmentProvider.Create(claimsIdentity);
                 if (roleAssignmentListSource == null) throw new InvalidOperationException($"{nameof(roleAssignmentListSource)}=null");
 
                 // Add
@@ -110,8 +110,8 @@ namespace MDP.AspNetCore.Authorization
             var permissionList = new List<Permission>();
             foreach (var permissionProvider in _permissionProviderList)
             {
-                // FindAll
-                var permissionListSource = permissionProvider.FindAll(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
+                // Create
+                var permissionListSource = permissionProvider.Create(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
                 if (permissionListSource == null) throw new InvalidOperationException($"{nameof(permissionListSource)}=null");
 
                 // Add

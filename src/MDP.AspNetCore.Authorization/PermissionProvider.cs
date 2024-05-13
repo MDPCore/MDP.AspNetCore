@@ -11,6 +11,6 @@ namespace MDP.AspNetCore.Authorization
     public interface IPermissionProvider
     {
         // Methods
-        List<Permission> FindAll(string roleId, string accessProvider, string accessType);
+        List<Permission> Create(string roleId, string accessProvider, string accessType);
     }
 }

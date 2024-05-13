@@ -11,6 +11,6 @@ namespace MDP.AspNetCore.Authorization
     public interface IRoleAssignmentProvider
     {
         // Methods
-        List<RoleAssignment> FindAll(ClaimsIdentity claimsIdentity);
+        List<RoleAssignment> Create(ClaimsIdentity claimsIdentity);
     }
 }

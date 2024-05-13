@@ -27,7 +27,7 @@ namespace MDP.AspNetCore.Authorization
 
 
         // Methods
-        public List<Permission> FindAll(string roleId, string accessProvider, string accessType)
+        public List<Permission> Create(string roleId, string accessProvider, string accessType)
         {
             #region Contracts
 

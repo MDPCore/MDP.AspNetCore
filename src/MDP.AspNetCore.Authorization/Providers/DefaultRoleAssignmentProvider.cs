@@ -11,7 +11,7 @@ namespace MDP.AspNetCore.Authorization
     public class DefaultRoleAssignmentProvider : IRoleAssignmentProvider
     {
         // Methods
-        public List<RoleAssignment> FindAll(ClaimsIdentity claimsIdentity)
+        public List<RoleAssignment> Create(ClaimsIdentity claimsIdentity)
         {
             #region Contracts
 

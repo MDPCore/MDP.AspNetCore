@@ -14,7 +14,7 @@ namespace MDP.AspNetCore.Authorization.Lab
     public class TenantAuthorizationProvider : IRoleAssignmentProvider
     {
         // Methods
-        public List<RoleAssignment> FindAll(ClaimsIdentity claimsIdentity)
+        public List<RoleAssignment> Create(ClaimsIdentity claimsIdentity)
         {
             #region Contracts
 
