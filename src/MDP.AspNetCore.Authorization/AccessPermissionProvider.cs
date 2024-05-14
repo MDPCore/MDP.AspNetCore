@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public interface IPermissionProvider
+    public interface IAccessPermissionProvider
     {
         // Methods
-        List<Permission> Create(string roleId, string accessProvider, string accessType);
+        List<AccessPermission> Create(string roleId, string accessProvider, string accessType);
     }
 }

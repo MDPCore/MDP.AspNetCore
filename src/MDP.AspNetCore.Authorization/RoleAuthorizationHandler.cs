@@ -9,27 +9,27 @@ namespace MDP.AspNetCore.Authorization
     public class RoleAuthorizationHandler : AuthorizationHandler<RoleAuthorizationRequirement>
     {
         // Fields
-        private readonly IList<IPermissionProvider> _permissionProviderList = null;
-
         private readonly IList<IRoleAssignmentProvider> _roleAssignmentProviderList = null;
 
-        private readonly IResourceProvider _resourceProvider = null;
+        private readonly IList<IAccessPermissionProvider> _accessPermissionProviderList = null;
+
+        private readonly IAccessResourceProvider _accessResourceProvider = null;
 
 
         // Constructors
-        public RoleAuthorizationHandler(IList<IPermissionProvider> permissionProviderList, IList<IRoleAssignmentProvider> roleAssignmentProviderList, IResourceProvider resourceProvider =null)
+        public RoleAuthorizationHandler(IList<IRoleAssignmentProvider> roleAssignmentProviderList, IList<IAccessPermissionProvider> accessPermissionProviderList, IAccessResourceProvider accessResourceProvider = null)
         {
             #region Contracts
 
-            if (permissionProviderList == null) throw new ArgumentException($"{nameof(permissionProviderList)}=null");
             if (roleAssignmentProviderList == null) throw new ArgumentException($"{nameof(roleAssignmentProviderList)}=null");
+            if (accessPermissionProviderList == null) throw new ArgumentException($"{nameof(accessPermissionProviderList)}=null");
 
             #endregion
 
             // Default
-            _permissionProviderList= permissionProviderList;
             _roleAssignmentProviderList = roleAssignmentProviderList;
-            _resourceProvider = resourceProvider;
+            _accessPermissionProviderList = accessPermissionProviderList;
+            _accessResourceProvider = accessResourceProvider;
 
             // RoleAssignmentProviderList
             if (roleAssignmentProviderList.Count <= 0)
@@ -49,15 +49,15 @@ namespace MDP.AspNetCore.Authorization
 
             #endregion
 
-            // ResourceProvider
-            IResourceProvider resourceProvider = null;
-            if (context.Resource == null) resourceProvider = _resourceProvider;
-            if (context.Resource != null) resourceProvider = new DefaultResourceProvider(context);
-            if (resourceProvider == null) return Task.CompletedTask;
+            // AccessResourceProvider
+            IAccessResourceProvider accessResourceProvider = null;
+            if (context.Resource == null) accessResourceProvider = _accessResourceProvider;
+            if (context.Resource != null) accessResourceProvider = new HttpAccessResourceProvider(context);
+            if (accessResourceProvider == null) return Task.CompletedTask;
 
-            // Resource
-            var resource = resourceProvider.Create();
-            if (resource == null) return Task.CompletedTask;
+            // AccessResource
+            var accessResource = accessResourceProvider.Create();
+            if (accessResource == null) return Task.CompletedTask;
 
             // ClaimsIdentity
             var claimsIdentity = context.User?.Identity as ClaimsIdentity;
@@ -80,7 +80,7 @@ namespace MDP.AspNetCore.Authorization
             foreach (var roleAssignment in roleAssignmentList)
             {
                 // HasAccess
-                if (this.HasAccess(roleAssignment, resource) == true)
+                if (this.HasAccess(roleAssignment, accessResource) == true)
                 {
                     // Succeed
                     context.Succeed(requirement);
@@ -94,31 +94,31 @@ namespace MDP.AspNetCore.Authorization
             return Task.CompletedTask;
         }
 
-        private bool HasAccess(RoleAssignment roleAssignment, Resource resource)
+        private bool HasAccess(RoleAssignment roleAssignment, AccessResource accessResource)
         {
             #region Contracts
 
             if (roleAssignment == null) throw new ArgumentException($"{nameof(roleAssignment)}=null");
-            if (resource == null) throw new ArgumentException($"{nameof(resource)}=null");
+            if (accessResource == null) throw new ArgumentException($"{nameof(accessResource)}=null");
 
             #endregion
 
-            // PermissionList
-            var permissionList = new List<Permission>();
-            foreach (var permissionProvider in _permissionProviderList)
+            // AccessPermission
+            var accessPermissionList = new List<AccessPermission>();
+            foreach (var accessPermissionProvider in _accessPermissionProviderList)
             {
                 // Create
-                var permissionListSource = permissionProvider.Create(roleAssignment.RoleId, resource.ResourceProvider, resource.ResourceType);
-                if (permissionListSource == null) throw new InvalidOperationException($"{nameof(permissionListSource)}=null");
+                var accessPermissionListSource = accessPermissionProvider.Create(roleAssignment.RoleId, accessResource.ResourceProvider, accessResource.ResourceType);
+                if (accessPermissionListSource == null) throw new InvalidOperationException($"{nameof(accessPermissionListSource)}=null");
 
                 // Add
-                permissionList.AddRange(permissionListSource);
+                accessPermissionList.AddRange(accessPermissionListSource);
             }
 
             // HasAccess
-            foreach (var permission in permissionList)
+            foreach (var accessPermission in accessPermissionList)
             {
-                if (permission.HasAccess(roleAssignment, resource) == true)
+                if (accessPermission.HasAccess(roleAssignment, accessResource) == true)
                 {
                     return true;
                 }

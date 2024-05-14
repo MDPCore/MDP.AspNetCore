@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public interface IResourceProvider
+    public interface IAccessResourceProvider
     {
         // Methods
-        Resource Create();
+        AccessResource Create();
     }
 }

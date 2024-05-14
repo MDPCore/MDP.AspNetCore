@@ -49,14 +49,14 @@ namespace MDP.AspNetCore.Authorization
             applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 
             // PermissionProvider
-            applicationBuilder.Services.AddSingleton<IPermissionProvider>(serviceProvider =>
+            applicationBuilder.Services.AddSingleton<IAccessPermissionProvider>(serviceProvider =>
             {
-                // PermissionList
-                var permissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
-                if (permissionList == null) permissionList = new List<Permission>();
+                // AccessPermissionList
+                var accessPermissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
+                if (accessPermissionList == null) accessPermissionList = new List<AccessPermission>();
 
                 // Return
-                return new DefaultPermissionProvider(permissionList);
+                return new LocalAccessPermissionProvider(accessPermissionList);
             });
 
             // RoleAssignmentProvider
@@ -82,9 +82,9 @@ namespace MDP.AspNetCore.Authorization
 
 
             // Methods
-            public Permission ToPermission()
+            public AccessPermission ToPermission()
             {
-                return new Permission(this.RoleId, this.AccessUri);
+                return new AccessPermission(this.RoleId, this.AccessUri);
             }
         }
     }

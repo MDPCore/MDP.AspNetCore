@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class Permission
+    public class AccessPermission
     {
         // Fields
         private readonly AccessUri _accessUri = null;
 
 
         // Consructors
-        public Permission(string roleId, string accessUri)
+        public AccessPermission(string roleId, string accessUri)
         {
             #region Contracts
 
@@ -46,12 +46,12 @@ namespace MDP.AspNetCore.Authorization
 
 
         // Methods
-        public bool HasAccess(RoleAssignment roleAssignment, Resource resource)
+        public bool HasAccess(RoleAssignment roleAssignment, AccessResource accessResource)
         {
             #region Contracts
 
             if (roleAssignment == null) throw new ArgumentException($"{nameof(roleAssignment)}=null");
-            if (resource == null) throw new ArgumentException($"{nameof(resource)}=null");
+            if (accessResource == null) throw new ArgumentException($"{nameof(accessResource)}=null");
 
             #endregion
 
@@ -59,16 +59,16 @@ namespace MDP.AspNetCore.Authorization
             if (this.RoleId.Equals(roleAssignment.RoleId, StringComparison.OrdinalIgnoreCase) == false) return false;
 
             // AccessString
-            if (this.AccessString.Equals(resource.ResourceString, StringComparison.OrdinalIgnoreCase) == true) return true;
+            if (this.AccessString.Equals(accessResource.ResourceString, StringComparison.OrdinalIgnoreCase) == true) return true;
 
             // AccessProvider
-            if (this.AccessProvider.Equals(resource.ResourceProvider, StringComparison.OrdinalIgnoreCase) == false) return false;
+            if (this.AccessProvider.Equals(accessResource.ResourceProvider, StringComparison.OrdinalIgnoreCase) == false) return false;
 
             // AccessType
-            if (this.AccessType.Equals(resource.ResourceType, StringComparison.OrdinalIgnoreCase) == false) return false;
+            if (this.AccessType.Equals(accessResource.ResourceType, StringComparison.OrdinalIgnoreCase) == false) return false;
 
             // AccessPath.Count
-            var maxCount = Math.Max(this.AccessPathList.Count, resource.ResourcePathList.Count);
+            var maxCount = Math.Max(this.AccessPathList.Count, accessResource.ResourcePathList.Count);
             if (maxCount == 0) return true;
 
             // AccessPath.Equals
@@ -76,7 +76,7 @@ namespace MDP.AspNetCore.Authorization
             {
                 // Variables
                 var accessPathSection = this.AccessPathList.ElementAtOrDefault(i);
-                var resourcePathSection = resource.ResourcePathList.ElementAtOrDefault(i);
+                var resourcePathSection = accessResource.ResourcePathList.ElementAtOrDefault(i);
 
                 // Null
                 if (string.IsNullOrEmpty(accessPathSection) == true) return false;
@@ -125,6 +125,73 @@ namespace MDP.AspNetCore.Authorization
 
             // Return
             return true;
+        }
+
+
+        // Class
+        private class AccessUri
+        {
+            // Fields
+            private readonly Uri _accessUri = null;
+
+            private readonly string _accessString = null;
+
+            private List<string> _accessPathList = null;
+
+
+            // Constructors
+            public AccessUri(string accessUri)
+            {
+                #region Contracts
+
+                if (string.IsNullOrEmpty(accessUri) == true) throw new ArgumentException($"{nameof(accessUri)}=null");
+
+                #endregion
+
+                // AccessUri
+                _accessUri = new Uri(accessUri);
+                {
+                    // AccessUri.AccessProvider
+                    if (string.IsNullOrEmpty(this.AccessProvider) == true) throw new InvalidOperationException($"{nameof(this.AccessProvider)}=null");
+
+                    // AccessUri.AccessType
+                    if (string.IsNullOrEmpty(this.AccessType) == true) throw new InvalidOperationException($"{nameof(this.AccessType)}=null");
+
+                    // AccessUri.AccessPath
+                    if (this.AccessPath == "/") throw new InvalidOperationException($"{nameof(this.AccessPath)}=null");
+                    if (this.AccessPath == null) throw new InvalidOperationException($"{nameof(this.AccessPath)}=null");
+                    if (this.AccessPath == string.Empty) throw new InvalidOperationException($"{nameof(this.AccessPath)}=null");
+                }
+
+                // AccessString
+                _accessString = $"{this.AccessType}://{this.AccessProvider}{this.AccessPath}".Replace("\\", "/");
+            }
+
+
+            // Properties
+            public string AccessProvider { get { return _accessUri.Host; } }
+
+            public string AccessType { get { return _accessUri.Scheme; } }
+
+            public string AccessPath { get { return _accessUri.AbsolutePath; } }
+
+            public string AccessString { get { return _accessString; } }
+
+            internal List<string> AccessPathList
+            {
+                get
+                {
+                    // Create
+                    if (_accessPathList == null)
+                    {
+                        _accessPathList = this.AccessPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    }
+                    if (_accessPathList == null) throw new InvalidOperationException($"{nameof(_accessPathList)}=null");
+
+                    // Return
+                    return _accessPathList;
+                }
+            }
         }
     }
 }

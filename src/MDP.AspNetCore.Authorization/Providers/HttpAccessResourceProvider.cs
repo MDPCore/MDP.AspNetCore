@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class DefaultResourceProvider : IResourceProvider
+    public class HttpAccessResourceProvider : IAccessResourceProvider
     {
         // Fields
         private readonly AuthorizationHandlerContext _authorizationHandlerContext = null;
 
 
         // Constructors
-        public DefaultResourceProvider(AuthorizationHandlerContext authorizationHandlerContext)
+        public HttpAccessResourceProvider(AuthorizationHandlerContext authorizationHandlerContext)
         {
             #region Contracts
 
@@ -29,7 +29,7 @@ namespace MDP.AspNetCore.Authorization
 
 
         // Methods
-        public Resource Create()
+        public AccessResource Create()
         {
             // HttpContext
             var httpContext = _authorizationHandlerContext.Resource as HttpContext;
@@ -39,12 +39,12 @@ namespace MDP.AspNetCore.Authorization
             var request = httpContext.Request;
             if (request == null) return null;
 
-            // Resource
-            var resource = new Resource($"{request.Scheme}://{request.Host}{request.Path}");
-            if (resource == null) return null;
+            // AccessResource
+            var accessResource = new AccessResource($"{request.Scheme}://{request.Host}{request.Path}");
+            if (accessResource == null) return null;
 
             // Return
-            return resource;
+            return accessResource;
         }
     }
 }

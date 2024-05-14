@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class DefaultPermissionProvider : IPermissionProvider
+    public class LocalAccessPermissionProvider : IAccessPermissionProvider
     {
         // Fields
-        private readonly List<Permission> _permissionList = null;
+        private readonly List<AccessPermission> _accessPermissionList = null;
 
 
         // Constructors
-        public DefaultPermissionProvider(List<Permission> permissionList)
+        public LocalAccessPermissionProvider(List<AccessPermission> accessPermissionList)
         {
             #region Contracts
 
-            if (permissionList == null) throw new ArgumentException($"{nameof(permissionList)}=null");
+            if (accessPermissionList == null) throw new ArgumentException($"{nameof(accessPermissionList)}=null");
 
             #endregion
 
             // Default
-            _permissionList = permissionList;
+            _accessPermissionList = accessPermissionList;
         }
 
 
         // Methods
-        public List<Permission> Create(string roleId, string accessProvider, string accessType)
+        public List<AccessPermission> Create(string roleId, string accessProvider, string accessType)
         {
             #region Contracts
 
@@ -38,11 +38,11 @@ namespace MDP.AspNetCore.Authorization
             #endregion
 
             // Require
-            if (_permissionList == null) return new List<Permission>();
-            if (_permissionList.Count <= 0) return new List<Permission>();
+            if (_accessPermissionList == null) return new List<AccessPermission>();
+            if (_accessPermissionList.Count <= 0) return new List<AccessPermission>();
 
             // FindAll
-            return _permissionList.FindAll(o =>
+            return _accessPermissionList.FindAll(o =>
                 o.RoleId.Equals(roleId, StringComparison.OrdinalIgnoreCase) == true &&
                 o.AccessProvider.Equals(accessProvider, StringComparison.OrdinalIgnoreCase) == true &&
                 o.AccessType.Equals(accessType, StringComparison.OrdinalIgnoreCase) == true
