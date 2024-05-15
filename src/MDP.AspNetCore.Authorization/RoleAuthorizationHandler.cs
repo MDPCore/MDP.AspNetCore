@@ -26,16 +26,18 @@ namespace MDP.AspNetCore.Authorization
 
             #endregion
 
-            // Default
-            _roleAssignmentProviderList = roleAssignmentProviderList;
-            _accessPermissionProviderList = accessPermissionProviderList;
-            _accessResourceProvider = accessResourceProvider;
-
             // RoleAssignmentProviderList
-            if (roleAssignmentProviderList.Count <= 0)
+            _roleAssignmentProviderList = roleAssignmentProviderList;
+            if (_roleAssignmentProviderList.Count <= 0)
             {
-                roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
+                _roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
             }
+
+            // AccessPermissionProviderList            
+            _accessPermissionProviderList = accessPermissionProviderList;
+
+            // AccessResourceProvider
+            _accessResourceProvider = accessResourceProvider;
         }
 
 
@@ -76,7 +78,7 @@ namespace MDP.AspNetCore.Authorization
                 roleAssignmentList.AddRange(roleAssignmentListSource);
             }
 
-            // RoleAssignmentList.ForEach
+            // RoleAssignmentList.Foreach
             foreach (var roleAssignment in roleAssignmentList)
             {
                 // HasAccess

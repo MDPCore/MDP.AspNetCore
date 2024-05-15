@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class LocalAccessPermissionProvider : IAccessPermissionProvider
+    public class DefaultAccessPermissionProvider : IAccessPermissionProvider
     {
         // Fields
         private readonly List<AccessPermission> _accessPermissionList = null;
 
 
         // Constructors
-        public LocalAccessPermissionProvider(List<AccessPermission> accessPermissionList)
+        public DefaultAccessPermissionProvider(List<AccessPermission> accessPermissionList)
         {
             #region Contracts
 

@@ -48,7 +48,9 @@ namespace MDP.AspNetCore.Authorization
             // RoleAuthorizationHandler
             applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
 
-            // PermissionProvider
+            // RoleAssignmentProvider
+
+            // AccessPermissionProvider
             applicationBuilder.Services.AddSingleton<IAccessPermissionProvider>(serviceProvider =>
             {
                 // AccessPermissionList
@@ -56,13 +58,11 @@ namespace MDP.AspNetCore.Authorization
                 if (accessPermissionList == null) accessPermissionList = new List<AccessPermission>();
 
                 // Return
-                return new LocalAccessPermissionProvider(accessPermissionList);
+                return new DefaultAccessPermissionProvider(accessPermissionList);
             });
 
-            // RoleAssignmentProvider
+            // AccessResourceProvider
 
-            // ResourceProvider
-            
         }
 
 
