@@ -1,17 +1,14 @@
-﻿using MDP.AspNetCore.Authentication;
-using MDP.Security.Tokens.Jwt;
+﻿using MDP.Security.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -44,7 +41,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
 
         // Methods
-        [Authorize]
+        [HttpGet]
+        [AllowAnonymous]
         [Route("/.sso/authorize")]
         public ActionResult Authorize
         (
@@ -66,6 +64,12 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             if (string.IsNullOrEmpty(state) == true) return this.BadRequest($"{nameof(state)}=null");
 
             #endregion
+
+            // Require
+            if (this.User?.Identity?.IsAuthenticated != true)
+            {
+                return this.Challenge(new AuthenticationProperties { RedirectUri = this.Request.GetEncodedUrl() });
+            }
 
             // DataProtector
             var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
@@ -350,6 +354,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         }
 
 
+        [HttpPost]
         [AllowAnonymous]
         [Route("/.sso/userinfo")]
         public ActionResult GetUser([FromHeader(Name = "Authorization")] string authorization)

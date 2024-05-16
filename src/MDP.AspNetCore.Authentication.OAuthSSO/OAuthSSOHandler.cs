@@ -37,7 +37,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
             #endregion
 
             // Request
-            var request = new HttpRequestMessage(HttpMethod.Get, this.Options.UserInformationEndpoint);
+            var request = new HttpRequestMessage(HttpMethod.Post, this.Options.UserInformationEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokens.AccessToken);
 
