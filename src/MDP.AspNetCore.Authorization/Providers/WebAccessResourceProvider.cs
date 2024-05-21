@@ -8,31 +8,13 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authorization
 {
-    public class HttpAccessResourceProvider : IAccessResourceProvider
+    public class WebAccessResourceProvider : IAccessResourceProvider
     {
-        // Fields
-        private readonly AuthorizationHandlerContext _authorizationHandlerContext = null;
-
-
-        // Constructors
-        public HttpAccessResourceProvider(AuthorizationHandlerContext authorizationHandlerContext)
-        {
-            #region Contracts
-
-            if (authorizationHandlerContext == null) throw new ArgumentException($"{nameof(authorizationHandlerContext)}=null");
-
-            #endregion
-
-            // Default
-            _authorizationHandlerContext = authorizationHandlerContext;
-        }
-
-
         // Methods
-        public AccessResource Create()
+        public AccessResource Create(object resource = null)
         {
             // HttpContext
-            var httpContext = _authorizationHandlerContext.Resource as HttpContext;
+            var httpContext = resource as HttpContext;
             if (httpContext == null) return null;
 
             // Request

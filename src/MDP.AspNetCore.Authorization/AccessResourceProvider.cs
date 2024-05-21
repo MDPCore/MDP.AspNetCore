@@ -9,6 +9,6 @@ namespace MDP.AspNetCore.Authorization
     public interface IAccessResourceProvider
     {
         // Methods
-        AccessResource Create();
+        AccessResource Create(object resource = null);
     }
 }

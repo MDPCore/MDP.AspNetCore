@@ -46,7 +46,7 @@ namespace MDP.AspNetCore.Authorization
             });
 
             // RoleAuthorizationHandler
-            applicationBuilder.Services.AddScoped<IAuthorizationHandler, RoleAuthorizationHandler>();
+            applicationBuilder.Services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
 
             // RoleAssignmentProvider
 
@@ -62,7 +62,7 @@ namespace MDP.AspNetCore.Authorization
             });
 
             // AccessResourceProvider
-
+            applicationBuilder.Services.AddTransient<IAccessResourceProvider, WebAccessResourceProvider>();            
         }
 
 
