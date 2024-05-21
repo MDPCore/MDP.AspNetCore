@@ -11,9 +11,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="MDP.NetCore" Version="8.0.6" />
+    <PackageReference Include="MDP.NetCore" Version="8.0.7" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.5" />
   </ItemGroup>
 
   <PropertyGroup>
