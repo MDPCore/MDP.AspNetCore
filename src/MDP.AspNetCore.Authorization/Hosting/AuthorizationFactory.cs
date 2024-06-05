@@ -51,8 +51,6 @@ namespace MDP.AspNetCore.Authorization
             // AccessResourceProvider
             applicationBuilder.Services.AddTransient<IAccessResourceProvider, WebAccessResourceProvider>();
 
-            // RoleAssignmentProvider
-
             // AccessPermissionProvider
             applicationBuilder.Services.AddTransient<IAccessPermissionProvider>(serviceProvider =>
             {
