@@ -14,17 +14,19 @@ namespace MDP.AspNetCore.Authorization
 
 
         // Consructors
-        public AccessPermission(string roleId, string accessUri)
+        public AccessPermission(string roleId, List<string> roleScopes, string accessUri)
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(roleId) == true) throw new ArgumentException($"{nameof(roleId)}=null");
-            if (string.IsNullOrEmpty(accessUri) == true) throw new ArgumentException($"{nameof(accessUri)}=null");
+            ArgumentNullException.ThrowIfNullOrEmpty(roleId);
+            ArgumentNullException.ThrowIfNull(roleScopes);
+            ArgumentNullException.ThrowIfNullOrEmpty(accessUri);
 
             #endregion
 
             // Default
             this.RoleId = roleId;
+            this.RoleScopes = roleScopes;
 
             // AccessUri
             _accessUri = new AccessUri(accessUri);
@@ -33,6 +35,8 @@ namespace MDP.AspNetCore.Authorization
 
         // Properties
         public string RoleId { get; set; }
+
+        public List<string> RoleScopes { get; set; }
 
         public string AccessProvider { get { return _accessUri.AccessProvider; } }
 
@@ -61,7 +65,7 @@ namespace MDP.AspNetCore.Authorization
             {
                 #region Contracts
 
-                if (string.IsNullOrEmpty(accessUri) == true) throw new ArgumentException($"{nameof(accessUri)}=null");
+                if (string.IsNullOrEmpty(accessUri) == true) throw new ArgumentNullException($"{nameof(accessUri)}=null");
 
                 #endregion
 

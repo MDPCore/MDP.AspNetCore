@@ -14,10 +14,10 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
         {
             #region Contracts
 
-            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
-            if (string.IsNullOrEmpty(header) == true) throw new ArgumentException($"{nameof(header)}=null");
-            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentException($"{nameof(prefix)}=null");
+            if (authenticationBuilder == null) throw new ArgumentNullException($"{nameof(authenticationBuilder)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
+            if (string.IsNullOrEmpty(header) == true) throw new ArgumentNullException($"{nameof(header)}=null");
+            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentNullException($"{nameof(prefix)}=null");
 
             #endregion
 

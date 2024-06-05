@@ -32,10 +32,7 @@ namespace MDP.AspNetCore.Authorization
 
             // RoleAssignmentProviderList
             _roleAssignmentProviderList = roleAssignmentProviderList;
-            if (_roleAssignmentProviderList.Count <= 0)
-            {
-                _roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
-            }
+            if (_roleAssignmentProviderList.Count <= 0) _roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
 
             // AccessPermissionProviderList            
             _accessPermissionProviderList = accessPermissionProviderList;
@@ -82,28 +79,23 @@ namespace MDP.AspNetCore.Authorization
             // RoleAssignmentList.Foreach
             foreach (var roleAssignment in roleAssignmentList)
             {
-                // AccessPermission
-                var accessPermissionList = new List<AccessPermission>();
                 foreach (var accessPermissionProvider in _accessPermissionProviderList)
                 {
-                    // Create
-                    var accessPermissionListSource = accessPermissionProvider.Create(roleAssignment.RoleId, accessResource.ResourceProvider, accessResource.ResourceType);
-                    if (accessPermissionListSource == null) throw new InvalidOperationException($"{nameof(accessPermissionListSource)}=null");
+                    // AccessPermissionList
+                    var accessPermissionList = accessPermissionProvider.FindAll(roleAssignment.RoleId, roleAssignment.RoleScopes, accessResource.ResourceProvider, accessResource.ResourceType);
+                    if (accessPermissionList == null) throw new InvalidOperationException($"{nameof(accessPermissionList)}=null");
 
-                    // Add
-                    accessPermissionList.AddRange(accessPermissionListSource);
-                }
-
-                // HasAccess
-                foreach (var accessPermission in accessPermissionList)
-                {
-                    if (accessResource.HasAccess(roleAssignment, accessPermission) == true)
+                    // HasAccess
+                    foreach (var accessPermission in accessPermissionList)
                     {
-                        // Succeed
-                        context.Succeed(requirement);
+                        if (accessResource.HasAccess(roleAssignment, accessPermission) == true)
+                        {
+                            // Succeed
+                            context.Succeed(requirement);
 
-                        // Return
-                        return Task.CompletedTask;
+                            // Return
+                            return Task.CompletedTask;
+                        }
                     }
                 }
             }

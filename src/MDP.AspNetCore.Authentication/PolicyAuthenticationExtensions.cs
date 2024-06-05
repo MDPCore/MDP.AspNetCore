@@ -16,7 +16,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (builder == null) throw new ArgumentException(nameof(builder));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             #endregion
             

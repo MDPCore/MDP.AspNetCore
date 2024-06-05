@@ -29,7 +29,7 @@ namespace MDP.AspNetCore.Authentication.Lab
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(username) == true) throw new ArgumentException($"{nameof(username)}=null");
+            if (string.IsNullOrEmpty(username) == true) throw new ArgumentNullException($"{nameof(username)}=null");
 
             #endregion
 

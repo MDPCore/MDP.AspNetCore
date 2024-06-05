@@ -24,7 +24,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(pathDefault) == true) throw new ArgumentException($"{nameof(pathDefault)}=null");
+            if (string.IsNullOrEmpty(pathDefault) == true) throw new ArgumentNullException($"{nameof(pathDefault)}=null");
 
             #endregion
 
@@ -41,7 +41,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (context == null) throw new ArgumentException($"{nameof(context)}=null");
+            if (context == null) throw new ArgumentNullException($"{nameof(context)}=null");
 
             #endregion
                         

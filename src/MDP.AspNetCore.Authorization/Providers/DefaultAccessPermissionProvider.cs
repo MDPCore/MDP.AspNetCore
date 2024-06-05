@@ -17,7 +17,7 @@ namespace MDP.AspNetCore.Authorization
         {
             #region Contracts
 
-            if (accessPermissionList == null) throw new ArgumentException($"{nameof(accessPermissionList)}=null");
+            ArgumentNullException.ThrowIfNull(accessPermissionList);
 
             #endregion
 
@@ -27,23 +27,24 @@ namespace MDP.AspNetCore.Authorization
 
 
         // Methods
-        public List<AccessPermission> Create(string roleId, string accessProvider, string accessType)
+        public List<AccessPermission> FindAll(string roleId, List<string> roleScopes, string accessProvider, string accessType)
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(roleId) == true) throw new ArgumentException($"{nameof(roleId)}=null");
-            if (string.IsNullOrEmpty(accessProvider) == true) throw new ArgumentException($"{nameof(accessProvider)}=null");
-            if (string.IsNullOrEmpty(accessType) == true) throw new ArgumentException($"{nameof(accessType)}=null");
+            ArgumentNullException.ThrowIfNullOrEmpty(roleId);
+            ArgumentNullException.ThrowIfNull(roleScopes);
+            ArgumentNullException.ThrowIfNullOrEmpty(accessProvider);
+            ArgumentNullException.ThrowIfNullOrEmpty(accessType);
 
             #endregion
 
             // Require
-            if (_accessPermissionList == null) return new List<AccessPermission>();
             if (_accessPermissionList.Count <= 0) return new List<AccessPermission>();
 
             // FindAll
             return _accessPermissionList.FindAll(o =>
                 o.RoleId.Equals(roleId, StringComparison.OrdinalIgnoreCase) == true &&
+                o.RoleScopes.Count == roleScopes.Count &&
                 o.AccessProvider.Equals(accessProvider, StringComparison.OrdinalIgnoreCase) == true &&
                 o.AccessType.Equals(accessType, StringComparison.OrdinalIgnoreCase) == true
             ).ToList();

@@ -20,8 +20,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentException($"{nameof(hookName)}=null");
-            if (configureMiddleware == null) throw new ArgumentException($"{nameof(configureMiddleware)}=null");
+            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentNullException($"{nameof(hookName)}=null");
+            if (configureMiddleware == null) throw new ArgumentNullException($"{nameof(configureMiddleware)}=null");
 
             #endregion
 
@@ -40,7 +40,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (host == null) throw new ArgumentException($"{nameof(host)}=null");
+            if (host == null) throw new ArgumentNullException($"{nameof(host)}=null");
 
             #endregion
 

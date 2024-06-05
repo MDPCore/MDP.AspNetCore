@@ -9,31 +9,24 @@ namespace MDP.AspNetCore.Authorization
     public class RoleAssignment
     {
         // Constructors
-        public RoleAssignment(string roleId, Dictionary<string, string> scopes = null)
+        public RoleAssignment(string roleId, List<string> roleScopes)
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(roleId) == true) throw new ArgumentException($"{nameof(roleId)}=null");
-          
+            ArgumentNullException.ThrowIfNullOrEmpty(roleId);
+            ArgumentNullException.ThrowIfNull(roleScopes);
+
             #endregion
 
             // Default
             this.RoleId = roleId;
-
-            // Scopes
-            if (scopes != null)
-            {
-                foreach (var scope in scopes)
-                {
-                    this.Scopes.Add(scope.Key, scope.Value);
-                }
-            }
+            this.RoleScopes = roleScopes;
         }
 
 
         // Properties
         public string RoleId { get; set; }
 
-        public Dictionary<string, string> Scopes { get; private set; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        public List<string> RoleScopes { get; set; }
     }
 }

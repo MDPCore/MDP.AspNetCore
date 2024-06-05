@@ -17,8 +17,8 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (settingDictionary == null) throw new ArgumentException($"{nameof(settingDictionary)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
+            if (settingDictionary == null) throw new ArgumentNullException($"{nameof(settingDictionary)}=null");
 
             #endregion
 
@@ -32,11 +32,11 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
                 // Require
                 if (string.IsNullOrEmpty(setting.Key) == true) throw new InvalidOperationException($"{nameof(setting.Key)}=null");
                 if (setting.Value == null) throw new InvalidOperationException($"{nameof(setting.Value)}=null");
-                if (string.IsNullOrEmpty(setting.Value.Header) == true) throw new ArgumentException($"{nameof(setting.Value.Header)}=null");
-                //if (string.IsNullOrEmpty(setting.Value.Prefix) == true) throw new ArgumentException($"{nameof(setting.Value.Prefix)}=null");
-                if (string.IsNullOrEmpty(setting.Value.Algorithm) == true) throw new ArgumentException($"{nameof(setting.Value.Algorithm)}=null");
-                if (string.IsNullOrEmpty(setting.Value.SignKey) == true) throw new ArgumentException($"{nameof(setting.Value.SignKey)}=null");
-                //if (string.IsNullOrEmpty(setting.Issuer) == true) throw new ArgumentException($"{nameof(setting.Value.Issuer)}=null");
+                if (string.IsNullOrEmpty(setting.Value.Header) == true) throw new ArgumentNullException($"{nameof(setting.Value.Header)}=null");
+                //if (string.IsNullOrEmpty(setting.Value.Prefix) == true) throw new ArgumentNullException($"{nameof(setting.Value.Prefix)}=null");
+                if (string.IsNullOrEmpty(setting.Value.Algorithm) == true) throw new ArgumentNullException($"{nameof(setting.Value.Algorithm)}=null");
+                if (string.IsNullOrEmpty(setting.Value.SignKey) == true) throw new ArgumentNullException($"{nameof(setting.Value.SignKey)}=null");
+                //if (string.IsNullOrEmpty(setting.Issuer) == true) throw new ArgumentNullException($"{nameof(setting.Value.Issuer)}=null");
 
                 // SecurityTokenAuthentication
                 authenticationBuilder.AddSecurityTokenAuthentication(setting.Key, setting.Value.Header, setting.Value.Prefix, setting.Value.Algorithm, setting.Value.SignKey, setting.Value.Issuer);

@@ -30,7 +30,7 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (properties == null) throw new ArgumentException(nameof(properties));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
 
             #endregion
 

@@ -20,8 +20,8 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (string.IsNullOrEmpty(message) == true) throw new ArgumentException($"{nameof(message)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+            if (string.IsNullOrEmpty(message) == true) throw new ArgumentNullException($"{nameof(message)}=null");
 
             #endregion
 
@@ -33,8 +33,8 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (messageList == null) throw new ArgumentException($"{nameof(messageList)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+            if (messageList == null) throw new ArgumentNullException($"{nameof(messageList)}=null");
 
             #endregion
 

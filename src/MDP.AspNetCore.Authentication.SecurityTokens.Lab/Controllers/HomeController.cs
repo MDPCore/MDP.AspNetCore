@@ -23,7 +23,7 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens.Lab
         {
             #region Contracts
 
-            if (tokenProviderFactory == null) throw new ArgumentException(nameof(tokenProviderFactory));
+            if (tokenProviderFactory == null) throw new ArgumentNullException(nameof(tokenProviderFactory));
 
             #endregion
 

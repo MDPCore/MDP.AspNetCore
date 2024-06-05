@@ -57,9 +57,9 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
         {
             #region Contracts
 
-            if (identity == null) throw new ArgumentException(nameof(identity));
-            if (properties == null) throw new ArgumentException(nameof(properties));
-            if (tokens == null) throw new ArgumentException(nameof(tokens));
+            if (identity == null) throw new ArgumentNullException(nameof(identity));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+            if (tokens == null) throw new ArgumentNullException(nameof(tokens));
 
             #endregion
 
@@ -97,8 +97,8 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
         {
             #region Contracts
 
-            if (properties == null) throw new ArgumentException(nameof(properties));
-            //if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentException(nameof(redirectUri));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+            //if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentNullException(nameof(redirectUri));
 
             #endregion
 

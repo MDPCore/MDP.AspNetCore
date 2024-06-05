@@ -51,6 +51,7 @@ namespace MDP.AspNetCore.Authorization
 
             // Require
             if (roleAssignment.RoleId.Equals(accessPermission.RoleId, StringComparison.OrdinalIgnoreCase) == false) throw new InvalidOperationException($"{nameof(roleAssignment.RoleId)}!=${nameof(accessPermission.RoleId)}");
+            if (roleAssignment.RoleScopes.Count != accessPermission.RoleScopes.Count) throw new InvalidOperationException($"{nameof(roleAssignment.RoleScopes)}!=${nameof(accessPermission.RoleScopes)}");
 
             // ResourceString
             if (this.ResourceString.Equals(accessPermission.AccessString, StringComparison.OrdinalIgnoreCase) == true) return true;
@@ -66,7 +67,6 @@ namespace MDP.AspNetCore.Authorization
             if (maxCount == 0) return true;
 
             // ResourcePath.Equals
-            var accessScopes = new Dictionary<string, string>();
             for (int i = 0; i < maxCount; i++)
             {
                 // Variables
@@ -88,14 +88,16 @@ namespace MDP.AspNetCore.Authorization
                     var accessScopeKey = accessPathSection.Substring(1, accessPathSection.Length - 2);
                     if (string.IsNullOrEmpty(accessScopeKey) == true) return false;
 
-                    // AccessScope
-                    var accessScope = string.Empty;
-                    if (roleAssignment.Scopes.TryGetValue(accessScopeKey, out accessScope) == false) return false;
-                    if (string.IsNullOrEmpty(accessScope) == true) return false;
-                    if (string.IsNullOrEmpty(accessScope) == false) accessScopes.Add(accessScopeKey, accessScope);
+                    // RoleScopeIndex
+                    var roleScopeIndex = accessPermission.RoleScopes.FindIndex(o => o.Equals(accessScopeKey, StringComparison.OrdinalIgnoreCase) == true);
+                    if (roleScopeIndex <= -1) return false;                   
 
-                    // Equals
-                    if (resourceScope.Equals(accessScope, StringComparison.OrdinalIgnoreCase) == true)
+                    // RoleScope
+                    var roleScope = roleAssignment.RoleScopes.ElementAtOrDefault(roleScopeIndex);
+                    if (string.IsNullOrEmpty(roleScope) == true) return false;
+
+                    // ResourceScope.Equals
+                    if (resourceScope.Equals(roleScope, StringComparison.OrdinalIgnoreCase) == true)
                     {
                         continue;
                     }
@@ -119,12 +121,6 @@ namespace MDP.AspNetCore.Authorization
                 if (resourcePathSection.Equals(accessPathSection, StringComparison.OrdinalIgnoreCase) == false) return false;
             }
 
-            // [Scope].Equals
-            foreach (var roleScopeKey in roleAssignment.Scopes.Keys)
-            {
-                if (accessScopes.ContainsKey(roleScopeKey) == false) return false;
-            }
-
             // Return
             return true;
         }
@@ -146,7 +142,7 @@ namespace MDP.AspNetCore.Authorization
             {
                 #region Contracts
 
-                if (string.IsNullOrEmpty(resourceUri) == true) throw new ArgumentException($"{nameof(resourceUri)}=null");
+                if (string.IsNullOrEmpty(resourceUri) == true) throw new ArgumentNullException($"{nameof(resourceUri)}=null");
 
                 #endregion
 

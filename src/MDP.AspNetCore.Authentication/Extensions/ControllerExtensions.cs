@@ -19,8 +19,8 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (localIdentity == null) throw new ArgumentException($"{nameof(localIdentity)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+            if (localIdentity == null) throw new ArgumentNullException($"{nameof(localIdentity)}=null");
 
             #endregion
 
@@ -40,8 +40,8 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
 
             #endregion
 
@@ -67,8 +67,8 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
 
             #endregion
 
@@ -94,7 +94,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
 
             #endregion
 
@@ -114,7 +114,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
 
             #endregion
 
@@ -126,7 +126,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (controller == null) throw new ArgumentException($"{nameof(controller)}=null");
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
 
             #endregion
 

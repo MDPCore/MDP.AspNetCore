@@ -17,7 +17,7 @@ namespace MDP.AspNetCore.Lab
         {
             #region Contracts
 
-            if (workContext == null) throw new ArgumentException($"{nameof(workContext)}=null");
+            if (workContext == null) throw new ArgumentNullException($"{nameof(workContext)}=null");
 
             #endregion
 
@@ -44,7 +44,7 @@ namespace MDP.AspNetCore.Lab
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(value) == true) throw new ArgumentException($"{nameof(value)}=null");
+            if (string.IsNullOrEmpty(value) == true) throw new ArgumentNullException($"{nameof(value)}=null");
 
             #endregion
 

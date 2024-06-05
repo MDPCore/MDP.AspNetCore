@@ -4,6 +4,7 @@ using System;
 
 namespace MDP.AspNetCore.Authorization.Lab
 {
+    [Route("{controller=Home}/{action=Index}")]
     [Route("{tenantId}/{controller=Home}/{action=Index}")]
     public class HomeController : Controller
     {

@@ -25,7 +25,7 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (builder == null) throw new ArgumentException(nameof(builder));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             #endregion
 
@@ -37,8 +37,8 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (builder == null) throw new ArgumentException(nameof(builder));
-            if (configureOptions == null) throw new ArgumentException(nameof(configureOptions));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (configureOptions == null) throw new ArgumentNullException(nameof(configureOptions));
 
             #endregion
 
@@ -50,9 +50,9 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (builder == null) throw new ArgumentException(nameof(builder));
-            if (string.IsNullOrEmpty(authenticationScheme) == true) throw new ArgumentException($"{nameof(authenticationScheme)}=null");
-            if (configureOptions == null) throw new ArgumentException(nameof(configureOptions));
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+            if (string.IsNullOrEmpty(authenticationScheme) == true) throw new ArgumentNullException($"{nameof(authenticationScheme)}=null");
+            if (configureOptions == null) throw new ArgumentNullException(nameof(configureOptions));
 
             #endregion
 

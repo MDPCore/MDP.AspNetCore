@@ -18,12 +18,12 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
         {
             #region Contracts
 
-            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
-            if (string.IsNullOrEmpty(header) == true) throw new ArgumentException($"{nameof(header)}=null");
-            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentException($"{nameof(prefix)}=null");
-            if (string.IsNullOrEmpty(tenantId) == true) throw new ArgumentException($"{nameof(tenantId)}=null");
-            if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentException($"{nameof(clientId)}=null");
+            if (authenticationBuilder == null) throw new ArgumentNullException($"{nameof(authenticationBuilder)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
+            if (string.IsNullOrEmpty(header) == true) throw new ArgumentNullException($"{nameof(header)}=null");
+            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentNullException($"{nameof(prefix)}=null");
+            if (string.IsNullOrEmpty(tenantId) == true) throw new ArgumentNullException($"{nameof(tenantId)}=null");
+            if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentNullException($"{nameof(clientId)}=null");
 
             #endregion
 
@@ -58,8 +58,8 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
         {
             #region Contracts
 
-            if (securityTokenOptions == null) throw new ArgumentException($"{nameof(securityTokenOptions)}=null");
-            if (string.IsNullOrEmpty(authenticationHeader) == true) throw new ArgumentException($"{nameof(authenticationHeader)}=null");
+            if (securityTokenOptions == null) throw new ArgumentNullException($"{nameof(securityTokenOptions)}=null");
+            if (string.IsNullOrEmpty(authenticationHeader) == true) throw new ArgumentNullException($"{nameof(authenticationHeader)}=null");
 
             #endregion
 

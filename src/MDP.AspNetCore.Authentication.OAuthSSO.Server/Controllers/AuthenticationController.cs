@@ -29,8 +29,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (authenticationSetting == null) throw new ArgumentException($"{nameof(authenticationSetting)}=null");
-            if (dataProtectionProvider == null) throw new ArgumentException($"{nameof(dataProtectionProvider)}=null");
+            if (authenticationSetting == null) throw new ArgumentNullException($"{nameof(authenticationSetting)}=null");
+            if (dataProtectionProvider == null) throw new ArgumentNullException($"{nameof(dataProtectionProvider)}=null");
 
             #endregion
 
@@ -127,9 +127,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentException($"{nameof(redirectUri)}=null");
-            if (string.IsNullOrEmpty(authorizationCode) == true) throw new ArgumentException($"{nameof(authorizationCode)}=null");
-            if (string.IsNullOrEmpty(state) == true) throw new ArgumentException($"{nameof(state)}=null");
+            if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentNullException($"{nameof(redirectUri)}=null");
+            if (string.IsNullOrEmpty(authorizationCode) == true) throw new ArgumentNullException($"{nameof(authorizationCode)}=null");
+            if (string.IsNullOrEmpty(state) == true) throw new ArgumentNullException($"{nameof(state)}=null");
 
             #endregion
 
@@ -141,10 +141,10 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentException($"{nameof(redirectUri)}=null");
-            if (string.IsNullOrEmpty(error) == true) throw new ArgumentException($"{nameof(error)}=null");
-            if (string.IsNullOrEmpty(errorDescription) == true) throw new ArgumentException($"{nameof(errorDescription)}=null");
-            if (string.IsNullOrEmpty(state) == true) throw new ArgumentException($"{nameof(state)}=null");
+            if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentNullException($"{nameof(redirectUri)}=null");
+            if (string.IsNullOrEmpty(error) == true) throw new ArgumentNullException($"{nameof(error)}=null");
+            if (string.IsNullOrEmpty(errorDescription) == true) throw new ArgumentNullException($"{nameof(errorDescription)}=null");
+            if (string.IsNullOrEmpty(state) == true) throw new ArgumentNullException($"{nameof(state)}=null");
 
             #endregion
 
@@ -457,10 +457,10 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 #region Contracts
 
-                if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentException($"{nameof(clientId)}=null");
-                if (string.IsNullOrEmpty(codeChallenge) == true) throw new ArgumentException($"{nameof(codeChallenge)}=null");
-                if (string.IsNullOrEmpty(codeChallengeMethod) == true) throw new ArgumentException($"{nameof(codeChallengeMethod)}=null");
-                if (claimsIdentity == null) throw new ArgumentException($"{nameof(claimsIdentity)}=null");
+                if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentNullException($"{nameof(clientId)}=null");
+                if (string.IsNullOrEmpty(codeChallenge) == true) throw new ArgumentNullException($"{nameof(codeChallenge)}=null");
+                if (string.IsNullOrEmpty(codeChallengeMethod) == true) throw new ArgumentNullException($"{nameof(codeChallengeMethod)}=null");
+                if (claimsIdentity == null) throw new ArgumentNullException($"{nameof(claimsIdentity)}=null");
 
                 #endregion
 
@@ -499,8 +499,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 #region Contracts
 
-                if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentException($"{nameof(clientId)}=null");
-                if (claimsIdentity == null) throw new ArgumentException($"{nameof(claimsIdentity)}=null");
+                if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentNullException($"{nameof(clientId)}=null");
+                if (claimsIdentity == null) throw new ArgumentNullException($"{nameof(claimsIdentity)}=null");
 
                 #endregion
 
@@ -527,7 +527,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 #region Contracts
 
-                if (claimsIdentity == null) throw new ArgumentException($"{nameof(claimsIdentity)}=null");
+                if (claimsIdentity == null) throw new ArgumentNullException($"{nameof(claimsIdentity)}=null");
 
                 #endregion
 
@@ -599,8 +599,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 #region Contracts
 
-                if (typeToConvert == null) throw new ArgumentException($"{nameof(typeToConvert)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (typeToConvert == null) throw new ArgumentNullException($"{nameof(typeToConvert)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 
@@ -618,8 +618,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 #region Contracts
 
-                if (writer == null) throw new ArgumentException($"{nameof(writer)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (writer == null) throw new ArgumentNullException($"{nameof(writer)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 

@@ -24,7 +24,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
 
             #endregion
 
@@ -128,7 +128,7 @@ namespace MDP.AspNetCore
             {
                 #region Contracts
 
-                if (context == null) throw new ArgumentException($"{nameof(context)}=null");
+                if (context == null) throw new ArgumentNullException($"{nameof(context)}=null");
 
                 #endregion
 
@@ -152,7 +152,7 @@ namespace MDP.AspNetCore
             {
                 #region Contracts
 
-                if (context == null) throw new ArgumentException($"{nameof(context)}=null");
+                if (context == null) throw new ArgumentNullException($"{nameof(context)}=null");
 
                 #endregion
 
@@ -171,8 +171,8 @@ namespace MDP.AspNetCore
             {
                 #region Contracts
 
-                if (typeToConvert == null) throw new ArgumentException($"{nameof(typeToConvert)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (typeToConvert == null) throw new ArgumentNullException($"{nameof(typeToConvert)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 
@@ -195,8 +195,8 @@ namespace MDP.AspNetCore
             {
                 #region Contracts
 
-                if (writer == null) throw new ArgumentException($"{nameof(writer)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (writer == null) throw new ArgumentNullException($"{nameof(writer)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 

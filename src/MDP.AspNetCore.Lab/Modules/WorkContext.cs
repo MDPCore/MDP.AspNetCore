@@ -15,7 +15,7 @@ namespace MyLab.Module
         {
             #region Contracts
 
-            if (workService == null) throw new ArgumentException($"{nameof(workService)}=null");
+            if (workService == null) throw new ArgumentNullException($"{nameof(workService)}=null");
 
             #endregion
 

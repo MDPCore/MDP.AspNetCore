@@ -17,17 +17,17 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (setting == null) throw new ArgumentException($"{nameof(setting)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
+            if (setting == null) throw new ArgumentNullException($"{nameof(setting)}=null");
 
             #endregion
 
             // Require
-            if (string.IsNullOrEmpty(setting.Scheme) == true) throw new ArgumentException($"{nameof(setting.Scheme)}=null");
-            if (string.IsNullOrEmpty(setting.Header) == true) throw new ArgumentException($"{nameof(setting.Header)}=null");
-            //if (string.IsNullOrEmpty(setting.Prefix) == true) throw new ArgumentException($"{nameof(setting.Prefix)}=null");
-            if (string.IsNullOrEmpty(setting.TenantId) == true) throw new ArgumentException($"{nameof(setting.TenantId)}=null");
-            if (string.IsNullOrEmpty(setting.ClientId) == true) throw new ArgumentException($"{nameof(setting.ClientId)}=null");
+            if (string.IsNullOrEmpty(setting.Scheme) == true) throw new ArgumentNullException($"{nameof(setting.Scheme)}=null");
+            if (string.IsNullOrEmpty(setting.Header) == true) throw new ArgumentNullException($"{nameof(setting.Header)}=null");
+            //if (string.IsNullOrEmpty(setting.Prefix) == true) throw new ArgumentNullException($"{nameof(setting.Prefix)}=null");
+            if (string.IsNullOrEmpty(setting.TenantId) == true) throw new ArgumentNullException($"{nameof(setting.TenantId)}=null");
+            if (string.IsNullOrEmpty(setting.ClientId) == true) throw new ArgumentNullException($"{nameof(setting.ClientId)}=null");
 
             // AuthenticationBuilder   
             var authenticationBuilder = applicationBuilder.Services.AddAuthentication();

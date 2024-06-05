@@ -30,9 +30,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
         {
             #region Contracts
 
-            if (identity == null) throw new ArgumentException(nameof(identity));
-            if (properties == null) throw new ArgumentException(nameof(properties));
-            if (tokens == null) throw new ArgumentException(nameof(tokens));
+            if (identity == null) throw new ArgumentNullException(nameof(identity));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+            if (tokens == null) throw new ArgumentNullException(nameof(tokens));
 
             #endregion
 
@@ -136,8 +136,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
             {
                 #region Contracts
 
-                if (typeToConvert == null) throw new ArgumentException($"{nameof(typeToConvert)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (typeToConvert == null) throw new ArgumentNullException($"{nameof(typeToConvert)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 
@@ -155,8 +155,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
             {
                 #region Contracts
 
-                if (writer == null) throw new ArgumentException($"{nameof(writer)}=null");
-                if (options == null) throw new ArgumentException($"{nameof(options)}=null");
+                if (writer == null) throw new ArgumentNullException($"{nameof(writer)}=null");
+                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
 
                 #endregion
 

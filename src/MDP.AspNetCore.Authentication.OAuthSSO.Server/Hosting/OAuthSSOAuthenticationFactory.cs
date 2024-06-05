@@ -20,8 +20,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (setting == null) throw new ArgumentException($"{nameof(setting)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
+            if (setting == null) throw new ArgumentNullException($"{nameof(setting)}=null");
 
             #endregion
 

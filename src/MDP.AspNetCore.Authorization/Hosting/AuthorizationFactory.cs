@@ -21,8 +21,8 @@ namespace MDP.AspNetCore.Authorization
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (setting == null) throw new ArgumentException($"{nameof(setting)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
+            if (setting == null) throw new ArgumentNullException($"{nameof(setting)}=null");
 
             #endregion
 
@@ -84,7 +84,32 @@ namespace MDP.AspNetCore.Authorization
             // Methods
             public AccessPermission ToPermission()
             {
-                return new AccessPermission(this.RoleId, this.AccessUri);
+                // RoleSectionArray
+                var roleSectionArray = this.RoleId.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if (roleSectionArray == null) throw new InvalidOperationException($"{nameof(roleSectionArray)}=null");
+                if (roleSectionArray.Length == 0) throw new InvalidOperationException($"{nameof(roleSectionArray)}=null");
+
+                // RoleSectionArray.For
+                for (int i = 0; i < roleSectionArray.Length; i++)
+                {
+                    // RoleSection
+                    var roleSection = roleSectionArray[i];
+                    if (roleSection.StartsWith("[") == true && roleSection.EndsWith("]") == true)
+                    {
+                        roleSectionArray[i] = roleSection.Substring(1, roleSection.Length - 2);
+                    }
+                }
+
+                // RoleId
+                var roleId = roleSectionArray[roleSectionArray.Length - 1];
+                if (string.IsNullOrEmpty(roleId) == true) throw new InvalidOperationException($"{nameof(roleId)}=null");
+
+                // RoleScopes
+                var roleScopes = roleSectionArray.Take(roleSectionArray.Length - 1).ToList();
+                if (roleScopes == null) throw new InvalidOperationException($"{nameof(roleId)}=null");
+
+                // Return
+                return new AccessPermission(roleId, roleScopes, this.AccessUri);
             }
         }
     }

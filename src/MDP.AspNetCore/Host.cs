@@ -9,7 +9,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (args == null) throw new ArgumentException($"{nameof(args)}=null");
+            if (args == null) throw new ArgumentNullException($"{nameof(args)}=null");
 
             #endregion
 

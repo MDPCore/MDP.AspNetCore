@@ -11,7 +11,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (application == null) throw new ArgumentException($"{nameof(application)}=null");
+            if (application == null) throw new ArgumentNullException($"{nameof(application)}=null");
 
             #endregion
 

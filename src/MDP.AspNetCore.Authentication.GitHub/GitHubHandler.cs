@@ -26,9 +26,9 @@ namespace MDP.AspNetCore.Authentication.GitHub
         {
             #region Contracts
 
-            if (identity == null) throw new ArgumentException(nameof(identity));
-            if (properties == null) throw new ArgumentException(nameof(properties));
-            if (tokens == null) throw new ArgumentException(nameof(tokens));
+            if (identity == null) throw new ArgumentNullException(nameof(identity));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+            if (tokens == null) throw new ArgumentNullException(nameof(tokens));
 
             #endregion
 

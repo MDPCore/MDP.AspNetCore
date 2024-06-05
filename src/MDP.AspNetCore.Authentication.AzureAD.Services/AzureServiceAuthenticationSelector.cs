@@ -18,8 +18,8 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
-            if (string.IsNullOrEmpty(header) == true) throw new ArgumentException($"{nameof(header)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
+            if (string.IsNullOrEmpty(header) == true) throw new ArgumentNullException($"{nameof(header)}=null");
 
             #endregion
 
@@ -38,7 +38,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Services
         {
             #region Contracts
 
-            if (context == null) throw new ArgumentException($"{nameof(context)}=null");
+            if (context == null) throw new ArgumentNullException($"{nameof(context)}=null");
 
             #endregion
 

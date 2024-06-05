@@ -15,8 +15,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (host == null) throw new ArgumentException($"{nameof(host)}=null");
-            if (string.IsNullOrEmpty(pathDefault) == true) throw new ArgumentException($"{nameof(pathDefault)}=null");
+            if (host == null) throw new ArgumentNullException($"{nameof(host)}=null");
+            if (string.IsNullOrEmpty(pathDefault) == true) throw new ArgumentNullException($"{nameof(pathDefault)}=null");
 
             #endregion
 

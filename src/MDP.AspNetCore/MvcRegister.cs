@@ -19,7 +19,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (mvcBuilder == null) throw new ArgumentException($"{nameof(mvcBuilder)}=null");
+            if (mvcBuilder == null) throw new ArgumentNullException($"{nameof(mvcBuilder)}=null");
 
             #endregion
 

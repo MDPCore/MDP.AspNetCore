@@ -23,7 +23,7 @@ namespace MDP.AspNetCore.Authentication.Liff
         {
             #region Contracts
 
-            if (optionsMonitor == null) throw new ArgumentException(nameof(optionsMonitor));
+            if (optionsMonitor == null) throw new ArgumentNullException(nameof(optionsMonitor));
 
             #endregion
 

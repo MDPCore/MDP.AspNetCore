@@ -43,7 +43,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException(nameof(scheme));
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException(nameof(scheme));
 
             #endregion
 

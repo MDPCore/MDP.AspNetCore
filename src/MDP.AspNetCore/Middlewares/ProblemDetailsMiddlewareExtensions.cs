@@ -11,7 +11,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (host == null) throw new ArgumentException($"{nameof(host)}=null");
+            if (host == null) throw new ArgumentNullException($"{nameof(host)}=null");
 
             #endregion
 

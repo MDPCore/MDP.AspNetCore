@@ -15,7 +15,7 @@ namespace MyLab.Module
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(message) == true) throw new ArgumentException(nameof(message));
+            if (string.IsNullOrEmpty(message) == true) throw new ArgumentNullException(nameof(message));
 
             #endregion
 

@@ -13,9 +13,9 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (hostBuilder == null) throw new ArgumentException($"{nameof(hostBuilder)}=null");
-            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentException($"{nameof(hookName)}=null");
-            if (configureMiddleware == null) throw new ArgumentException($"{nameof(configureMiddleware)}=null");
+            if (hostBuilder == null) throw new ArgumentNullException($"{nameof(hostBuilder)}=null");
+            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentNullException($"{nameof(hookName)}=null");
+            if (configureMiddleware == null) throw new ArgumentNullException($"{nameof(configureMiddleware)}=null");
 
             #endregion
 
@@ -34,8 +34,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (applicationBuilder == null) throw new ArgumentException($"{nameof(applicationBuilder)}=null");
-            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentException($"{nameof(hookName)}=null");
+            if (applicationBuilder == null) throw new ArgumentNullException($"{nameof(applicationBuilder)}=null");
+            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentNullException($"{nameof(hookName)}=null");
 
             #endregion
 
@@ -51,8 +51,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (application == null) throw new ArgumentException($"{nameof(application)}=null");
-            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentException($"{nameof(hookName)}=null");
+            if (application == null) throw new ArgumentNullException($"{nameof(application)}=null");
+            if (string.IsNullOrEmpty(hookName) == true) throw new ArgumentNullException($"{nameof(hookName)}=null");
 
             #endregion
 

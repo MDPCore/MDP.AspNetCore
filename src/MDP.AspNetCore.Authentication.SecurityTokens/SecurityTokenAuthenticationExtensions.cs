@@ -19,13 +19,13 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
         {
             #region Contracts
 
-            if (authenticationBuilder == null) throw new ArgumentException($"{nameof(authenticationBuilder)}=null");
-            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentException($"{nameof(scheme)}=null");
-            if (string.IsNullOrEmpty(header) == true) throw new ArgumentException($"{nameof(header)}=null");
-            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentException($"{nameof(prefix)}=null");
-            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentException($"{nameof(algorithm)}=null");
-            if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentException($"{nameof(signKey)}=null");
-            //if (string.IsNullOrEmpty(issuer) == true) throw new ArgumentException($"{nameof(issuer)}=null");
+            if (authenticationBuilder == null) throw new ArgumentNullException($"{nameof(authenticationBuilder)}=null");
+            if (string.IsNullOrEmpty(scheme) == true) throw new ArgumentNullException($"{nameof(scheme)}=null");
+            if (string.IsNullOrEmpty(header) == true) throw new ArgumentNullException($"{nameof(header)}=null");
+            //if (string.IsNullOrEmpty(prefix) == true) throw new ArgumentNullException($"{nameof(prefix)}=null");
+            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentNullException($"{nameof(algorithm)}=null");
+            if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentNullException($"{nameof(signKey)}=null");
+            //if (string.IsNullOrEmpty(issuer) == true) throw new ArgumentNullException($"{nameof(issuer)}=null");
 
             #endregion
 
@@ -68,8 +68,8 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
         {
             #region Contracts
 
-            if (securityTokenOptions == null) throw new ArgumentException($"{nameof(securityTokenOptions)}=null");
-            if (string.IsNullOrEmpty(authenticationHeader) == true) throw new ArgumentException($"{nameof(authenticationHeader)}=null");
+            if (securityTokenOptions == null) throw new ArgumentNullException($"{nameof(securityTokenOptions)}=null");
+            if (string.IsNullOrEmpty(authenticationHeader) == true) throw new ArgumentNullException($"{nameof(authenticationHeader)}=null");
 
             #endregion
 
@@ -168,8 +168,8 @@ namespace MDP.AspNetCore.Authentication.SecurityTokens
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentException($"{nameof(algorithm)}=null");
-            if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentException($"{nameof(signKey)}=null");
+            if (string.IsNullOrEmpty(algorithm) == true) throw new ArgumentNullException($"{nameof(algorithm)}=null");
+            if (string.IsNullOrEmpty(signKey) == true) throw new ArgumentNullException($"{nameof(signKey)}=null");
 
             #endregion
 

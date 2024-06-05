@@ -21,7 +21,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (builder == null) throw new ArgumentException($"{nameof(builder)}=null");
+            if (builder == null) throw new ArgumentNullException($"{nameof(builder)}=null");
 
             #endregion
 
@@ -47,7 +47,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (httpContext == null) throw new ArgumentException(nameof(httpContext));
+            if (httpContext == null) throw new ArgumentNullException(nameof(httpContext));
 
             #endregion
 
@@ -69,8 +69,8 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (httpContext == null) throw new ArgumentException($"{nameof(httpContext)}=null");
-            if (principal == null) throw new ArgumentException($"{nameof(principal)}=null");
+            if (httpContext == null) throw new ArgumentNullException($"{nameof(httpContext)}=null");
+            if (principal == null) throw new ArgumentNullException($"{nameof(principal)}=null");
 
             #endregion
 
@@ -82,7 +82,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (httpContext == null) throw new ArgumentException($"{nameof(httpContext)}=null");
+            if (httpContext == null) throw new ArgumentNullException($"{nameof(httpContext)}=null");
 
             #endregion
 

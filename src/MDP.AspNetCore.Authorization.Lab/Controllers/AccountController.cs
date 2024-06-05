@@ -37,7 +37,7 @@ namespace MDP.AspNetCore.Authorization.Lab
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(username) == true) throw new ArgumentException($"{nameof(username)}=null");
+            if (string.IsNullOrEmpty(username) == true) throw new ArgumentNullException($"{nameof(username)}=null");
 
             #endregion
 
@@ -52,7 +52,8 @@ namespace MDP.AspNetCore.Authorization.Lab
                     new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.Name, $"{username}"),
                     new Claim(ClaimTypes.Email, $"{username}@example.com"),
-                    new Claim(ClaimTypes.Role, "Admin:T0001")
+                    new Claim(ClaimTypes.Role, "Admin"),
+                    new Claim(ClaimTypes.Role, "T0001:Admin")
                 });
             }
 
@@ -64,7 +65,8 @@ namespace MDP.AspNetCore.Authorization.Lab
                     new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
                     new Claim(ClaimTypes.Name, $"{username}"),
                     new Claim(ClaimTypes.Email, $"{username}@example.com"),
-                    new Claim(ClaimTypes.Role, "User:T0001")
+                    new Claim(ClaimTypes.Role, "User"),
+                    new Claim(ClaimTypes.Role, "T0001:User")
                 });
             }
 

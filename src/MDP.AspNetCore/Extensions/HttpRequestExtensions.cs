@@ -14,7 +14,7 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (request == null) throw new ArgumentException($"{nameof(request)}=null");
+            if (request == null) throw new ArgumentNullException($"{nameof(request)}=null");
 
             #endregion
 
@@ -26,8 +26,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (request == null) throw new ArgumentException($"{nameof(request)}=null");
-            if (string.IsNullOrEmpty(accept) == true) throw new ArgumentException($"{nameof(accept)}=null");
+            if (request == null) throw new ArgumentNullException($"{nameof(request)}=null");
+            if (string.IsNullOrEmpty(accept) == true) throw new ArgumentNullException($"{nameof(accept)}=null");
 
             #endregion
 
@@ -39,8 +39,8 @@ namespace MDP.AspNetCore
         {
             #region Contracts
 
-            if (request == null) throw new ArgumentException($"{nameof(request)}=null");
-            if (acceptList == null) throw new ArgumentException($"{nameof(acceptList)}=null");
+            if (request == null) throw new ArgumentNullException($"{nameof(request)}=null");
+            if (acceptList == null) throw new ArgumentNullException($"{nameof(acceptList)}=null");
 
             #endregion
 
