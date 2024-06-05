@@ -9,36 +9,36 @@ namespace MDP.AspNetCore.Authorization
     public class RoleAuthorizationHandler : AuthorizationHandler<RoleAuthorizationRequirement>
     {
         // Fields
+        private readonly IList<IAccessResourceProvider> _accessResourceProviderList = null;
+
         private readonly IList<IRoleAssignmentProvider> _roleAssignmentProviderList = null;
 
         private readonly IList<IAccessPermissionProvider> _accessPermissionProviderList = null;
 
-        private readonly IList<IAccessResourceProvider> _accessResourceProviderList = null;
-
 
         // Constructors
-        public RoleAuthorizationHandler(IList<IRoleAssignmentProvider> roleAssignmentProviderList, IList<IAccessPermissionProvider> accessPermissionProviderList, IList<IAccessResourceProvider> accessResourceProviderList)
+        public RoleAuthorizationHandler(IList<IAccessResourceProvider> accessResourceProviderList, IList<IRoleAssignmentProvider> roleAssignmentProviderList, IList<IAccessPermissionProvider> accessPermissionProviderList)
         {
             #region Contracts
 
+            ArgumentNullException.ThrowIfNull(accessResourceProviderList);
             ArgumentNullException.ThrowIfNull(roleAssignmentProviderList);
             ArgumentNullException.ThrowIfNull(accessPermissionProviderList);
-            ArgumentNullException.ThrowIfNull(accessResourceProviderList);
 
             #endregion
+
+            // AccessResourceProviderList
+            _accessResourceProviderList = accessResourceProviderList;
 
             // RoleAssignmentProviderList
             _roleAssignmentProviderList = roleAssignmentProviderList;
             if (_roleAssignmentProviderList.Count <= 0)
             {
-                _roleAssignmentProviderList.Add(DefaultRoleAssignmentProvider.Instance);
+                _roleAssignmentProviderList.Add(new DefaultRoleAssignmentProvider());
             }
 
             // AccessPermissionProviderList            
             _accessPermissionProviderList = accessPermissionProviderList;
-
-            // AccessResourceProviderList
-            _accessResourceProviderList = accessResourceProviderList;
         }
 
 
@@ -47,8 +47,8 @@ namespace MDP.AspNetCore.Authorization
         {
             #region Contracts
 
-            if (context == null) throw new ArgumentException($"{nameof(context)}=null");
-            if (requirement == null) throw new ArgumentException($"{nameof(requirement)}=null");
+            ArgumentNullException.ThrowIfNull(context);
+            ArgumentNullException.ThrowIfNull(requirement);
 
             #endregion
 
@@ -82,53 +82,34 @@ namespace MDP.AspNetCore.Authorization
             // RoleAssignmentList.Foreach
             foreach (var roleAssignment in roleAssignmentList)
             {
-                // HasAccess
-                if (this.HasAccess(roleAssignment, accessResource) == true)
+                // AccessPermission
+                var accessPermissionList = new List<AccessPermission>();
+                foreach (var accessPermissionProvider in _accessPermissionProviderList)
                 {
-                    // Succeed
-                    context.Succeed(requirement);
+                    // Create
+                    var accessPermissionListSource = accessPermissionProvider.Create(roleAssignment.RoleId, accessResource.ResourceProvider, accessResource.ResourceType);
+                    if (accessPermissionListSource == null) throw new InvalidOperationException($"{nameof(accessPermissionListSource)}=null");
 
-                    // Return
-                    return Task.CompletedTask;
+                    // Add
+                    accessPermissionList.AddRange(accessPermissionListSource);
+                }
+
+                // HasAccess
+                foreach (var accessPermission in accessPermissionList)
+                {
+                    if (accessResource.HasAccess(roleAssignment, accessPermission) == true)
+                    {
+                        // Succeed
+                        context.Succeed(requirement);
+
+                        // Return
+                        return Task.CompletedTask;
+                    }
                 }
             }
 
             // Return
             return Task.CompletedTask;
-        }
-
-        private bool HasAccess(RoleAssignment roleAssignment, AccessResource accessResource)
-        {
-            #region Contracts
-
-            if (roleAssignment == null) throw new ArgumentException($"{nameof(roleAssignment)}=null");
-            if (accessResource == null) throw new ArgumentException($"{nameof(accessResource)}=null");
-
-            #endregion
-
-            // AccessPermission
-            var accessPermissionList = new List<AccessPermission>();
-            foreach (var accessPermissionProvider in _accessPermissionProviderList)
-            {
-                // Create
-                var accessPermissionListSource = accessPermissionProvider.Create(roleAssignment.RoleId, accessResource.ResourceProvider, accessResource.ResourceType);
-                if (accessPermissionListSource == null) throw new InvalidOperationException($"{nameof(accessPermissionListSource)}=null");
-
-                // Add
-                accessPermissionList.AddRange(accessPermissionListSource);
-            }
-
-            // HasAccess
-            foreach (var accessPermission in accessPermissionList)
-            {
-                if (accessPermission.HasAccess(roleAssignment, accessResource) == true)
-                {
-                    return true;
-                }
-            }
-
-            // Return
-            return false;
         }
     }
 }

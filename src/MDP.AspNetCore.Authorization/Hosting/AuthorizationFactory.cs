@@ -48,10 +48,13 @@ namespace MDP.AspNetCore.Authorization
             // RoleAuthorizationHandler
             applicationBuilder.Services.AddSingleton<IAuthorizationHandler, RoleAuthorizationHandler>();
 
+            // AccessResourceProvider
+            applicationBuilder.Services.AddTransient<IAccessResourceProvider, WebAccessResourceProvider>();
+
             // RoleAssignmentProvider
 
             // AccessPermissionProvider
-            applicationBuilder.Services.AddSingleton<IAccessPermissionProvider>(serviceProvider =>
+            applicationBuilder.Services.AddTransient<IAccessPermissionProvider>(serviceProvider =>
             {
                 // AccessPermissionList
                 var accessPermissionList = setting.Permissions?.Select(o => o.ToPermission()).ToList();
@@ -60,9 +63,6 @@ namespace MDP.AspNetCore.Authorization
                 // Return
                 return new DefaultAccessPermissionProvider(accessPermissionList);
             });
-
-            // AccessResourceProvider
-            applicationBuilder.Services.AddTransient<IAccessResourceProvider, WebAccessResourceProvider>();            
         }
 
 

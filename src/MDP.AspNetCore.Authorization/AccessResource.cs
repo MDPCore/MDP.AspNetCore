@@ -18,7 +18,7 @@ namespace MDP.AspNetCore.Authorization
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(resourceUri) == true) throw new ArgumentException($"{nameof(resourceUri)}=null");
+            ArgumentNullException.ThrowIfNullOrEmpty(resourceUri);
 
             #endregion
 
@@ -37,6 +37,97 @@ namespace MDP.AspNetCore.Authorization
         public string ResourceString { get { return _resourceUri.ResourceString; } }
 
         internal List<string> ResourcePathList { get { return _resourceUri.ResourcePathList; } }
+
+
+        // Methods
+        public bool HasAccess(RoleAssignment roleAssignment, AccessPermission accessPermission)
+        {
+            #region Contracts
+
+            ArgumentNullException.ThrowIfNull(roleAssignment);
+            ArgumentNullException.ThrowIfNull(accessPermission);
+
+            #endregion
+
+            // Require
+            if (roleAssignment.RoleId.Equals(accessPermission.RoleId, StringComparison.OrdinalIgnoreCase) == false) throw new InvalidOperationException($"{nameof(roleAssignment.RoleId)}!=${nameof(accessPermission.RoleId)}");
+
+            // ResourceString
+            if (this.ResourceString.Equals(accessPermission.AccessString, StringComparison.OrdinalIgnoreCase) == true) return true;
+
+            // ResourceProvider
+            if (this.ResourceProvider.Equals(accessPermission.AccessProvider, StringComparison.OrdinalIgnoreCase) == false) return false;
+
+            // ResourceType
+            if (this.ResourceType.Equals(accessPermission.AccessType, StringComparison.OrdinalIgnoreCase) == false) return false;
+
+            // ResourcePath.Count
+            var maxCount = Math.Max(this.ResourcePathList.Count, accessPermission.AccessPathList.Count);
+            if (maxCount == 0) return true;
+
+            // ResourcePath.Equals
+            var accessScopes = new Dictionary<string, string>();
+            for (int i = 0; i < maxCount; i++)
+            {
+                // Variables
+                var resourcePathSection = this.ResourcePathList.ElementAtOrDefault(i);
+                var accessPathSection = accessPermission.AccessPathList.ElementAtOrDefault(i);
+
+                // Null
+                if (string.IsNullOrEmpty(resourcePathSection) == true) return false;
+                if (string.IsNullOrEmpty(accessPathSection) == true) return false;
+
+                // [Scope]
+                if (accessPathSection.StartsWith("[") == true && accessPathSection.EndsWith("]") == true)
+                {
+                    // ResourceScope
+                    var resourceScope = resourcePathSection;
+                    if (string.IsNullOrEmpty(resourceScope) == true) return false;
+
+                    // AccessScopeKey
+                    var accessScopeKey = accessPathSection.Substring(1, accessPathSection.Length - 2);
+                    if (string.IsNullOrEmpty(accessScopeKey) == true) return false;
+
+                    // AccessScope
+                    var accessScope = string.Empty;
+                    if (roleAssignment.Scopes.TryGetValue(accessScopeKey, out accessScope) == false) return false;
+                    if (string.IsNullOrEmpty(accessScope) == true) return false;
+                    if (string.IsNullOrEmpty(accessScope) == false) accessScopes.Add(accessScopeKey, accessScope);
+
+                    // Equals
+                    if (resourceScope.Equals(accessScope, StringComparison.OrdinalIgnoreCase) == true)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+                // *
+                if (accessPathSection == "*")
+                {
+                    // Last
+                    if (i == accessPermission.AccessPathList.Count - 1) break;
+
+                    // Middle
+                    if (i <  accessPermission.AccessPathList.Count - 1) continue;                    
+                }
+
+                // String
+                if (resourcePathSection.Equals(accessPathSection, StringComparison.OrdinalIgnoreCase) == false) return false;
+            }
+
+            // [Scope].Equals
+            foreach (var roleScopeKey in roleAssignment.Scopes.Keys)
+            {
+                if (accessScopes.ContainsKey(roleScopeKey) == false) return false;
+            }
+
+            // Return
+            return true;
+        }
 
 
         // Class

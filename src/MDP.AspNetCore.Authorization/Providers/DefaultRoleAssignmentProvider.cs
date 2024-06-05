@@ -10,33 +10,6 @@ namespace MDP.AspNetCore.Authorization
 {
     public class DefaultRoleAssignmentProvider : IRoleAssignmentProvider
     {
-        // Singleton
-        private static readonly object _syncRoot = new object();
-
-        private static DefaultRoleAssignmentProvider _instance = null;
-
-        public static DefaultRoleAssignmentProvider Instance
-        {
-            get
-            {
-                // Require
-                if (_instance != null) return _instance;
-
-                // Create
-                lock (_syncRoot)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new DefaultRoleAssignmentProvider();
-                    }
-                }
-
-                // Return
-                return _instance;
-            }
-        }
-
-
         // Methods
         public List<RoleAssignment> Create(ClaimsIdentity claimsIdentity)
         {
