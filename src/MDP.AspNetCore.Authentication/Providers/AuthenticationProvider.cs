@@ -37,5 +37,20 @@ namespace MDP.AspNetCore.Authentication
             // Nothing
            
         }
+
+        public virtual ClaimsIdentity LocalRefresh(ClaimsIdentity localIdentity)
+        {
+            #region Contracts
+
+            ArgumentNullException.ThrowIfNull(localIdentity);
+
+            #endregion
+
+            // freshIdentity
+            var freshIdentity = localIdentity;
+
+            // Return
+            return freshIdentity;
+        }
     }
 }

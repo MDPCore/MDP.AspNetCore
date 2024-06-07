@@ -15,7 +15,7 @@ namespace MDP.AspNetCore.Authentication
     public static partial class ControllerExtensions
     {
         // Methods
-        public static async Task<ActionResult> LoginAsync(this Controller controller, ClaimsIdentity localIdentity, string returnUrl = null)
+        public static async Task<ActionResult> SignInAsync(this Controller controller, ClaimsIdentity localIdentity, string returnUrl = null)
         {
             #region Contracts
 

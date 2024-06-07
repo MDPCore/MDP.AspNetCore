@@ -71,7 +71,7 @@ namespace MDP.AspNetCore.Authorization.Lab
             }
 
             // Return
-            return await this.LoginAsync(claimsIdentity, returnUrl);
+            return await this.SignInAsync(claimsIdentity, returnUrl);
         }
     }
 }

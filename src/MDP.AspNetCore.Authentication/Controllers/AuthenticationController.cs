@@ -124,5 +124,28 @@ namespace MDP.AspNetCore.Authentication
                 return this.Forbid();
             }
         }
+
+        [AllowAnonymous]
+        [Route("/.auth/refresh", Name = "/.auth/refresh")]
+        public async Task<ActionResult> Refresh(string returnUrl = null)
+        {
+            // Require
+            returnUrl = this.NormalizeReturnUrl(returnUrl);
+
+            // RemoteIdentity
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            if (remoteIdentity != null) throw new InvalidOperationException($"{nameof(remoteIdentity)}!=null");
+
+            // LocalIdentity
+            var localIdentity = await this.LocalAuthenticateAsync();
+            if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
+
+            // LocalIdentity.Refresh
+            if (localIdentity != null) localIdentity = _authenticationProvider.LocalRefresh(remoteIdentity);
+            if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
+
+            // SignIn
+            return await this.SignInAsync(localIdentity, returnUrl);
+        }
     }
 }

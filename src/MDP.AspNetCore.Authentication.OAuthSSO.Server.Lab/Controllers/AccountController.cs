@@ -44,7 +44,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server.Lab
             });
 
             // Return
-            return await this.LoginAsync(claimsIdentity, returnUrl);
+            return await this.SignInAsync(claimsIdentity, returnUrl);
         }
     }
 }
