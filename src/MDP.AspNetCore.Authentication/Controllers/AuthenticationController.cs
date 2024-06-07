@@ -141,7 +141,7 @@ namespace MDP.AspNetCore.Authentication
             if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
 
             // LocalIdentity.Refresh
-            if (localIdentity != null) localIdentity = _authenticationProvider.LocalRefresh(remoteIdentity);
+            if (localIdentity != null) localIdentity = _authenticationProvider.LocalRefresh(localIdentity);
             if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
 
             // SignIn
