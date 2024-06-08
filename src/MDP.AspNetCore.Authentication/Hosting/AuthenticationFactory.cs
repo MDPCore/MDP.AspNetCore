@@ -68,15 +68,15 @@ namespace MDP.AspNetCore.Authentication
                 });
             }
 
-            // AuthenticationControllerSetting
+            // AuthenticationSetting
             applicationBuilder.Services.TryAddSingleton(serviceProvider =>
             {
                 // Create
-                var authenticationControllerSetting = new AuthenticationControllerSetting();
-                authenticationControllerSetting.RegisterPath = setting.RegisterPath;
+                var authenticationSetting = new AuthenticationSetting();
+                authenticationSetting.RegisterPath = setting.RegisterPath;
 
                 // Return
-                return authenticationControllerSetting;
+                return authenticationSetting;
             });
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    public class AuthenticationControllerSetting
+    public class AuthenticationSetting
     {
         // Properties
         public string RegisterPath { get; set; } = null;
