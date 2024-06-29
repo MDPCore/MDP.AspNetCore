@@ -1,0 +1,76 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+
+    <!-- title -->
+    <title>Home</title>
+
+    <!-- meta -->
+    <meta charset="utf-8" />
+
+    <!-- script -->
+    <script language="javascript">
+        async function getUserByJwtBearer() {
+            try {
+                const response = await fetch("/Home/GetUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + document.getElementById("getUserByJwtBearer.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getUserByJwtBearer.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getUserByJwtBearer.result").innerText = `getUserByJwtBearer is Failed: ${response.status}`;
+                }
+            }
+            catch (error) {
+                document.getElementById("getUserByJwtBearer.result").innerText = `getUserByJwtBearer is Failed: ${error}`;
+            }
+        }
+
+        async function getUserByApiToken() {
+            try {
+                const response = await fetch("/Home/GetUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Api-Token": document.getElementById("getUserByApiToken.token").innerText
+                    }
+                });
+                if (response.ok) {
+                    document.getElementById("getUserByApiToken.result").innerText = JSON.stringify(await response.json(), null, 2);
+                } else {
+                    document.getElementById("getUserByApiToken.result").innerText = `getUserByApiToken is Failed: ${response.status}`;
+                }
+            }
+            catch (error) {
+                document.getElementById("getUserByApiToken.result").innerText = `getUserByApiToken is Failed: ${error}`;
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- title -->
+    <h2>Home</h2>
+    <hr />
+
+    <!--GetUserByJwtBearer-->
+    <input type="button" value="GetUserByJwtBearer" onclick="getUserByJwtBearer()" /><br />
+    <div id="getUserByJwtBearer.token">@ViewBag.JwtBearer</div><br />   
+    <div id="getUserByJwtBearer.result"></div><br />
+    <hr />
+
+    <!--GetUserByApiToken-->
+    <input type="button" value="GetUserByApiToken" onclick="getUserByApiToken()" /><br />
+    <div id="getUserByApiToken.token">@ViewBag.ApiToken</div><br />   
+    <div id="getUserByApiToken.result"></div><br />
+    <hr />
+
+</body>
+</html>

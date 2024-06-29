@@ -23,20 +23,24 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
         private readonly IDataProtectionProvider _dataProtectionProvider = null;
 
+        private readonly TokenProviderFactory _tokenProviderFactory = null;
+
 
         // Constructors
-        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider)
+        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
         {
             #region Contracts
 
-            if (authenticationSetting == null) throw new ArgumentNullException($"{nameof(authenticationSetting)}=null");
-            if (dataProtectionProvider == null) throw new ArgumentNullException($"{nameof(dataProtectionProvider)}=null");
+            ArgumentNullException.ThrowIfNull(authenticationSetting);
+            ArgumentNullException.ThrowIfNull(dataProtectionProvider);
+            ArgumentNullException.ThrowIfNull(tokenProviderFactory);
 
             #endregion
 
             // Default
             _authenticationSetting = authenticationSetting;
             _dataProtectionProvider = dataProtectionProvider;
+            _tokenProviderFactory = tokenProviderFactory;
         }
 
 
@@ -324,17 +328,13 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
             if (authorizationTokenData == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData)}=null" });
 
+            // TokenProvider
+            var tokenProvider = _tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
+            if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
+
             // AccessToken
             string accessToken = null;
-            { 
-                // TokenProviderFactory
-                var tokenProviderFactory = this.HttpContext.RequestServices.GetService(typeof(TokenProviderFactory)) as TokenProviderFactory;
-                if (tokenProviderFactory == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProviderFactory)}=null" });
-
-                // TokenProvider
-                var tokenProvider = tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
-                if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
-
+            {                 
                 // ClaimsIdentity
                 var claimsIdentity = authorizationTokenData.GetClaimsIdentity();
                 if (claimsIdentity == null) return StatusCode(500, new { error = "invalid_token", error_description = $"{nameof(claimsIdentity)}=null" });
