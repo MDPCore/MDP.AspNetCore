@@ -9,7 +9,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
     public class AuthenticationControllerSetting
     {
         // Properties
-        public int ExpirationMinutes { get; set; } = 5;
+        public int ExpireMinutes { get; set; } = 5;
 
         public string JwtTokenName { get; set; } = "JwtBearer";
 
