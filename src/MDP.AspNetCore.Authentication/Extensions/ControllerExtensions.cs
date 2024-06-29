@@ -85,8 +85,8 @@ namespace MDP.AspNetCore.Authentication
             if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
             if (localIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(localIdentity)}.IsAuthenticated=false");
 
-            // LocalIdentity.Refresh
-            if (localIdentity != null) localIdentity = authenticationProvider.LocalRefresh(localIdentity);
+            // Login
+            if (localIdentity != null) localIdentity = authenticationProvider.LocalLogin(localIdentity);
             if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
             if (localIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(localIdentity)}.IsAuthenticated=false");
 

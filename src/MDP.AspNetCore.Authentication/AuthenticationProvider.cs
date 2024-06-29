@@ -10,6 +10,18 @@ namespace MDP.AspNetCore.Authentication
     public class AuthenticationProvider
     {
         // Methods
+        public virtual ClaimsIdentity LocalLogin(ClaimsIdentity localIdentity)
+        {
+            #region Contracts
+
+            ArgumentNullException.ThrowIfNull(localIdentity);
+
+            #endregion
+
+            // Return
+            return localIdentity;
+        }
+
         public virtual ClaimsIdentity RemoteLogin(ClaimsIdentity remoteIdentity)
         {
             #region Contracts
@@ -18,11 +30,8 @@ namespace MDP.AspNetCore.Authentication
 
             #endregion
 
-            // LocalIdentity
-            var localIdentity = remoteIdentity;
-
             // Return
-            return localIdentity;
+            return remoteIdentity;
         }
 
         public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity localIdentity)
@@ -36,21 +45,6 @@ namespace MDP.AspNetCore.Authentication
 
             // Nothing
            
-        }
-
-        public virtual ClaimsIdentity LocalRefresh(ClaimsIdentity localIdentity)
-        {
-            #region Contracts
-
-            ArgumentNullException.ThrowIfNull(localIdentity);
-
-            #endregion
-
-            // freshIdentity
-            var freshIdentity = localIdentity;
-
-            // Return
-            return freshIdentity;
         }
     }
 }
