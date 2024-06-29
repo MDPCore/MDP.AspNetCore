@@ -23,20 +23,24 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
         private readonly IDataProtectionProvider _dataProtectionProvider = null;
 
+        private readonly TokenProviderFactory _tokenProviderFactory = null;
+
 
         // Constructors
-        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider)
+        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
         {
             #region Contracts
 
-            if (authenticationSetting == null) throw new ArgumentNullException($"{nameof(authenticationSetting)}=null");
-            if (dataProtectionProvider == null) throw new ArgumentNullException($"{nameof(dataProtectionProvider)}=null");
+            ArgumentNullException.ThrowIfNull(authenticationSetting);
+            ArgumentNullException.ThrowIfNull(dataProtectionProvider);
+            ArgumentNullException.ThrowIfNull(tokenProviderFactory);
 
             #endregion
 
             // Default
             _authenticationSetting = authenticationSetting;
             _dataProtectionProvider = dataProtectionProvider;
+            _tokenProviderFactory = tokenProviderFactory;
         }
 
 
@@ -114,7 +118,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                     code_challenge,
                     code_challenge_method,
                     claimsIdentity,
-                    DateTime.Now.AddMinutes(_authenticationSetting.ExpirationMinutes)
+                    DateTime.Now.AddMinutes(_authenticationSetting.ExpireMinutes)
                 )));
             }
             if (string.IsNullOrEmpty(authorizationCode) == true) return RedirectWithError(redirect_uri, "server_error", $"{nameof(authorizationCode)}=null", state);
@@ -228,8 +232,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // ClaimList
                 if (authorizationCode.ClaimList == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
 
-                // ExpirationTime
-                if (authorizationCode.ExpirationTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ExpirationTime)}={authorizationCode.ExpirationTime}" });
+                // ExpireTime
+                if (authorizationCode.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
             }
 
             // ClientCredential
@@ -281,7 +285,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 (
                     client_id,
                     claimsIdentity,
-                    DateTime.Now.AddMinutes(_authenticationSetting.ExpirationMinutes)
+                    DateTime.Now.AddMinutes(_authenticationSetting.ExpireMinutes)
                 )));
             }
             if (string.IsNullOrEmpty(authorizationToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(authorizationToken)}=null" });
@@ -291,7 +295,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 token_type = "Bearer",
                 access_token = authorizationToken,
-                expires_in = _authenticationSetting.ExpirationMinutes * 60
+                expires_in = _authenticationSetting.ExpireMinutes * 60
             });
         }
 
@@ -324,17 +328,13 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
             if (authorizationTokenData == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData)}=null" });
 
+            // TokenProvider
+            var tokenProvider = _tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
+            if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
+
             // AccessToken
             string accessToken = null;
-            { 
-                // TokenProviderFactory
-                var tokenProviderFactory = this.HttpContext.RequestServices.GetService(typeof(TokenProviderFactory)) as TokenProviderFactory;
-                if (tokenProviderFactory == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProviderFactory)}=null" });
-
-                // TokenProvider
-                var tokenProvider = tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
-                if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
-
+            {                 
                 // ClaimsIdentity
                 var claimsIdentity = authorizationTokenData.GetClaimsIdentity();
                 if (claimsIdentity == null) return StatusCode(500, new { error = "invalid_token", error_description = $"{nameof(claimsIdentity)}=null" });
@@ -427,8 +427,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // ClaimList
                 if (authorizationTokenData.ClaimList == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ClaimList)}=null" });
 
-                // ExpirationTime
-                if (authorizationTokenData.ExpirationTime <= DateTime.Now) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ExpirationTime)}={authorizationTokenData.ExpirationTime}" });
+                // ExpireTime
+                if (authorizationTokenData.ExpireTime <= DateTime.Now) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ExpireTime)}={authorizationTokenData.ExpireTime}" });
             }
 
             // Return
@@ -451,9 +451,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 string codeChallenge,
                 string codeChallengeMethod,
                 ClaimsIdentity claimsIdentity,
-                DateTime expirationTime
+                DateTime expireTime
             )
-            : base(claimsIdentity, expirationTime)
+            : base(claimsIdentity, expireTime)
             {
                 #region Contracts
 
@@ -493,9 +493,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             (
                 string clientId,
                 ClaimsIdentity claimsIdentity,
-                DateTime expirationTime
+                DateTime expireTime
             )
-            : base(claimsIdentity, expirationTime)
+            : base(claimsIdentity, expireTime)
             {
                 #region Contracts
 
@@ -523,7 +523,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             }
 
-            public ClaimsBaseData(ClaimsIdentity claimsIdentity, DateTime expirationTime)
+            public ClaimsBaseData(ClaimsIdentity claimsIdentity, DateTime expireTime)
             {
                 #region Contracts
 
@@ -532,7 +532,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 #endregion
 
                 // Default
-                this.ExpirationTime = expirationTime;
+                this.ExpireTime = expireTime;
 
                 // ClaimList
                 this.ClaimList = claimsIdentity.Claims
@@ -549,7 +549,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             // Properties
             public Dictionary<string, object> ClaimList { get; set; } = null;
 
-            public DateTime ExpirationTime { get; set; } = DateTime.MinValue;
+            public DateTime ExpireTime { get; set; } = DateTime.MinValue;
 
 
             // Methods
