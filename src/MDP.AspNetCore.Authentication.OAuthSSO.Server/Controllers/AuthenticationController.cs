@@ -17,7 +17,7 @@ using System.Security.Principal;
 
 namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 {
-    public class AuthenticationControllerV2 : Controller
+    public class AuthenticationController : Controller
     {
         // Fields
         private readonly AuthenticationControllerSetting _authenticationSetting = null;
@@ -28,7 +28,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
 
         // Constructors
-        public AuthenticationControllerV2(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
+        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
         {
             #region Contracts
 
@@ -562,7 +562,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             public ClaimsIdentity GetClaimsIdentity()
             {
                 // ClaimList
-                var claimList = this.ClaimList.Select(o => new Claim(o.Key, o.Value)).ToList();
+                var claimList = this.ClaimList.Where(o => o.Key != AuthenticationClaimTypes.AuthenticationType).Select(o => new Claim(o.Key, o.Value)).ToList();
                 if (claimList == null) throw new InvalidOperationException($"{nameof(claimList)}=null");
 
                 // AuthenticationType
