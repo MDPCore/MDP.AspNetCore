@@ -33,8 +33,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 // Create
                 var authenticationControllerSetting = new AuthenticationControllerSetting();
-                authenticationControllerSetting.ExpireMinutes = setting.ExpireMinutes;
                 authenticationControllerSetting.JwtTokenName = setting.JwtTokenName;
+                authenticationControllerSetting.AccessTokenExpireMinutes = setting.AccessTokenExpireMinutes;
+                authenticationControllerSetting.RefreshTokenExpireMinutes = setting.RefreshTokenExpireMinutes;
                 authenticationControllerSetting.ClientCredentialList = setting.ClientCredentials.ToList();
 
                 // Return
@@ -47,9 +48,11 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         public class Setting
         {
             // Properties
-            public int ExpireMinutes { get; set; } = 5;
-
             public string JwtTokenName { get; set; } = "JwtBearer";
+
+            public int AccessTokenExpireMinutes { get; set; } = 30; // 30 minutes
+
+            public int RefreshTokenExpireMinutes { get; set; } = 43200; // 30 days
 
             public List<ClientCredential> ClientCredentials { get; set; }
         }

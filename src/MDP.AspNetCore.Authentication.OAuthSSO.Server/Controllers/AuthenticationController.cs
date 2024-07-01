@@ -1,22 +1,23 @@
-﻿using MDP.Security.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using MDP.Security.Tokens.Jwt;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
+using System.Security.Cryptography;
+using System.Security.Principal;
 
 namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 {
-    public partial class AuthenticationController : Controller
+    public class AuthenticationControllerV2 : Controller
     {
         // Fields
         private readonly AuthenticationControllerSetting _authenticationSetting = null;
@@ -27,7 +28,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
 
         // Constructors
-        public AuthenticationController(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
+        public AuthenticationControllerV2(AuthenticationControllerSetting authenticationSetting, IDataProtectionProvider dataProtectionProvider, TokenProviderFactory tokenProviderFactory)
         {
             #region Contracts
 
@@ -75,10 +76,6 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 return this.Challenge(new AuthenticationProperties { RedirectUri = this.Request.GetEncodedUrl() });
             }
 
-            // DataProtector
-            var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
-            if (dataProtector == null) return RedirectWithError(redirect_uri, "server_error", $"{nameof(dataProtector)}=null", state);
-
             // ClientCredential
             var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
             if (clientCredential == null) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(client_id)}={client_id}", state);
@@ -103,24 +100,24 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // state
             }
 
-            // AuthorizationCode
-            string authorizationCode = null;
-            {
-                // ClaimsIdentity
-                var claimsIdentity = this.User?.Identity as ClaimsIdentity;
-                if (claimsIdentity == null) return RedirectWithError(redirect_uri, "server_error", $"{nameof(claimsIdentity)}=null", state);
-                if (claimsIdentity.IsAuthenticated == false) return RedirectWithError(redirect_uri, "server_error", $"{nameof(claimsIdentity.IsAuthenticated)}={claimsIdentity.IsAuthenticated}", state);
+            // ClaimsIdentity
+            var claimsIdentity = this.User?.Identity as ClaimsIdentity;
+            if (claimsIdentity == null) return RedirectWithError(redirect_uri, "server_error", $"{nameof(claimsIdentity)}=null", state);
+            if (claimsIdentity.IsAuthenticated == false) return RedirectWithError(redirect_uri, "server_error", $"{nameof(claimsIdentity.IsAuthenticated)}={claimsIdentity.IsAuthenticated}", state);
 
-                // AuthorizationCode
-                authorizationCode = dataProtector.Protect(JsonSerializer.Serialize(new AuthorizationCodeData
-                (
-                    client_id,
-                    code_challenge,
-                    code_challenge_method,
-                    claimsIdentity,
-                    DateTime.Now.AddMinutes(_authenticationSetting.ExpireMinutes)
-                )));
-            }
+            // DataProtector
+            var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
+            if (dataProtector == null) return RedirectWithError(redirect_uri, "server_error", $"{nameof(dataProtector)}=null", state);
+
+            // AuthorizationCode
+            var authorizationCode = dataProtector.Protect(JsonSerializer.Serialize(new AuthorizationCodeData
+            (
+                client_id,
+                DateTime.Now.Add(TimeSpan.FromMinutes(_authenticationSetting.AuthorizationCodeExpireMinutes)),
+                code_challenge,
+                code_challenge_method,
+                claimsIdentity
+            )));
             if (string.IsNullOrEmpty(authorizationCode) == true) return RedirectWithError(redirect_uri, "server_error", $"{nameof(authorizationCode)}=null", state);
 
             // Return
@@ -174,10 +171,10 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 return await this.GetTokenWithAuthorizationCode();
             }
 
-            // AuthorizationToken
-            if (grant_type.Equals("urn:ietf:params:oauth:grant-type:token-exchange", StringComparison.OrdinalIgnoreCase) == true)
+            // RefreshToken
+            if (grant_type.Equals("refresh_token", StringComparison.OrdinalIgnoreCase) == true)
             {
-                return await this.GetTokenWithAuthorizationToken();
+                return await this.GetTokenWithRefreshToken();
             }
 
             // Other
@@ -204,10 +201,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             AuthorizationCodeData authorizationCode = null;
             try
             {
-                authorizationCode = JsonSerializer.Deserialize<AuthorizationCodeData>(dataProtector.Unprotect(code), new JsonSerializerOptions
-                {
-                    Converters = { new ClaimsConverter() }
-                });
+                authorizationCode = JsonSerializer.Deserialize<AuthorizationCodeData>(dataProtector.Unprotect(code));
             }
             catch (Exception exception)
             {
@@ -217,11 +211,14 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             // AuthorizationCode.Require
             {
-                // DataType
-                if (authorizationCode.DataType.Equals(typeof(AuthorizationCodeData).FullName, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.DataType)}={authorizationCode.DataType}" });
+                // GrantType
+                if (authorizationCode.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.GrantType)}={authorizationCode.GrantType}" });
 
                 // ClientId
                 if (authorizationCode.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ClientId)}={authorizationCode.ClientId}" });
+
+                // ExpireTime
+                if (authorizationCode.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
 
                 // CodeChallenge
                 if (string.IsNullOrEmpty(authorizationCode.CodeChallenge) == true) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
@@ -231,9 +228,6 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
                 // ClaimList
                 if (authorizationCode.ClaimList == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
-
-                // ExpireTime
-                if (authorizationCode.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
             }
 
             // ClientCredential
@@ -272,84 +266,114 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 if (codeVerifier.Equals(authorizationCode.CodeChallenge) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
             }
 
-            // AuthorizationToken
-            string authorizationToken = null;
-            {
-                // ClaimsIdentity
-                var claimsIdentity = authorizationCode.GetClaimsIdentity();
-                if (claimsIdentity == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity)}=null" });
-                if (claimsIdentity.IsAuthenticated == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
-
-                // AuthorizationToken
-                authorizationToken = dataProtector.Protect(JsonSerializer.Serialize(new AuthorizationTokenData
-                (
-                    client_id,
-                    claimsIdentity,
-                    DateTime.Now.AddMinutes(_authenticationSetting.ExpireMinutes)
-                )));
-            }
-            if (string.IsNullOrEmpty(authorizationToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(authorizationToken)}=null" });
+            // ClaimsIdentity
+            var claimsIdentity = authorizationCode.GetClaimsIdentity();
+            if (claimsIdentity == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // Return
-            return Ok(new
-            {
-                token_type = "Bearer",
-                access_token = authorizationToken,
-                expires_in = _authenticationSetting.ExpireMinutes * 60
-            });
+            return GetToken(authorizationCode.ClientId, claimsIdentity);
         }
 
-        private async Task<ActionResult> GetTokenWithAuthorizationToken()
+        private async Task<ActionResult> GetTokenWithRefreshToken()
         {
             // Form
             var form = await this.Request.ReadFormAsync();
             if (form == null) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(form)}=null" });
 
             // Arguments
-            var subject_token = form["subject_token"].ToString(); if (string.IsNullOrEmpty(subject_token) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(subject_token)}=null" });
-            var subject_token_type = form["subject_token_type"].ToString(); if (string.IsNullOrEmpty(subject_token_type) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(subject_token_type)}=null" });
-            var requested_token_type = form["requested_token_type"].ToString(); if (string.IsNullOrEmpty(requested_token_type) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(requested_token_type)}=null" });
+            var client_id = form["client_id"].ToString(); if (string.IsNullOrEmpty(client_id) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
+            var token = form["refresh_token"].ToString(); if (string.IsNullOrEmpty(token) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(token)}=null" });
 
-            // Arguments.Require
+            // DataProtector
+            var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
+            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
+
+            // RefreshToken
+            RefreshTokenData refreshToken = null;
+            try
             {
-                // subject_token_type
-                if (subject_token_type.Equals("urn:ietf:params:oauth:token-type:access_token", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(subject_token_type)}={subject_token_type}" });
+                refreshToken = JsonSerializer.Deserialize<RefreshTokenData>(dataProtector.Unprotect(token));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { error = "invalid_grant", error_description = exception.Message });
+            }
+            if (refreshToken == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken)}=null" });
 
-                // requested_token_type
-                if (requested_token_type.Equals("urn:ietf:params:oauth:token-type:jwt", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(requested_token_type)}={requested_token_type}" });
+            // RefreshToken.Require
+            {
+                // GrantType
+                if (refreshToken.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.GrantType)}={refreshToken.GrantType}" });
+
+                // ClientId
+                if (refreshToken.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ClientId)}={refreshToken.ClientId}" });
+
+                // ExpireTime
+                if (refreshToken.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ExpireTime)}={refreshToken.ExpireTime}" });
+
+                // ClaimList
+                if (refreshToken.ClaimList == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ClaimList)}=null" });
             }
 
-            // AuthorizationTokenData
-            AuthorizationTokenData authorizationTokenData = null;
-            {
-                // Validate
-                var validateResult = this.ValidateAuthorizationToken(subject_token, out authorizationTokenData);
-                if (validateResult != null) return validateResult;
-            }
-            if (authorizationTokenData == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData)}=null" });
+            // ClientCredential
+            var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
+            if (clientCredential == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(clientCredential)}=null" });
+
+            // AuthenticationProvider
+            var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
+            if (authenticationProvider == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authenticationProvider)}=null" });
+
+            // ClaimsIdentity
+            var claimsIdentity = refreshToken.GetClaimsIdentity();
+            if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
+            if (claimsIdentity == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+
+            // Return
+            return GetToken(refreshToken.ClientId, claimsIdentity);
+        }
+
+        private ActionResult GetToken(string clientId, ClaimsIdentity claimsIdentity)
+        {
+            #region Contracts
+
+            if (string.IsNullOrEmpty(clientId) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(clientId)}=null" });
+            if (claimsIdentity == null) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+
+            #endregion
 
             // TokenProvider
             var tokenProvider = _tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
             if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
 
             // AccessToken
-            string accessToken = null;
-            {                 
-                // ClaimsIdentity
-                var claimsIdentity = authorizationTokenData.GetClaimsIdentity();
-                if (claimsIdentity == null) return StatusCode(500, new { error = "invalid_token", error_description = $"{nameof(claimsIdentity)}=null" });
-
-                // AccessToken
-                accessToken = tokenProvider.CreateToken(claimsIdentity);
-            }
+            var accessToken = tokenProvider.CreateToken(
+                claimsIdentity,
+                TimeSpan.FromMinutes(_authenticationSetting.AccessTokenExpireMinutes)
+            );
             if (string.IsNullOrEmpty(accessToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(accessToken)}=null" });
+
+            // DataProtector
+            var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
+            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
+
+            // RefreshToken
+            var refreshToken = dataProtector.Protect(JsonSerializer.Serialize(new RefreshTokenData
+            (
+                clientId,
+                DateTime.Now.Add(TimeSpan.FromMinutes(_authenticationSetting.RefreshTokenExpireMinutes)),
+                claimsIdentity
+            )));
+            if (string.IsNullOrEmpty(refreshToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(refreshToken)}=null" });
 
             // Return
             return Ok(new
             {
                 token_type = "Bearer",
-                issued_token_type = "urn:ietf:params:oauth:token-type:jwt",
-                access_token = accessToken
+                access_token = accessToken,
+                refresh_token = refreshToken,
+                expires_in = _authenticationSetting.AccessTokenExpireMinutes * 60
             });
         }
 
@@ -357,86 +381,90 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         [HttpPost]
         [AllowAnonymous]
         [Route("/.sso/userinfo")]
-        public ActionResult GetUser([FromHeader(Name = "Authorization")] string authorization)
+        public async Task<ActionResult> GetUser()
         {
-            #region Contracts
+            // PolicyAuthenticationSelectorList
+            var policyAuthenticationSelectorList = this.HttpContext.RequestServices.GetService(typeof(IList<PolicyAuthenticationSelector>)) as IList<PolicyAuthenticationSelector>;
+            if (policyAuthenticationSelectorList == null) throw new InvalidOperationException($"{nameof(policyAuthenticationSelectorList)}=null");
 
-            if (string.IsNullOrEmpty(authorization) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorization)}=null" });
-
-            #endregion
-
-            // AuthorizationTokenData
-            AuthorizationTokenData authorizationTokenData = null;
+            // PolicyAuthenticationSelectorList.Foreach
+            var authenticationScheme = string.Empty;
+            foreach (var policyAuthenticationSelector in policyAuthenticationSelectorList)
             {
-                // Require
-                if (authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase) == false) return Unauthorized(new { error = "invalid_token", error_description = "Invalid authorization type." });
+                // Check
+                if (policyAuthenticationSelector.Check(this.HttpContext) == false) continue;
 
-                // AuthorizationToken
-                var authorizationToken = authorization.Substring("Bearer ".Length).Trim();
-                if (string.IsNullOrEmpty(authorizationToken) == true) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationToken)}=null" });
+                // AuthenticationScheme
+                authenticationScheme = policyAuthenticationSelector.AuthenticationScheme;
 
-                // Validate
-                var validateResult = this.ValidateAuthorizationToken(authorizationToken, out authorizationTokenData);
-                if (validateResult != null) return validateResult;
+                // Break
+                break;
             }
-            if (authorizationTokenData == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData)}=null" });
+            if (string.IsNullOrEmpty(authenticationScheme) == true) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(authenticationScheme)}=null" });
 
-            // Return
-            return this.Json(authorizationTokenData.ClaimList);
-        }
-    }
+            // ClaimsIdentity
+            var claimsIdentity = (await this.HttpContext.AuthenticateAsync(authenticationScheme))?.Principal?.Identity as ClaimsIdentity;
+            if (claimsIdentity == null) return this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
-    public partial class AuthenticationController : Controller
-    {
-        // Methods
-        private ActionResult ValidateAuthorizationToken(string authorizationToken, out AuthorizationTokenData authorizationTokenData)
-        {
-            #region Contracts
-
-            authorizationTokenData = null;
-            if (string.IsNullOrEmpty(authorizationToken) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationToken)}=null" });
-
-            #endregion
-
-            // DataProtector
-            var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
-            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
-
-            // AuthorizationTokenData
-            try
+            // UserInfo
+            var userInfo = new Dictionary<string, object>();
+            foreach (var claim in new ClaimsBaseData(claimsIdentity).ClaimList)
             {
-                authorizationTokenData = JsonSerializer.Deserialize<AuthorizationTokenData>(dataProtector.Unprotect(authorizationToken), new JsonSerializerOptions
+                if (userInfo.ContainsKey(claim.Key))
                 {
-                    Converters = { new ClaimsConverter() }
-                });
-            }
-            catch (Exception exception)
-            {
-                return this.Unauthorized(new { error = "invalid_token", error_description = exception.Message });
-            }
-            if (authorizationTokenData == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData)}=null" });
-
-            // AuthorizationTokenData.Require
-            {
-                // DataType
-                if (authorizationTokenData.DataType.Equals(typeof(AuthorizationTokenData).FullName, StringComparison.OrdinalIgnoreCase) == false) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.DataType)}={authorizationTokenData.DataType}" });
-
-                // ClientId
-                if (authorizationTokenData.ClientId.Equals("", StringComparison.OrdinalIgnoreCase) == true) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ClientId)}=null" });
-
-                // ClaimList
-                if (authorizationTokenData.ClaimList == null) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ClaimList)}=null" });
-
-                // ExpireTime
-                if (authorizationTokenData.ExpireTime <= DateTime.Now) this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(authorizationTokenData.ExpireTime)}={authorizationTokenData.ExpireTime}" });
+                    if (userInfo[claim.Key] is List<string> list)
+                    {
+                        list.Add(claim.Value);
+                    }
+                    else
+                    {
+                        userInfo[claim.Key] = new List<string> { userInfo[claim.Key].ToString(), claim.Value };
+                    }
+                }
+                else
+                {
+                    userInfo[claim.Key] = claim.Value;
+                }
             }
 
             // Return
-            return null;
+            return this.Json(userInfo);
         }
 
-        
+
         // Class
+        private class RefreshTokenData : ClaimsBaseData
+        {
+            // Constructors
+            public RefreshTokenData() : base()
+            {
+
+            }
+
+            public RefreshTokenData
+            (
+                string clientId,
+                DateTime expireTime,
+                ClaimsIdentity claimsIdentity
+            )
+            : base(claimsIdentity)
+            {
+                // Default
+                this.GrantType = "refresh_token";
+                this.ClientId = clientId;
+                this.ExpireTime = expireTime;
+            }
+
+
+            // Properties
+            public string GrantType { get; set; } = null;
+
+            public string ClientId { get; set; } = null;
+
+            public DateTime ExpireTime { get; set; } = DateTime.MinValue;
+        }
+
         private class AuthorizationCodeData : ClaimsBaseData
         {
             // Constructors
@@ -448,71 +476,40 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             public AuthorizationCodeData
             (
                 string clientId,
+                DateTime expireTime,
                 string codeChallenge,
                 string codeChallengeMethod,
-                ClaimsIdentity claimsIdentity,
-                DateTime expireTime
+                ClaimsIdentity claimsIdentity
             )
-            : base(claimsIdentity, expireTime)
+            : base(claimsIdentity)
             {
                 #region Contracts
 
                 if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentNullException($"{nameof(clientId)}=null");
                 if (string.IsNullOrEmpty(codeChallenge) == true) throw new ArgumentNullException($"{nameof(codeChallenge)}=null");
                 if (string.IsNullOrEmpty(codeChallengeMethod) == true) throw new ArgumentNullException($"{nameof(codeChallengeMethod)}=null");
-                if (claimsIdentity == null) throw new ArgumentNullException($"{nameof(claimsIdentity)}=null");
 
                 #endregion
 
                 // Default
+                this.GrantType = "authorization_code";
                 this.ClientId = clientId;
+                this.ExpireTime = expireTime;
                 this.CodeChallenge = codeChallenge;
                 this.CodeChallengeMethod = codeChallengeMethod;
             }
 
 
             // Properties
-            public string DataType { get; set; } = typeof(AuthorizationCodeData).FullName;
+            public string GrantType { get; set; } = null;
 
             public string ClientId { get; set; } = null;
+
+            public DateTime ExpireTime { get; set; } = DateTime.MinValue;
 
             public string CodeChallenge { get; set; } = null;
 
             public string CodeChallengeMethod { get; set; } = null;
-        }
-
-        private class AuthorizationTokenData : ClaimsBaseData
-        {
-            // Constructors
-            public AuthorizationTokenData() : base()
-            {
-
-            }
-
-            public AuthorizationTokenData
-            (
-                string clientId,
-                ClaimsIdentity claimsIdentity,
-                DateTime expireTime
-            )
-            : base(claimsIdentity, expireTime)
-            {
-                #region Contracts
-
-                if (string.IsNullOrEmpty(clientId) == true) throw new ArgumentNullException($"{nameof(clientId)}=null");
-                if (claimsIdentity == null) throw new ArgumentNullException($"{nameof(claimsIdentity)}=null");
-
-                #endregion
-
-                // Default
-                this.ClientId = clientId;
-            }
-
-
-            // Properties
-            public string DataType { get; set; } = typeof(AuthorizationTokenData).FullName;
-
-            public string ClientId { get; set; } = null;
         }
 
         private class ClaimsBaseData
@@ -520,10 +517,11 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             // Constructors
             public ClaimsBaseData()
             {
-
+                // ClaimList
+                this.ClaimList = new List<KeyValuePair<string, string>>();
             }
 
-            public ClaimsBaseData(ClaimsIdentity claimsIdentity, DateTime expireTime)
+            public ClaimsBaseData(ClaimsIdentity claimsIdentity)
             {
                 #region Contracts
 
@@ -531,57 +529,41 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
                 #endregion
 
-                // Default
-                this.ExpireTime = expireTime;
-
                 // ClaimList
-                this.ClaimList = claimsIdentity.Claims
-                    .GroupBy(claim => claim.Type)
-                    .ToDictionary(
-                        group => group.Key,
-                        group => group.Count() > 1 ? (object)group.Select(claim => claim.Value).ToArray() : group.First().Value
-                    );
-                this.ClaimList.Remove(AuthenticationClaimTypes.AuthenticationType);
-                this.ClaimList.Add(AuthenticationClaimTypes.AuthenticationType, claimsIdentity.AuthenticationType);
+                this.ClaimList = claimsIdentity.Claims.Select(claim => new KeyValuePair<string, string>(claim.Type, claim.Value)).ToList();
+                this.RemoveClaim(AuthenticationClaimTypes.AuthenticationType);
+                this.AddClaim(AuthenticationClaimTypes.AuthenticationType, claimsIdentity.AuthenticationType);
             }
 
 
             // Properties
-            public Dictionary<string, object> ClaimList { get; set; } = null;
-
-            public DateTime ExpireTime { get; set; } = DateTime.MinValue;
+            public List<KeyValuePair<string, string>> ClaimList { get; set; } = null;
 
 
             // Methods
+            public void AddClaim(string key, object value)
+            {
+                // Require
+                if (string.IsNullOrEmpty(key) == true) throw new ArgumentNullException($"{nameof(key)}=null");
+
+                // Add
+                this.ClaimList.Add(new KeyValuePair<string, string>(key, value as string));
+            }
+
+            public void RemoveClaim(string key)
+            {
+                // Require
+                if (string.IsNullOrEmpty(key) == true) throw new ArgumentNullException($"{nameof(key)}=null");
+
+                // Remove
+                this.ClaimList.RemoveAll(o => o.Key == key);
+            }
+
             public ClaimsIdentity GetClaimsIdentity()
             {
                 // ClaimList
-                var claimList = new List<Claim>();
-                foreach (var claim in this.ClaimList)
-                {
-                    // Require
-                    if (string.IsNullOrEmpty(claim.Key) == true) continue;
-                    if (claim.Value == null) continue;
-                    if (claim.Key == AuthenticationClaimTypes.AuthenticationType) continue;
-
-                    // Add Claim
-                    if (claim.Value is string)
-                    {
-                        var claimValue = claim.Value as string;
-                        {
-                            claimList.Add(new Claim(claim.Key, claim.Value as string));
-                        }
-                    }
-
-                    // Add ClaimArray
-                    if (claim.Value is string[])
-                    {
-                        foreach (var claimValue in claim.Value as string[])
-                        {
-                            claimList.Add(new Claim(claim.Key, claimValue));
-                        }
-                    }
-                }
+                var claimList = this.ClaimList.Select(o => new Claim(o.Key, o.Value)).ToList();
+                if (claimList == null) throw new InvalidOperationException($"{nameof(claimList)}=null");
 
                 // AuthenticationType
                 var authenticationType = this.ClaimList.FirstOrDefault(o => o.Key == AuthenticationClaimTypes.AuthenticationType).Value as string;
@@ -589,42 +571,6 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
                 // Return
                 return new ClaimsIdentity(claimList, authenticationType);
-            }
-        }
-
-        private class ClaimsConverter : JsonConverter<object>
-        {
-            // Methods
-            public override object Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            {
-                #region Contracts
-
-                if (typeToConvert == null) throw new ArgumentNullException($"{nameof(typeToConvert)}=null");
-                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
-
-                #endregion
-
-                // String
-                if (reader.TokenType == JsonTokenType.String) return reader.GetString();
-
-                // StringArray
-                if (reader.TokenType == JsonTokenType.StartArray) return JsonSerializer.Deserialize<string[]>(ref reader, options);
-
-                // Object
-                return JsonSerializer.Deserialize<object>(ref reader, options);
-            }
-
-            public override void Write(Utf8JsonWriter writer, object value, JsonSerializerOptions options)
-            {
-                #region Contracts
-
-                if (writer == null) throw new ArgumentNullException($"{nameof(writer)}=null");
-                if (options == null) throw new ArgumentNullException($"{nameof(options)}=null");
-
-                #endregion
-
-                // Write
-                JsonSerializer.Serialize(writer, value, value.GetType(), options);
             }
         }
     }
