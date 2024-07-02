@@ -66,14 +66,14 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
             if (userInfoData == null) throw new InvalidOperationException($"{nameof(userInfoData)}=null");
 
             // ClaimsIdentity
-            identity = userInfoData.GetClaimsIdentity();
-            if (identity == null) throw new InvalidOperationException($"{nameof(identity)}=null");
+            var claimsIdentity = userInfoData.GetClaimsIdentity();
+            if (claimsIdentity == null) throw new InvalidOperationException($"{nameof(claimsIdentity)}=null");
 
             // Payload
             using (var payload = JsonDocument.Parse(await response.Content.ReadAsStringAsync()))
             {
                 // CreatingTicketContext
-                var creatingTicketContext = new OAuthCreatingTicketContext(new ClaimsPrincipal(identity), properties, this.Context, this.Scheme, this.Options, this.Backchannel, tokens, payload.RootElement);
+                var creatingTicketContext = new OAuthCreatingTicketContext(new ClaimsPrincipal(claimsIdentity), properties, this.Context, this.Scheme, this.Options, this.Backchannel, tokens, payload.RootElement);
                 creatingTicketContext.RunClaimActions();
                 await Events.CreatingTicket(creatingTicketContext);
 
