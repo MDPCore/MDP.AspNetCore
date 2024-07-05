@@ -160,6 +160,12 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             #endregion
 
+            // Require
+            if (this.User?.Identity?.IsAuthenticated != false)
+            {
+                return await this.LogoutAsync(this.Request.GetEncodedUrl());
+            }
+
             // ClientCredential
             var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
             if (clientCredential == null) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(client_id)}={client_id}", state);
@@ -175,9 +181,6 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // state
                 if (state.Equals("", StringComparison.OrdinalIgnoreCase) == true) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(state)}={state}", state);
             }
-
-            // LogoutAsync
-            await this.LogoutAsync();
 
             // Return
             return this.Redirect($"{redirect_uri}?state={Uri.EscapeDataString(state)}");
