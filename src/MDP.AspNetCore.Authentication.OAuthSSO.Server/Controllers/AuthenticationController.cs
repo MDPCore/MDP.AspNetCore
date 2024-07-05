@@ -99,6 +99,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 if (code_challenge_method.Equals("S256", StringComparison.OrdinalIgnoreCase) == false) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(code_challenge_method)}={code_challenge_method}", state);
 
                 // state
+                if (state.Equals("", StringComparison.OrdinalIgnoreCase) == true) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(state)}={state}", state);
             }
 
             // ClaimsIdentity
@@ -138,21 +139,45 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             if (string.IsNullOrEmpty(authorizationCode) == true) return RedirectWithError(redirect_uri, "server_error", $"{nameof(authorizationCode)}=null", state);
 
             // Return
-            return this.RedirectWithCode(redirect_uri, authorizationCode, state);
+            return this.Redirect($"{redirect_uri}?code={Uri.EscapeDataString(authorizationCode)}&state={Uri.EscapeDataString(state)}");
         }
 
-        private ActionResult RedirectWithCode(string redirectUri, string authorizationCode, string state)
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("/.sso/logout")]
+        public async Task<ActionResult> Logout
+        (
+            string client_id,
+            string redirect_uri,
+            string state
+        )
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentNullException($"{nameof(redirectUri)}=null");
-            if (string.IsNullOrEmpty(authorizationCode) == true) throw new ArgumentNullException($"{nameof(authorizationCode)}=null");
-            if (string.IsNullOrEmpty(state) == true) throw new ArgumentNullException($"{nameof(state)}=null");
+            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest($"{nameof(client_id)}=null");
+            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest($"{nameof(redirect_uri)}=null");
+            if (string.IsNullOrEmpty(state) == true) return this.BadRequest($"{nameof(state)}=null");
 
             #endregion
 
+            // ClientCredential
+            var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
+            if (clientCredential == null) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(client_id)}={client_id}", state);
+
+            // ClientCredential.Require
+            {
+                // client_id
+                if (client_id.Equals(clientCredential.ClientId, StringComparison.OrdinalIgnoreCase) == false) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(client_id)}={client_id}", state);
+
+                // redirect_uri
+                if (redirect_uri.StartsWith(clientCredential.RedirectUri, StringComparison.OrdinalIgnoreCase) == false) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(redirect_uri)}={redirect_uri}", state);
+
+                // state
+                if (state.Equals("", StringComparison.OrdinalIgnoreCase) == true) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(state)}={state}", state);
+            }
+
             // Return
-            return this.Redirect($"{redirectUri}?code={Uri.EscapeDataString(authorizationCode)}&state={Uri.EscapeDataString(state)}");
+            return await this.LogoutAsync($"{redirect_uri}?state={Uri.EscapeDataString(state)}");
         }
 
         private ActionResult RedirectWithError(string redirectUri, string error, string errorDescription, string state)
@@ -477,40 +502,6 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             // Return
             return this.Json(userInfo);
-        }
-
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("/.sso/logout")]
-        public async Task<ActionResult> Logout
-        (
-            string client_id,
-            string redirect_uri
-        )
-        {
-            #region Contracts
-
-            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest($"{nameof(client_id)}=null");
-            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest($"{nameof(redirect_uri)}=null");
-
-            #endregion
-
-            // ClientCredential
-            var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
-            if (clientCredential == null) return StatusCode(500, new { error = "invalid_request", error_description = $"{nameof(clientCredential)}=null" });
-
-            // ClientCredential.Require
-            {
-                // client_id
-                if (client_id.Equals(clientCredential.ClientId, StringComparison.OrdinalIgnoreCase) == false) return StatusCode(500, new { error = "invalid_request", error_description = $"{nameof(clientCredential.ClientId)}={clientCredential.ClientId}" });
-
-                // redirect_uri
-                if (redirect_uri.StartsWith(clientCredential.RedirectUri, StringComparison.OrdinalIgnoreCase) == false) return StatusCode(500, new { error = "invalid_request", error_description = $"{nameof(clientCredential.RedirectUri)}={clientCredential.RedirectUri}" });
-            }
-
-            // Return
-            return await this.LogoutAsync(redirect_uri);
         }
 
 
