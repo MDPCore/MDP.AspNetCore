@@ -176,8 +176,11 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 if (state.Equals("", StringComparison.OrdinalIgnoreCase) == true) return RedirectWithError(redirect_uri, "invalid_request", $"{nameof(state)}={state}", state);
             }
 
+            // LogoutAsync
+            await this.LogoutAsync();
+
             // Return
-            return await this.LogoutAsync($"{redirect_uri}?state={Uri.EscapeDataString(state)}");
+            return this.Redirect($"{redirect_uri}?state={Uri.EscapeDataString(state)}");
         }
 
         private ActionResult RedirectWithError(string redirectUri, string error, string errorDescription, string state)
