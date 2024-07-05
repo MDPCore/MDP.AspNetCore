@@ -209,7 +209,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(grant_type) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(grant_type)}=null" });
+            if (string.IsNullOrEmpty(grant_type) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(grant_type)}=null" });
 
             #endregion
 
@@ -233,17 +233,17 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             // Form
             var form = await this.Request.ReadFormAsync();
-            if (form == null) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(form)}=null" });
+            if (form == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(form)}=null" });
 
             // Arguments
-            var client_id = form["client_id"].ToString(); if (string.IsNullOrEmpty(client_id) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
-            var redirect_uri = form["redirect_uri"].ToString(); if (string.IsNullOrEmpty(redirect_uri) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(redirect_uri)}=null" });
-            var code = form["code"].ToString(); if (string.IsNullOrEmpty(code) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(code)}=null" });
-            var code_verifier = form["code_verifier"].ToString(); if (string.IsNullOrEmpty(code_verifier) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(code_verifier)}=null" });
+            var client_id = form["client_id"].ToString(); if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
+            var redirect_uri = form["redirect_uri"].ToString(); if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(redirect_uri)}=null" });
+            var code = form["code"].ToString(); if (string.IsNullOrEmpty(code) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(code)}=null" });
+            var code_verifier = form["code_verifier"].ToString(); if (string.IsNullOrEmpty(code_verifier) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(code_verifier)}=null" });
 
             // DataProtector
             var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
-            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
+            if (dataProtector == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
 
             // AuthorizationCode
             AuthorizationCodeData authorizationCode = null;
@@ -257,45 +257,45 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
             catch (Exception exception)
             {
-                return BadRequest(new { error = "invalid_grant", error_description = $"errorMessage={exception.Message}" });
+                return this.BadRequest(new { error = "invalid_request", error_description = $"errorMessage={exception.Message}" });
             }
-            if (authorizationCode == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode)}=null" });
+            if (authorizationCode == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode)}=null" });
 
             // AuthorizationCode.Require
             {
                 // GrantType
-                if (authorizationCode.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.GrantType)}={authorizationCode.GrantType}" });
+                if (authorizationCode.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.GrantType)}={authorizationCode.GrantType}" });
 
                 // ClientId
-                if (authorizationCode.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ClientId)}={authorizationCode.ClientId}" });
+                if (authorizationCode.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ClientId)}={authorizationCode.ClientId}" });
 
                 // ExpireTime
-                if (authorizationCode.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
+                if (authorizationCode.ExpireTime <= DateTime.Now) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
 
                 // CodeChallenge
-                if (string.IsNullOrEmpty(authorizationCode.CodeChallenge) == true) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
+                if (string.IsNullOrEmpty(authorizationCode.CodeChallenge) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
 
                 // CodeChallengeMethod
-                if (authorizationCode.CodeChallengeMethod.Equals("S256", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.CodeChallengeMethod)}=null" });
+                if (authorizationCode.CodeChallengeMethod.Equals("S256", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.CodeChallengeMethod)}=null" });
 
                 // ClaimList
-                if (authorizationCode.ClaimList == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
+                if (authorizationCode.ClaimList == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
             }
 
             // ClientCredential
             var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
-            if (clientCredential == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(clientCredential)}=null" });
+            if (clientCredential == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(clientCredential)}=null" });
 
             // ClientCredential.Require
             {
                 // client_id
-                if (client_id.Equals(clientCredential.ClientId, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(client_id)}={client_id}" });
+                if (client_id.Equals(clientCredential.ClientId, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}={client_id}" });
 
                 // redirect_uri
-                if (redirect_uri.StartsWith(clientCredential.RedirectUri, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(redirect_uri)}={redirect_uri}" });
+                if (redirect_uri.StartsWith(clientCredential.RedirectUri, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(redirect_uri)}={redirect_uri}" });
 
                 // code
-                if (code.Equals("", StringComparison.OrdinalIgnoreCase) == true) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(code)}=null" });
+                if (code.Equals("", StringComparison.OrdinalIgnoreCase) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(code)}=null" });
 
                 // code_verifier
                 string codeVerifier = null;
@@ -314,14 +314,19 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                     // CodeVerifier
                     codeVerifier = hashString;
                 }
-                if (string.IsNullOrEmpty(codeVerifier) == true) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(codeVerifier)}=null" });
-                if (codeVerifier.Equals(authorizationCode.CodeChallenge) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
+                if (string.IsNullOrEmpty(codeVerifier) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(codeVerifier)}=null" });
+                if (codeVerifier.Equals(authorizationCode.CodeChallenge) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
             }
+
+            // AuthenticationProvider
+            var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
+            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = authorizationCode.GetClaimsIdentity();
-            if (claimsIdentity == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
+            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // Return
             return GetToken(authorizationCode.ClientId, claimsIdentity);
@@ -331,15 +336,15 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             // Form
             var form = await this.Request.ReadFormAsync();
-            if (form == null) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(form)}=null" });
+            if (form == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(form)}=null" });
 
             // Arguments
-            var client_id = form["client_id"].ToString(); if (string.IsNullOrEmpty(client_id) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
-            var token = form["refresh_token"].ToString(); if (string.IsNullOrEmpty(token) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(token)}=null" });
+            var client_id = form["client_id"].ToString(); if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
+            var token = form["refresh_token"].ToString(); if (string.IsNullOrEmpty(token) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(token)}=null" });
 
             // DataProtector
             var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
-            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
+            if (dataProtector == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
 
             // RefreshToken
             RefreshTokenData refreshToken = null;
@@ -353,39 +358,38 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
             catch (Exception exception)
             {
-                return BadRequest(new { error = "invalid_grant", error_description = $"errorMessage={exception.Message}" });
+                return this.BadRequest(new { error = "invalid_request", error_description = $"errorMessage={exception.Message}" });
             }
-            if (refreshToken == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken)}=null" });
+            if (refreshToken == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken)}=null" });
 
             // RefreshToken.Require
             {
                 // GrantType
-                if (refreshToken.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.GrantType)}={refreshToken.GrantType}" });
+                if (refreshToken.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.GrantType)}={refreshToken.GrantType}" });
 
                 // ClientId
-                if (refreshToken.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ClientId)}={refreshToken.ClientId}" });
+                if (refreshToken.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.ClientId)}={refreshToken.ClientId}" });
 
                 // ClaimList
-                if (refreshToken.ClaimList == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ClaimList)}=null" });
+                if (refreshToken.ClaimList == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.ClaimList)}=null" });
 
                 // ExpireTime
-                if (refreshToken.ExpireTime <= DateTime.Now) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(refreshToken.ExpireTime)}={refreshToken.ExpireTime}" });
+                if (refreshToken.ExpireTime <= DateTime.Now) return Unauthorized(new { error = "invalid_request", error_description = $"{nameof(refreshToken.ExpireTime)}={refreshToken.ExpireTime}" });
             }
-
 
             // ClientCredential
             var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
-            if (clientCredential == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(clientCredential)}=null" });
+            if (clientCredential == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(clientCredential)}=null" });
 
             // AuthenticationProvider
             var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
-            if (authenticationProvider == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(authenticationProvider)}=null" });
+            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = refreshToken.GetClaimsIdentity();
             if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
-            if (claimsIdentity == null) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return BadRequest(new { error = "invalid_grant", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // Return
             return GetToken(refreshToken.ClientId, claimsIdentity);
@@ -395,25 +399,25 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(clientId) == true) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(clientId)}=null" });
-            if (claimsIdentity == null) return BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (string.IsNullOrEmpty(clientId) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(clientId)}=null" });
+            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
 
             #endregion
 
             // TokenProvider
             var tokenProvider = _tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
-            if (tokenProvider == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
+            if (tokenProvider == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
 
             // AccessToken
             var accessToken = tokenProvider.CreateToken(
                 claimsIdentity,
                 TimeSpan.FromMinutes(_authenticationSetting.AccessTokenExpireMinutes)
             );
-            if (string.IsNullOrEmpty(accessToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(accessToken)}=null" });
+            if (string.IsNullOrEmpty(accessToken) == true) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(accessToken)}=null" });
 
             // DataProtector
             var dataProtector = _dataProtectionProvider.CreateProtector(this.GetType().FullName);
-            if (dataProtector == null) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
+            if (dataProtector == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(dataProtector)}=null" });
 
             // RefreshToken
             string refreshToken = null;
@@ -436,9 +440,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
             catch (Exception exception)
             {
-                return StatusCode(500, new { error = "server_error", error_description = $"errorMessage={exception.Message}" });
+                return this.StatusCode(500, new { error = "server_error", error_description = $"errorMessage={exception.Message}" });
             }
-            if (string.IsNullOrEmpty(refreshToken) == true) return StatusCode(500, new { error = "server_error", error_description = $"{nameof(refreshToken)}=null" });
+            if (string.IsNullOrEmpty(refreshToken) == true) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(refreshToken)}=null" });
 
             // Return
             return Ok(new
@@ -473,12 +477,17 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // Break
                 break;
             }
-            if (string.IsNullOrEmpty(authenticationScheme) == true) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(authenticationScheme)}=null" });
+            if (string.IsNullOrEmpty(authenticationScheme) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationScheme)}=null" });
+
+            // AuthenticationProvider
+            var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
+            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = (await this.HttpContext.AuthenticateAsync(authenticationScheme))?.Principal?.Identity as ClaimsIdentity;
-            if (claimsIdentity == null) return this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return this.Unauthorized(new { error = "invalid_token", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
+            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // ClaimList
             var claimList = claimsIdentity.Claims.ToList();
