@@ -116,28 +116,7 @@ namespace MDP.AspNetCore.Authentication
             // Redirect
             return controller.Redirect(returnUrl);
         }
-
-
-        public static async Task<ActionResult> SignInAsync(this Controller controller, string returnUrl = null)
-        {
-            #region Contracts
-
-            ArgumentNullException.ThrowIfNull(controller);
-
-            #endregion
-
-            // Require
-            returnUrl = controller.NormalizeReturnUrl(returnUrl);
-
-            // RemoteIdentity
-            var remoteIdentity = await controller.RemoteAuthenticateAsync();
-            if (remoteIdentity == null) throw new InvalidOperationException($"{nameof(remoteIdentity)}=null");
-            if (remoteIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(remoteIdentity)}.IsAuthenticated=false");
-
-            // SignInAsync
-            return await controller.SignInAsync(remoteIdentity, returnUrl);
-        }
-        
+                
         public static async Task<ActionResult> SignInAsync(this Controller controller, ClaimsIdentity remoteIdentity, string returnUrl = null)
         {
             #region Contracts
@@ -164,17 +143,19 @@ namespace MDP.AspNetCore.Authentication
             // LocalIdentity
             var localIdentity = await controller.LocalAuthenticateAsync();
 
-            // Login
+            // Link
             if (localIdentity != null)
             {
                 // RemoteLink
                 authenticationProvider.RemoteLink(remoteIdentity, localIdentity);
+            }
 
+            // Login
+            if (localIdentity == null)
+            {
                 // RemoteLogin
                 localIdentity = authenticationProvider.RemoteLogin(remoteIdentity);
-                if (localIdentity == null) throw new InvalidOperationException("Identity link failed.");
             }
-            if (localIdentity == null) localIdentity = authenticationProvider.RemoteLogin(remoteIdentity);
 
             // SignIn
             if (localIdentity != null)
@@ -210,7 +191,7 @@ namespace MDP.AspNetCore.Authentication
         }
 
 
-        public static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
+        internal static Task<ClaimsIdentity> RemoteAuthenticateAsync(this Controller controller)
         {
             #region Contracts
 
@@ -222,7 +203,7 @@ namespace MDP.AspNetCore.Authentication
             return controller.HttpContext.RemoteAuthenticateAsync();
         }
 
-        public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller controller)
+        internal static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller controller)
         {
             #region Contracts
 

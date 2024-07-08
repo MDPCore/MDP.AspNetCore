@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace MDP.AspNetCore.Authentication
 {
-    internal static partial class LocalAuthenticationExtensions
+    public static partial class LocalAuthenticationExtensions
     {
         // Methods
-        public static AuthenticationBuilder AddLocal(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
+        internal static AuthenticationBuilder AddLocal(this AuthenticationBuilder builder, Action<CookieAuthenticationOptions> configureOptions = null)
         {
             #region Contracts
 
@@ -40,10 +40,10 @@ namespace MDP.AspNetCore.Authentication
         }
     }
 
-    internal static partial class LocalAuthenticationExtensions
+    public static partial class LocalAuthenticationExtensions
     {
         // Methods
-        public static async Task<ClaimsIdentity> LocalAuthenticateAsync(this HttpContext httpContext)
+        internal static async Task<ClaimsIdentity> LocalAuthenticateAsync(this HttpContext httpContext)
         {
             #region Contracts
 
@@ -65,7 +65,7 @@ namespace MDP.AspNetCore.Authentication
             return identity as ClaimsIdentity;
         }
 
-        public static Task LocalSignInAsync(this HttpContext httpContext, ClaimsPrincipal principal)
+        internal static Task LocalSignInAsync(this HttpContext httpContext, ClaimsPrincipal principal)
         {
             #region Contracts
 

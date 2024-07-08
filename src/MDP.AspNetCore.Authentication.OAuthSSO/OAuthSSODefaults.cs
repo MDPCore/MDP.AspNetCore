@@ -12,6 +12,8 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
 
         public static readonly string AuthorizationEndpoint = "{0}.sso/authorize";
 
+        public static readonly string LogoutEndpoint = "{0}.sso/logout";
+
         public static readonly string TokenEndpoint = "{0}.sso/token";
 
         public static readonly string UserInformationEndpoint = "{0}.sso/userinfo";

@@ -78,7 +78,7 @@ namespace MDP.AspNetCore.Authentication
             return httpContext.SignInAsync(RemoteAuthenticationDefaults.AuthenticationScheme, principal);
         }
 
-        internal static Task RemoteSignOutAsync(this HttpContext httpContext)
+        public static Task RemoteSignOutAsync(this HttpContext httpContext)
         {
             #region Contracts
 

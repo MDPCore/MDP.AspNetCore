@@ -26,6 +26,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
             this.ClientSecret = Guid.NewGuid().ToString();
             this.CallbackPath = new PathString("/signin-oauthsso");
             this.AuthorizationEndpoint = OAuthSSODefaults.AuthorizationEndpoint;
+            this.LogoutEndpoint = OAuthSSODefaults.LogoutEndpoint;
             this.TokenEndpoint = OAuthSSODefaults.TokenEndpoint;
             this.UserInformationEndpoint = OAuthSSODefaults.UserInformationEndpoint;
 
@@ -52,9 +53,12 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
                 // Set
                 _serverUrl = value;
                 this.AuthorizationEndpoint = string.Format(OAuthSSODefaults.AuthorizationEndpoint, value);
+                this.LogoutEndpoint = string.Format(OAuthSSODefaults.LogoutEndpoint, value);
                 this.TokenEndpoint = string.Format(OAuthSSODefaults.TokenEndpoint, value);
                 this.UserInformationEndpoint = string.Format(OAuthSSODefaults.UserInformationEndpoint, value);
             }
         }
+
+        public string LogoutEndpoint { get; private set; }
     }
 }

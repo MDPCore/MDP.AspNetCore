@@ -18,10 +18,17 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Lab
         }
 
         [AllowAnonymous]
+        public Task<ActionResult> Refresh(string returnUrl = null)
+        {
+            // Return
+            return this.RefreshAsync(OAuthSSODefaults.AuthenticationScheme, returnUrl);
+        }
+
+        [AllowAnonymous]
         public Task<ActionResult> Logout(string returnUrl = null)
         {
             // Return
-            return this.LogoutAsync(returnUrl);
+            return this.LogoutAsync(OAuthSSODefaults.AuthenticationScheme, returnUrl);            
         }
 
         [AllowAnonymous]

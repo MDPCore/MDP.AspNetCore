@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AuthenticationController : Controller
     {
         // Fields
@@ -62,12 +63,12 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest($"{nameof(client_id)}=null");
-            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest($"{nameof(redirect_uri)}=null");
-            if (string.IsNullOrEmpty(response_type) == true) return this.BadRequest($"{nameof(response_type)}=null");
-            if (string.IsNullOrEmpty(code_challenge) == true) return this.BadRequest($"{nameof(code_challenge)}=null");
-            if (string.IsNullOrEmpty(code_challenge_method) == true) return this.BadRequest($"{nameof(code_challenge_method)}=null");
-            if (string.IsNullOrEmpty(state) == true) return this.BadRequest($"{nameof(state)}=null");
+            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
+            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(redirect_uri)}=null" });
+            if (string.IsNullOrEmpty(response_type) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(response_type)}=null" });
+            if (string.IsNullOrEmpty(code_challenge) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(code_challenge)}=null" });
+            if (string.IsNullOrEmpty(code_challenge_method) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(code_challenge_method)}=null" });
+            if (string.IsNullOrEmpty(state) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(state)}=null" });
 
             #endregion
 
@@ -154,9 +155,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             #region Contracts
 
-            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest($"{nameof(client_id)}=null");
-            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest($"{nameof(redirect_uri)}=null");
-            if (string.IsNullOrEmpty(state) == true) return this.BadRequest($"{nameof(state)}=null");
+            if (string.IsNullOrEmpty(client_id) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(client_id)}=null" });
+            if (string.IsNullOrEmpty(redirect_uri) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(redirect_uri)}=null" });
+            if (string.IsNullOrEmpty(state) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(state)}=null" });
 
             #endregion
 
@@ -269,17 +270,17 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // ClientId
                 if (authorizationCode.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ClientId)}={authorizationCode.ClientId}" });
 
+                // ClaimList
+                if (authorizationCode.ClaimList == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
+
                 // ExpireTime
-                if (authorizationCode.ExpireTime <= DateTime.Now) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
+                if (authorizationCode.ExpireTime <= DateTime.Now) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ExpireTime)}={authorizationCode.ExpireTime}" });
 
                 // CodeChallenge
                 if (string.IsNullOrEmpty(authorizationCode.CodeChallenge) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.CodeChallenge)}={authorizationCode.CodeChallenge}" });
 
                 // CodeChallengeMethod
                 if (authorizationCode.CodeChallengeMethod.Equals("S256", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.CodeChallengeMethod)}=null" });
-
-                // ClaimList
-                if (authorizationCode.ClaimList == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authorizationCode.ClaimList)}=null" });
             }
 
             // ClientCredential
@@ -303,7 +304,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 {
                     // HashBytes
                     var hashBytes = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(code_verifier));
-                    if (hashBytes == null) throw new InvalidOperationException($"{nameof(hashBytes)}=null");
+                    if (hashBytes == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(hashBytes)}=null" });
 
                     // HashString
                     var hashString = Convert.ToBase64String(hashBytes)
@@ -320,13 +321,13 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             // AuthenticationProvider
             var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
-            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
+            if (authenticationProvider == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(authenticationProvider)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = authorizationCode.GetClaimsIdentity();
             if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
-            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity == null) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // Return
             return GetToken(authorizationCode.ClientId, claimsIdentity);
@@ -383,13 +384,13 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             // AuthenticationProvider
             var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
-            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
+            if (authenticationProvider == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(authenticationProvider)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = refreshToken.GetClaimsIdentity();
             if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
-            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity == null) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // Return
             return GetToken(refreshToken.ClientId, claimsIdentity);
@@ -462,7 +463,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
         {
             // PolicyAuthenticationSelectorList
             var policyAuthenticationSelectorList = this.HttpContext.RequestServices.GetService(typeof(IList<PolicyAuthenticationSelector>)) as IList<PolicyAuthenticationSelector>;
-            if (policyAuthenticationSelectorList == null) throw new InvalidOperationException($"{nameof(policyAuthenticationSelectorList)}=null");
+            if (policyAuthenticationSelectorList == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(policyAuthenticationSelectorList)}=null" });
 
             // PolicyAuthenticationSelectorList.Foreach
             var authenticationScheme = string.Empty;
@@ -477,17 +478,12 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                 // Break
                 break;
             }
-            if (string.IsNullOrEmpty(authenticationScheme) == true) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationScheme)}=null" });
-
-            // AuthenticationProvider
-            var authenticationProvider = this.HttpContext.RequestServices.GetService(typeof(AuthenticationProvider)) as AuthenticationProvider ?? new AuthenticationProvider();
-            if (authenticationProvider == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(authenticationProvider)}=null" });
+            if (string.IsNullOrEmpty(authenticationScheme) == true) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(authenticationScheme)}=null" });
 
             // ClaimsIdentity
             var claimsIdentity = (await this.HttpContext.AuthenticateAsync(authenticationScheme))?.Principal?.Identity as ClaimsIdentity;
-            if (claimsIdentity != null) claimsIdentity = authenticationProvider.LocalLogin(claimsIdentity);
-            if (claimsIdentity == null) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
-            if (claimsIdentity.IsAuthenticated == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
+            if (claimsIdentity == null) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity)}=null" });
+            if (claimsIdentity.IsAuthenticated == false) return this.Unauthorized(new { error = "invalid_request", error_description = $"{nameof(claimsIdentity.IsAuthenticated)}=false" });
 
             // ClaimList
             var claimList = claimsIdentity.Claims.ToList();
@@ -611,7 +607,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             }
         }
 
-        private class ClaimConverter : JsonConverter<Claim>
+        private class ClaimConverter: JsonConverter<Claim>
         {
             // Methods
             public override Claim Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

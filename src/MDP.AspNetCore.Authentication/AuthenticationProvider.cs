@@ -26,7 +26,7 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (remoteIdentity == null) throw new ArgumentNullException($"{nameof(remoteIdentity)}=null");
+            ArgumentNullException.ThrowIfNull(remoteIdentity);
 
             #endregion
 
@@ -38,8 +38,8 @@ namespace MDP.AspNetCore.Authentication
         {
             #region Contracts
 
-            if (remoteIdentity == null) throw new ArgumentNullException($"{nameof(remoteIdentity)}=null");
-            if (localIdentity == null) throw new ArgumentNullException($"{nameof(localIdentity)}=null");
+            ArgumentNullException.ThrowIfNull(remoteIdentity);
+            ArgumentNullException.ThrowIfNull(localIdentity);
 
             #endregion
 

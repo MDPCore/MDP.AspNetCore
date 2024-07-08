@@ -18,59 +18,19 @@ namespace MDP.AspNetCore.Authentication
         // Methods
         [HttpGet]
         [AllowAnonymous]
-        [Route("/.auth/login/{scheme}", Name = "/.auth/login")]
-        public Task<ActionResult> Login(string scheme, string returnUrl = null)
-        {
-            #region Contracts
-
-            ArgumentNullException.ThrowIfNullOrEmpty(scheme);
-
-            #endregion
-
-            // Login
-            return this.LoginAsync(scheme, returnUrl);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("/.auth/link/{scheme}", Name = "/.auth/link")]
-        public Task<ActionResult> Link(string scheme, string returnUrl = null)
-        {
-            #region Contracts
-
-            ArgumentNullException.ThrowIfNullOrEmpty(scheme);
-
-            #endregion
-
-            // Link
-            return this.LinkAsync(scheme, returnUrl);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("/.auth/refresh", Name = "/.auth/refresh")]
-        public Task<ActionResult> Refresh(string returnUrl = null)
-        {
-            // Refresh
-            return this.RefreshAsync(returnUrl);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("/.auth/logout", Name = "/.auth/logout")]
-        public Task<ActionResult> Logout(string returnUrl = null)
-        {
-            // Logout
-            return this.LogoutAsync(returnUrl);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
         [Route("/.auth/signin", Name = "/.auth/signin")]
-        public Task<ActionResult> SignIn(string returnUrl = null)
+        public async Task<ActionResult> SignIn(string returnUrl = null)
         {
+            // Require
+            returnUrl = this.NormalizeReturnUrl(returnUrl);
+
+            // RemoteIdentity
+            var remoteIdentity = await this.RemoteAuthenticateAsync();
+            if (remoteIdentity == null) throw new InvalidOperationException($"{nameof(remoteIdentity)}=null");
+            if (remoteIdentity.IsAuthenticated == false) throw new InvalidOperationException($"{nameof(remoteIdentity)}.IsAuthenticated=false");
+
             // SignIn
-            return this.SignInAsync(returnUrl);
+            return await this.SignInAsync(remoteIdentity, returnUrl);
         }        
     }
 }
