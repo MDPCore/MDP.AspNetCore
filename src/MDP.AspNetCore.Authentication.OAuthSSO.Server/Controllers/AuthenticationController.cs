@@ -366,7 +366,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             // RefreshToken.Require
             {
                 // GrantType
-                if (refreshToken.GrantType.Equals("authorization_code", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.GrantType)}={refreshToken.GrantType}" });
+                if (refreshToken.GrantType.Equals("refresh_token", StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.GrantType)}={refreshToken.GrantType}" });
 
                 // ClientId
                 if (refreshToken.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase) == false) return this.BadRequest(new { error = "invalid_request", error_description = $"{nameof(refreshToken.ClientId)}={refreshToken.ClientId}" });
