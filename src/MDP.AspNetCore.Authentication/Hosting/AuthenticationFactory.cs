@@ -35,6 +35,7 @@ namespace MDP.AspNetCore.Authentication
             {
                 // Options
                 options.DefaultScheme = setting.DefaultScheme;
+                options.DefaultChallengeScheme = PolicyAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = PolicyAuthenticationDefaults.AuthenticationScheme;
             });
             if (authenticationBuilder == null) throw new InvalidOperationException($"{nameof(authenticationBuilder)}=null");

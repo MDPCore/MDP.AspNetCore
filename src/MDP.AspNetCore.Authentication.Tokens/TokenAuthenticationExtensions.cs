@@ -139,27 +139,6 @@ namespace MDP.AspNetCore.Authentication.Tokens
                 if (string.IsNullOrEmpty(context.Token) == true) context.NoResult();
             };
 
-            // OnAuthenticationFailed
-            var onAuthenticationFailed = tokenOptions.Events.OnAuthenticationFailed;
-            tokenOptions.Events.OnAuthenticationFailed = async context =>
-            {
-                // Base
-                if (onAuthenticationFailed != null)
-                {
-                    await onAuthenticationFailed(context);
-                }
-
-                // Header
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                context.Response.ContentType = "application/json";
-
-                // Content
-                var content = JsonSerializer.Serialize(new { message = "Authentication failed" });
-
-                // Response
-                await context.Response.WriteAsync(content);
-            };
-
             // Return
             return tokenOptions;
         }
