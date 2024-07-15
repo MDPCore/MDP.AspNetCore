@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="8.0.7.19" />
-    <PackageReference Include="MDP.Security.Claims" Version="8.0.7.19" />
+    <PackageReference Include="MDP.Registration" Version="8.0.7.21" />
+    <PackageReference Include="MDP.Security.Claims" Version="8.0.7.21" />
   </ItemGroup>
 
   <PropertyGroup>
