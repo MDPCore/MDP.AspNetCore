@@ -62,19 +62,22 @@ namespace MDP.AspNetCore.Authorization
             // ClaimsIdentity
             var claimsIdentity = context.User?.Identity as ClaimsIdentity;
             if (claimsIdentity == null) return Task.CompletedTask;
-            if (claimsIdentity.IsAuthenticated == false) return Task.CompletedTask;
 
             // RoleAssignmentList
             var roleAssignmentList = new List<RoleAssignment>();
-            foreach (var roleAssignmentProvider in _roleAssignmentProviderList)
+            if (claimsIdentity.IsAuthenticated == true)
             {
-                // Create
-                var roleAssignmentListSource = roleAssignmentProvider.Create(claimsIdentity);
-                if (roleAssignmentListSource == null) throw new InvalidOperationException($"{nameof(roleAssignmentListSource)}=null");
+                foreach (var roleAssignmentProvider in _roleAssignmentProviderList)
+                {
+                    // Create
+                    var roleAssignmentListSource = roleAssignmentProvider.Create(claimsIdentity);
+                    if (roleAssignmentListSource == null) throw new InvalidOperationException($"{nameof(roleAssignmentListSource)}=null");
 
-                // Add
-                roleAssignmentList.AddRange(roleAssignmentListSource);
+                    // Add
+                    roleAssignmentList.AddRange(roleAssignmentListSource);
+                }
             }
+            roleAssignmentList.Add(new RoleAssignment("*"));
 
             // RoleAssignmentList.Foreach
             foreach (var roleAssignment in roleAssignmentList)

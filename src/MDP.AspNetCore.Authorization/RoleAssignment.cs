@@ -9,6 +9,11 @@ namespace MDP.AspNetCore.Authorization
     public class RoleAssignment
     {
         // Constructors
+        public RoleAssignment(string roleId) : this(roleId, new List<string>())
+        {
+            
+        }
+
         public RoleAssignment(string roleId, List<string> roleScopes)
         {
             #region Contracts
