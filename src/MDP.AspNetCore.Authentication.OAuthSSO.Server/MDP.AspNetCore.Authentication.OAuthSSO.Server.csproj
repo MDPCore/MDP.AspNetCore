@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="8.0.7.21" />
-    <PackageReference Include="MDP.Security.Claims" Version="8.0.7.21" />
-    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.7.21" />
+    <PackageReference Include="MDP.Registration" Version="8.0.7.42" />
+    <PackageReference Include="MDP.Security.Claims" Version="8.0.7.42" />
+    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.7.42" />
   </ItemGroup>
 
   <ItemGroup>
