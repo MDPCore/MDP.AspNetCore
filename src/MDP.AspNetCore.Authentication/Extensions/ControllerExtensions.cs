@@ -30,6 +30,11 @@ namespace MDP.AspNetCore.Authentication
             if (scheme.Equals(LocalAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
             if (scheme.Equals(RemoteAuthenticationDefaults.AuthenticationScheme, StringComparison.OrdinalIgnoreCase) == true) throw new InvalidOperationException($"{nameof(scheme)}={scheme}");
 
+            // LocalIdentity
+            var localIdentity = await controller.LocalAuthenticateAsync();
+            if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
+            if (localIdentity.IsAuthenticated == true) controller.Redirect(returnUrl);
+
             // Sign
             await controller.HttpContext.RemoteSignOutAsync();
             await controller.HttpContext.LocalSignOutAsync();
