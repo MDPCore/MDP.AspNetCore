@@ -74,6 +74,7 @@ namespace MDP.AspNetCore.Authentication
             {
                 // Create
                 var authenticationSetting = new AuthenticationSetting();
+                authenticationSetting.ResolvePath = setting.ResolvePath;
                 authenticationSetting.RegisterPath = setting.RegisterPath;
 
                 // Return
@@ -93,6 +94,8 @@ namespace MDP.AspNetCore.Authentication
             public string LogoutPath { get; set; } = "/Account/Logout";
 
             public string AccessDeniedPath { get; set; } = "/Account/AccessDenied";
+
+            public string ResolvePath { get; set; } = null;
 
             public string RegisterPath { get; set; } = null;
         }

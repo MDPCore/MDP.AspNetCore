@@ -32,8 +32,11 @@ namespace MDP.AspNetCore.Authentication
 
             // LocalIdentity
             var localIdentity = await controller.LocalAuthenticateAsync();
-            if (localIdentity == null) throw new InvalidOperationException($"{nameof(localIdentity)}=null");
-            if (localIdentity.IsAuthenticated == true) controller.Redirect(returnUrl);
+            if (localIdentity != null && localIdentity.IsAuthenticated == true)
+            {
+                // Redirect
+                controller.Resolve(returnUrl);
+            }
 
             // Sign
             await controller.HttpContext.RemoteSignOutAsync();
@@ -122,6 +125,7 @@ namespace MDP.AspNetCore.Authentication
             return controller.Redirect(returnUrl);
         }
                 
+
         public static async Task<ActionResult> SignInAsync(this Controller controller, ClaimsIdentity remoteIdentity, string returnUrl = null)
         {
             #region Contracts
@@ -147,6 +151,7 @@ namespace MDP.AspNetCore.Authentication
 
             // LocalIdentity
             var localIdentity = await controller.LocalAuthenticateAsync();
+            if (localIdentity != null && localIdentity.IsAuthenticated == false) localIdentity = null;
 
             // Link
             if (localIdentity != null)
@@ -160,6 +165,7 @@ namespace MDP.AspNetCore.Authentication
             {
                 // RemoteLogin
                 localIdentity = authenticationProvider.RemoteLogin(remoteIdentity);
+                if (localIdentity != null && localIdentity.IsAuthenticated == false) localIdentity = null;
             }
 
             // SignIn
@@ -170,7 +176,7 @@ namespace MDP.AspNetCore.Authentication
                 await controller.HttpContext.LocalSignInAsync(new ClaimsPrincipal(localIdentity));
 
                 // Redirect
-                return controller.Redirect(returnUrl);
+                return controller.Resolve(returnUrl);
             }
 
             // Register
@@ -181,7 +187,7 @@ namespace MDP.AspNetCore.Authentication
                 await controller.HttpContext.LocalSignOutAsync();
 
                 // Redirect
-                return controller.Redirect(authenticationSetting.RegisterPath);
+                return controller.Register(returnUrl);
             }
 
             // Forbid
@@ -193,6 +199,60 @@ namespace MDP.AspNetCore.Authentication
                 // Redirect
                 return controller.Forbid();
             }
+        }
+
+        private static ActionResult Resolve(this Controller controller, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+
+            #endregion
+
+            // AuthenticationSetting
+            var authenticationSetting = controller.HttpContext.RequestServices.GetService<AuthenticationSetting>();
+            if (authenticationSetting == null) authenticationSetting = new AuthenticationSetting();
+
+            // RedirectUrl
+            var redirectUrl = string.Empty;
+            if (string.IsNullOrEmpty(authenticationSetting.ResolvePath)== true)
+            {
+                redirectUrl = returnUrl;
+            }
+            else 
+            {
+                redirectUrl = $"{authenticationSetting.ResolvePath}?returnUrl={Uri.EscapeDataString(returnUrl)}";
+            }
+
+            // Redirect
+            return controller.Redirect(redirectUrl);
+        }
+
+        private static ActionResult Register(this Controller controller, string returnUrl = null)
+        {
+            #region Contracts
+
+            if (controller == null) throw new ArgumentNullException($"{nameof(controller)}=null");
+
+            #endregion
+
+            // AuthenticationSetting
+            var authenticationSetting = controller.HttpContext.RequestServices.GetService<AuthenticationSetting>();
+            if (authenticationSetting == null) authenticationSetting = new AuthenticationSetting();
+
+            // RedirectUrl
+            var redirectUrl = string.Empty;
+            if (string.IsNullOrEmpty(authenticationSetting.RegisterPath) == true)
+            {
+                redirectUrl = returnUrl;
+            }
+            else
+            {
+                redirectUrl = $"{authenticationSetting.RegisterPath}?returnUrl={Uri.EscapeDataString(returnUrl)}";
+            }
+
+            // Redirect
+            return controller.Redirect(redirectUrl);
         }
 
 
