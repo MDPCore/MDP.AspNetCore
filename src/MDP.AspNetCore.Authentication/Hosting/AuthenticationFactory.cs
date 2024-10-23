@@ -54,6 +54,7 @@ namespace MDP.AspNetCore.Authentication
                 {
                     // Options
                     options.ExpireTimeSpan = TimeSpan.FromDays(14);
+                    options.Cookie.MaxAge = TimeSpan.FromDays(14);
                     options.SlidingExpiration = true;
                     options.Cookie.HttpOnly = true;
                     options.Cookie.IsEssential = true;
@@ -69,7 +70,6 @@ namespace MDP.AspNetCore.Authentication
                 authenticationBuilder.AddRemote(options =>
                 {
                     // Options
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     options.SlidingExpiration = false;
                     options.Cookie.HttpOnly = true;
                     options.Cookie.IsEssential = true;
