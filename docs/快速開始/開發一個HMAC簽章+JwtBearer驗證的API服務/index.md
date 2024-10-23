@@ -11,7 +11,7 @@ has_children: false
 
 使用資料庫驗證帳號及密碼之後，發行代表身分資料並使用HMAC簽章的JWT，讓系統放到HTTP Request封包的Authorization表頭來進行身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Jwt，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/WebApplication1.zip)
 
 
 ## 操作步驟
@@ -45,7 +45,7 @@ namespace ConsoleApp1
 }
 ```
 
-![01.GetKey01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/01.GetKey01.png)
+![01.GetKey01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/01.GetKey01.png)
 
 2.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為WebApplication1的Web站台。
 
@@ -328,8 +328,8 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的Token。
 
-![02.GetToken01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/02.GetToken01.png)
+![02.GetToken01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/02.GetToken01.png)
 
 8.取得Token之後，點擊GetUser按鈕，進行JwtBearer身分驗證。系統會使用JavaScript，將Token放入HTTP Request封包的Authorization表頭進行身分驗證，並在完成身分驗證之後，於畫面上顯示取得的身分資料。
 
-![03.GetUser01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/03.GetUser01.png)
+![03.GetUser01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/03.GetUser01.png)

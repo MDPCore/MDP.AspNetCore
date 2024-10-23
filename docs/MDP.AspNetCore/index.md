@@ -9,5 +9,5 @@ nav_order: 1
 # MDP.AspNetCore
 
 <head>
-  <meta http-equiv="refresh" content="0; url=https://mdpnetcore.github.io/MDP.AspNetCore/" />
+  <meta http-equiv="refresh" content="0; url=https://mdpcore.github.io/MDP.AspNetCore/" />
 </head>

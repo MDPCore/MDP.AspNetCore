@@ -11,9 +11,9 @@ has_children: false
 
 在會員註冊並使用之後，才進行Line身分綁定，是開發系統時常見的功能需求。完成綁定之後，客戶就能使用Line進行OAuth快速登入(系統也能取得Line的UID來訊息推送)。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Line，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/WebApplication1.zip)
 
-- 模組清單：Line綁定可替換為其他OAuth身分驗證，請參考已支援的[OAuth身分認證清單](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/)。
+- 模組清單：Line綁定可替換為其他OAuth身分驗證，請參考已支援的[OAuth身分認證清單](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/)。
 
 
 ### 操作步驟
@@ -31,9 +31,9 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.Line
 ```
 
-3.依照[模組使用-申請服務](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/Line身分驗證/#模組使用)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
+3.依照[模組使用-申請服務](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/Line身分驗證/#模組使用)的步驟流程，申請Line身分驗證服務，並取得「Channel ID」、「Channel Secret」。
 
-![01.申請服務01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/01.申請服務01.png)
+![01.申請服務01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/01.申請服務01.png)
 
 4.於專案內改寫appsettings.json，填入「Channel ID」、「Channel Secret」，用以掛載Line身分驗證。
 
@@ -598,24 +598,24 @@ namespace WebApplication1
 
 10.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
 
-![02.LoginPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/02.LoginPage01.png)
+![02.LoginPage01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/02.LoginPage01.png)
 
 11.於Login頁面，點擊Register按鈕。Browser視窗會跳轉至會員註冊的頁面，進行會員資料註冊。
 
-![03.RegisterPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/03.RegisterPage01.png)
+![03.RegisterPage01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/03.RegisterPage01.png)
 
 12.完成會員資料註冊之後，Browser視窗會跳轉回Home頁面，並且顯示登入的身分資料。(無綁定身分)
 
-![04.HomePage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/04.HomePage01.png)
+![04.HomePage01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/04.HomePage01.png)
 
 13.於Home頁面，點擊LinkByLine按鈕。Browser視窗會跳轉至Line身分驗證服務的頁面，進行OAuth身分驗證。完成後進行會員身分綁定，最後再回到Home頁面，並於畫面上顯示會員資料的綁定身分。
 
-![05.OAuthPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/05.OAuthPage01.png)
+![05.OAuthPage01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/05.OAuthPage01.png)
 
-![05.OAuthPage02.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/05.OAuthPage02.png)
+![05.OAuthPage02.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/05.OAuthPage02.png)
 
 14.完成上述步驟之後，於Home頁面點擊Logout按鈕。回到Login頁面，使用LoginByLine、LoginByPassword都可以登入已註冊的會員資料。(提醒：範例用程式裡LoginByPassword是用會員的Name屬性登入，並且不會檢查密碼。)
 
-![06.ResultPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/06.ResultPage01.png)
+![06.ResultPage01.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/06.ResultPage01.png)
 
-![06.ResultPage02.png](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/06.ResultPage02.png)
+![06.ResultPage02.png](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/06.ResultPage02.png)

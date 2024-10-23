@@ -2,35 +2,35 @@
 
 MDP.AspNetCore是開源的.NET開發套件，協助開發人員快速建立整合ASP.NET Core身分驗證的應用系統。提供OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組，用以簡化開發流程並滿足多變的商業需求。
 
-- 說明文件：[https://mdpnetcore.github.io/MDP.AspNetCore/](https://mdpnetcore.github.io/MDP.AspNetCore/)
+- 說明文件：[https://mdpcore.github.io/MDP.AspNetCore/](https://mdpcore.github.io/MDP.AspNetCore/)
 
-- 程式源碼：[https://github.com/MDPNetCore/MDP.AspNetCore/](https://github.com/MDPNetCore/MDP.AspNetCore/)
+- 程式源碼：[https://github.com/MDPCore/MDP.AspNetCore/](https://github.com/MDPCore/MDP.AspNetCore/)
 
 
 ## 快速開始
 
-- [開發一個Line登入之後註冊會員的Web站台](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個Line登入之後註冊會員的Web站台/)
+- [開發一個Line登入之後註冊會員的Web站台](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個Line登入之後註冊會員的Web站台/)
 
-- [開發一個會員註冊之後綁定Line的Web站台](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/)
+- [開發一個會員註冊之後綁定Line的Web站台](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個會員註冊之後綁定Line的Web站台/)
 
-- [開發一個HMAC簽章+JwtBearer驗證的API服務](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/)
+- [開發一個HMAC簽章+JwtBearer驗證的API服務](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個HMAC簽章+JwtBearer驗證的API服務/)
 
-- [開發一個RSA簽章+ApiToken驗證的API服務](https://mdpnetcore.github.io/MDP.AspNetCore/快速開始/開發一個RSA簽章+ApiToken驗證的API服務/)
+- [開發一個RSA簽章+ApiToken驗證的API服務](https://mdpcore.github.io/MDP.AspNetCore/快速開始/開發一個RSA簽章+ApiToken驗證的API服務/)
 
 
 ## 模組功能
 
-![MDP.AspNetCore.Authentication-模組功能.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-模組功能.png)
+![MDP.AspNetCore.Authentication-模組功能.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-模組功能.png)
 
 ### 模組掛載
 
 MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAuth身分驗證模組、Token身分驗證模組、Azure身分驗證模組的掛載功能。開發人員可以透過Config設定，掛載在執行階段使用的身分認證。
 
-- OAuth身分驗證：[OAuth身分認證模組清單](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/)。
+- OAuth身分驗證：[OAuth身分認證模組清單](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/)。
 
-- Token身分驗證：[Token身分認證模組清單](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/)。
+- Token身分驗證：[Token身分認證模組清單](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/)。
 
-- Azure身分驗證：[Azure身分認證模組清單](https://mdpnetcore.github.io/MDP.AspNetCore/Azure身分驗證/)。
+- Azure身分驗證：[Azure身分認證模組清單](https://mdpcore.github.io/MDP.AspNetCore/Azure身分驗證/)。
 
 ```
 // Config設定 - Line身分驗證模組
@@ -98,7 +98,7 @@ MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入OAu
 
 ### Remote身分驗證
 
-![MDP.AspNetCore.Authentication-Remote身分驗證.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Remote身分驗證.png)
+![MDP.AspNetCore.Authentication-Remote身分驗證.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Remote身分驗證.png)
 
 MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Remote身分驗證流程。用來確認通過OAuth身分驗證的身分資料，是否為已知用戶、是否引導註冊，並於最終完成登入。
 
@@ -179,7 +179,7 @@ public static Task<ClaimsIdentity> LocalAuthenticateAsync(this Controller contro
 
 ### Remote身分綁定
 
-![MDP.AspNetCore.Authentication-Remote身分綁定.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Remote身分綁定.png)
+![MDP.AspNetCore.Authentication-Remote身分綁定.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Remote身分綁定.png)
 
 完成登入之後，開發人員可以使用MDP.AspNetCore.Authentication提供的Remote身分綁定流程，用來綁定用戶所擁有的其他OAuth身分驗證。
 
@@ -232,7 +232,7 @@ public virtual void RemoteLink(ClaimsIdentity remoteIdentity, ClaimsIdentity loc
 
 ### Local身分驗證
 
-![MDP.AspNetCore.Authentication-Local身分驗證.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Local身分驗證.png)
+![MDP.AspNetCore.Authentication-Local身分驗證.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Local身分驗證.png)
 
 MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Local身分驗證流程。用來讓開發人員使用資料庫、AD服務...驗證帳號及密碼之後，取得身分資料來執行Local身分登入，將身分資料寫入Cookie提供後續流程使用。
 
@@ -255,7 +255,7 @@ public static async Task<ActionResult> LoginAsync(this Controller controller, Cl
 
 ### Token身分驗證
 
-![MDP.AspNetCore.Authentication-Token身分驗證.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
+![MDP.AspNetCore.Authentication-Token身分驗證.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/MDP.AspNetCore.Authentication-Token身分驗證.png)
 
 MDP.AspNetCore.Authentication擴充ASP.NET Core既有的身分驗證，加入Token身分驗證流程。用來在HTTP Request封包內容通過Token身分驗證之後，取得身分資料來執行Token身分登入，將身分資料提供後續流程使用。(當次封包處理流程有效)
 
@@ -358,7 +358,7 @@ namespace MDP.Members
 
 使用資料庫驗證帳號及密碼之後，取得身分資料來登入系統，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpcore.github.io/MDP.AspNetCore/功能說明/WebApplication1.zip)
 
 ### 操作步驟
 
@@ -622,11 +622,11 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
 
-![01.LoginPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/01.LoginPage01.png)
+![01.LoginPage01.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/01.LoginPage01.png)
 
 8.於Login頁面，點擊LoginByPassword按鈕，進行Password身分驗證。在完成身分驗證之後，Browser視窗會跳轉回Home頁面，並且顯示登入的身分資料。
 
-![02.HomePage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/功能說明/02.HomePage01.png)
+![02.HomePage01.png](https://mdpcore.github.io/MDP.AspNetCore/功能說明/02.HomePage01.png)
 
 
 ## 版本更新

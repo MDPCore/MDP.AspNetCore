@@ -11,9 +11,9 @@ has_children: false
 
 MDP.AspNetCore.Authentication.GitHub擴充ASP.NET Core既有的身分驗證，加入GitHub身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的GitHub身分驗證，用以驗證GitHub帳號登入的使用者。
 
-- 說明文件：[https://mdpnetcore.github.io/MDP.AspNetCore/](https://mdpnetcore.github.io/MDP.AspNetCore/)
+- 說明文件：[https://mdpcore.github.io/MDP.AspNetCore/](https://mdpcore.github.io/MDP.AspNetCore/)
 
-- 程式源碼：[https://github.com/MDPNetCore/MDP.AspNetCore/](https://github.com/MDPNetCore/MDP.AspNetCore/)
+- 程式源碼：[https://github.com/MDPCore/MDP.AspNetCore/](https://github.com/MDPCore/MDP.AspNetCore/)
 
 
 ## 模組使用
@@ -24,15 +24,15 @@ MDP.AspNetCore.Authentication.GitHub使用GitHub官方提供的OAuth服務來進
 
 1.註冊並登入[GitHub Developer Settings](https://github.com/settings/developers)。於OAuth Apps頁簽，點擊Register a new application按鈕，依照頁面提示建立一個Application，並編輯「Authorization callback URL」。(Callback URL=「程式執行網址」+「/.auth/login/github/callback」)
 
-![01.建立Application01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/01.建立Application01.png)
+![01.建立Application01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/01.建立Application01.png)
 
-![01.建立Application02.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/01.建立Application02.png)
+![01.建立Application02.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/01.建立Application02.png)
 
 2.於Application頁面，進入General頁簽，取得「Client ID」、並且點擊Generate a new client secret按鈕以取得「Client secret」。
 
-![02.取得參數01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/02.取得參數01.png)
+![02.取得參數01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/02.取得參數01.png)
 
-![02.取得參數02.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/02.取得參數02.png)
+![02.取得參數02.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/02.取得參數02.png)
 
 ### 加入專案
 
@@ -77,7 +77,7 @@ MDP.AspNetCore.Authentication.GitHub
 
 提供GitHub身分驗證，讓使用者能夠快速登入系統，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.GitHub，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/WebApplication1.zip)
 
 ### 操作步驟
 
@@ -94,9 +94,9 @@ dotnet new MDP.WebApp -n WebApplication1
 MDP.AspNetCore.Authentication.GitHub
 ```
 
-3.依照[模組使用-申請服務](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/#模組使用)的步驟流程，申請GitHub身分驗證服務，並取得「Client ID」、「Client secret」。
+3.依照[模組使用-申請服務](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/#模組使用)的步驟流程，申請GitHub身分驗證服務，並取得「Client ID」、「Client secret」。
 
-![05.申請服務01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/05.申請服務01.png)
+![05.申請服務01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/05.申請服務01.png)
 
 4.於專案內改寫appsettings.json，填入「Client ID」、「Client secret」，用以掛載GitHub身分驗證。
 
@@ -248,12 +248,12 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Login頁面。(預設是開啟Home頁面，但是因為還沒登入，所以跳轉到Login頁面)
 
-![06.LoginPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/06.LoginPage01.png)
+![06.LoginPage01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/06.LoginPage01.png)
 
 8.於Login頁面，點擊LoginByGitHub按鈕。Browser視窗會跳轉至GitHub身分驗證服務的頁面，進行OAuth身分驗證。
 
-![07.OAuthPage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/07.OAuthPage01.png)
+![07.OAuthPage01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/07.OAuthPage01.png)
 
 9.於GitHub身分驗證服務完成身分驗證之後，Browser視窗會跳轉回原系統的Home頁面，並且顯示登入的身分資料。(經由GitHub身分驗證登入)
 
-![08.HomePage01.png](https://mdpnetcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/08.HomePage01.png)
+![08.HomePage01.png](https://mdpcore.github.io/MDP.AspNetCore/OAuth身分驗證/GitHub身分驗證/08.HomePage01.png)

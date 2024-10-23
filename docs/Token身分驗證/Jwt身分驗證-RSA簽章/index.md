@@ -11,9 +11,9 @@ has_children: false
 
 MDP.AspNetCore.Authentication.Jwt擴充ASP.NET Core既有的身分驗證，加入Jwt身分驗證功能。開發人員可以透過Config設定，掛載在專案裡使用的Jwt身分驗證，用以驗證使用RSA簽章的JWT。
 
-- 說明文件：[https://mdpnetcore.github.io/MDP.AspNetCore/](https://mdpnetcore.github.io/MDP.AspNetCore/)
+- 說明文件：[https://mdpcore.github.io/MDP.AspNetCore/](https://mdpcore.github.io/MDP.AspNetCore/)
 
-- 程式源碼：[https://github.com/MDPNetCore/MDP.AspNetCore/](https://github.com/MDPNetCore/MDP.AspNetCore/)
+- 程式源碼：[https://github.com/MDPCore/MDP.AspNetCore/](https://github.com/MDPCore/MDP.AspNetCore/)
 
 
 ## 模組使用
@@ -82,7 +82,7 @@ namespace ConsoleApp1
 }
 ```
 
-![01.GetKey01.png](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/01.GetKey01.png)
+![01.GetKey01.png](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/01.GetKey01.png)
 
 - 取得RSA公鑰後，透過Config設定，掛載在專案裡使用的Jwt身分驗證。
 
@@ -119,7 +119,7 @@ namespace ConsoleApp1
 
 使用資料庫驗證帳號及密碼之後，發行代表身分資料並使用RSA簽章的JWT，讓系統放到HTTP Request封包的Authorization表頭來進行身分驗證，是開發系統時常見的功能需求。本篇範例協助開發人員使用MDP.AspNetCore.Authentication.Jwt，逐步完成必要的設計和實作。
 
-- 範例下載：[WebApplication1.zip](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/WebApplication1.zip)
+- 範例下載：[WebApplication1.zip](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/WebApplication1.zip)
 
 
 ### 操作步驟
@@ -166,7 +166,7 @@ namespace ConsoleApp1
 }
 ```
 
-![01.GetKey01.png](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/01.GetKey01.png)
+![01.GetKey01.png](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/01.GetKey01.png)
 
 2.開啟命令提示字元，輸入下列指令。用以安裝MDP.WebApp範本、並且建立一個名為WebApplication1的Web站台。
 
@@ -449,8 +449,8 @@ namespace WebApplication1
 
 7.執行專案，於開啟的Browser視窗內，可以看到系統畫面進入到Home頁面。點擊GetTokenByPassword按鈕，進行Password身分驗證，系統會在完成身分驗證之後，於畫面上顯示取得的Token。
 
-![02.GetToken01.png](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/02.GetToken01.png)
+![02.GetToken01.png](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/02.GetToken01.png)
 
 8.取得Token之後，點擊GetUser按鈕，進行JwtBearer身分驗證。系統會使用JavaScript，將Token放入HTTP Request封包的Authorization表頭進行身分驗證，並在完成身分驗證之後，於畫面上顯示取得的身分資料。
 
-![03.GetUser01.png](https://mdpnetcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/03.GetUser01.png)
+![03.GetUser01.png](https://mdpcore.github.io/MDP.AspNetCore/Token身分驗證/Jwt身分驗證-RSA簽章/03.GetUser01.png)
