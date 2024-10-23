@@ -53,6 +53,11 @@ namespace MDP.AspNetCore.Authentication
                 authenticationBuilder.AddLocal(options =>
                 {
                     // Options
+                    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+                    options.SlidingExpiration = true;
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                     options.LoginPath = new PathString(setting.LoginPath);
                     options.LogoutPath = new PathString(setting.LogoutPath);
                     options.AccessDeniedPath = new PathString(setting.AccessDeniedPath);
@@ -64,6 +69,11 @@ namespace MDP.AspNetCore.Authentication
                 authenticationBuilder.AddRemote(options =>
                 {
                     // Options
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                    options.SlidingExpiration = false;
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                     options.ForwardChallenge = setting.DefaultScheme;
                     options.ForwardForbid = setting.DefaultScheme;
                 });
