@@ -405,6 +405,9 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             #endregion
 
+            // NowTime
+            var nowTime = DateTime.Now;
+
             // TokenProvider
             var tokenProvider = _tokenProviderFactory.CreateProvider(_authenticationSetting.JwtTokenName);
             if (tokenProvider == null) return this.StatusCode(500, new { error = "server_error", error_description = $"{nameof(tokenProvider)}=null" });
@@ -430,7 +433,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
                     refreshTokenData.GrantType = "refresh_token";
                     refreshTokenData.ClientId = clientId;
                     refreshTokenData.SetClaimsIdentity(claimsIdentity);
-                    refreshTokenData.ExpireTime = DateTime.Now.Add(TimeSpan.FromMinutes(_authenticationSetting.RefreshTokenExpireMinutes));
+                    refreshTokenData.ExpireTime = nowTime.Add(TimeSpan.FromMinutes(_authenticationSetting.RefreshTokenExpireMinutes));
                 }
 
                 // Serialize
@@ -449,9 +452,13 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             return Ok(new
             {
                 token_type = "Bearer",
+                expires_in = _authenticationSetting.AccessTokenExpireMinutes * 60,
+
                 access_token = accessToken,
+                access_token_expiration = nowTime.Add(TimeSpan.FromMinutes(_authenticationSetting.AccessTokenExpireMinutes)),
+
                 refresh_token = refreshToken,
-                expires_in = _authenticationSetting.AccessTokenExpireMinutes * 60
+                refresh_token_expiration = nowTime.Add(TimeSpan.FromMinutes(_authenticationSetting.RefreshTokenExpireMinutes))
             });
         }
 

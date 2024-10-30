@@ -52,7 +52,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 
             public int AccessTokenExpireMinutes { get; set; } = 30; // 30 minutes
 
-            public int RefreshTokenExpireMinutes { get; set; } = 43200; // 30 days
+            public int RefreshTokenExpireMinutes { get; set; } = 20160; // 14 days
 
             public List<ClientCredential> ClientCredentials { get; set; }
         }
