@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Data.MSSql" Version="8.0.7.50" />
+    <PackageReference Include="MDP.Data.MSSql" Version="8.0.7.53" />
   </ItemGroup>
 
   <ItemGroup>
