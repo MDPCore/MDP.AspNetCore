@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using Microsoft.IdentityModel.Tokens;
+using System.Net;
 
 namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
 {
@@ -77,6 +78,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO.Server
             {
                 return this.Challenge(new AuthenticationProperties { RedirectUri = this.Request.GetEncodedUrl() });
             }
+            redirect_uri = WebUtility.UrlDecode(redirect_uri);
 
             // ClientCredential
             var clientCredential = _authenticationSetting.ClientCredentialList.First(o => o.ClientId.Equals(client_id, StringComparison.OrdinalIgnoreCase));
