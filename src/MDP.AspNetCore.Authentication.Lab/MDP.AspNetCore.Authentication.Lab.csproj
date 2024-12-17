@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Data.MSSql" Version="8.0.7.60" />
-    <PackageReference Include="MDP.Data.MSSql.Azure" Version="8.0.7.60" />
+    <PackageReference Include="MDP.Data.MSSql" Version="8.0.7.62" />
+    <PackageReference Include="MDP.Data.MSSql.Azure" Version="8.0.7.62" />
   </ItemGroup>
 
   <ItemGroup>

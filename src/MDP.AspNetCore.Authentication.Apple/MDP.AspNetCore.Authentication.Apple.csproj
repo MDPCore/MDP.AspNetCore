@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Registration" Version="8.0.7.62" />
-    <PackageReference Include="MDP.Security.Claims" Version="8.0.7.62" />
-    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.7.62" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
   </ItemGroup>
 

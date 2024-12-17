@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.7.60" />
+    <PackageReference Include="MDP.Security.Tokens.Jwt" Version="8.0.7.62" />
   </ItemGroup>
 
   <ItemGroup>
