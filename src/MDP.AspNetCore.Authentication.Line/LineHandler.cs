@@ -20,14 +20,14 @@ namespace MDP.AspNetCore.Authentication.Line
     public class LineHandler : LineHandler<LineOptions>
     {
         // Constructors
-        public LineHandler(IOptionsMonitor<LineOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public LineHandler(IOptionsMonitor<LineOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
     }
 
     public class LineHandler<TOptions> : OAuthHandler<TOptions>
         where TOptions : LineOptions, new()
     {
         // Constructors
-        public LineHandler(IOptionsMonitor<TOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public LineHandler(IOptionsMonitor<TOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
 
         // Methods

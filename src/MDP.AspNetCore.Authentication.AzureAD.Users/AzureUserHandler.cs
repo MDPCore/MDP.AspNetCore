@@ -18,7 +18,7 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
     public class AzureUserHandler : OAuthHandler<AzureUserOptions>
     {
         // Constructors
-        public AzureUserHandler(IOptionsMonitor<AzureUserOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public AzureUserHandler(IOptionsMonitor<AzureUserOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
 
         // Methods

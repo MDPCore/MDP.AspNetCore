@@ -22,7 +22,7 @@ namespace MDP.AspNetCore.Authentication.OAuthSSO
     public class OAuthSSOHandler : OAuthHandler<OAuthSSOOptions>
     {
         // Constructors
-        public OAuthSSOHandler(IOptionsMonitor<OAuthSSOOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public OAuthSSOHandler(IOptionsMonitor<OAuthSSOOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
 
         // Methods

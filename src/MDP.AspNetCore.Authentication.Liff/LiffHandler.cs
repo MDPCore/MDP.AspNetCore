@@ -22,7 +22,7 @@ namespace MDP.AspNetCore.Authentication.Liff
     public class LiffHandler : LineHandler<LiffOptions>
     {
         // Constructors
-        public LiffHandler(IOptionsMonitor<LiffOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public LiffHandler(IOptionsMonitor<LiffOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
 
         // Methods

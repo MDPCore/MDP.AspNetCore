@@ -18,7 +18,7 @@ namespace MDP.AspNetCore.Authentication.GitHub
     public class GitHubHandler : OAuthHandler<GitHubOptions>
     {
         // Constructors
-        public GitHubHandler(IOptionsMonitor<GitHubOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock) { }
+        public GitHubHandler(IOptionsMonitor<GitHubOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
 
         // Methods
