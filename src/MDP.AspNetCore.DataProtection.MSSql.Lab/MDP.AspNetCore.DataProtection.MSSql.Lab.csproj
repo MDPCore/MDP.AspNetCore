@@ -10,5 +10,6 @@
   <!-- Reference -->
   <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
+    <ProjectReference Include="..\MDP.AspNetCore.DataProtection.MSSql\MDP.AspNetCore.DataProtection.MSSql.csproj" />
   </ItemGroup>
 </Project>

@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace MDP.AspNetCore.Authentication.MSSql
+namespace MDP.AspNetCore.DataProtection.MSSql
 {
-    [Service<IDataProtectionKeyRepository>()]
-    public class SqlDataProtectionKeyRepository : IDataProtectionKeyRepository
+    [Service<IKeyRepository>()]
+    public class SqlDataProtectionKeyRepository : IKeyRepository
     {
         // Fields
         private readonly SqlClientFactory _sqlClientFactory = null;

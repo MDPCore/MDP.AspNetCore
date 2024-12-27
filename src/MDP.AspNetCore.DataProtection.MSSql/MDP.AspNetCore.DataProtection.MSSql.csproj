@@ -1,31 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Build -->
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <!-- Reference -->
   <ItemGroup>
     <PackageReference Include="MDP.Data.MSSql" Version="8.0.7.62" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
+    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
   </ItemGroup>
 
+  <!-- Package -->
   <PropertyGroup>
     <authors>CLK Software Studio</authors>
     <copyright>Copyright © 2014 CLK Software Studio</copyright>
     <description>MDPCore Library</description>
-    <PackageIcon>Logo.png</PackageIcon>
+    <PackageIcon>LOGO.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Clark159/MDP.Net</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\Logo.png" Pack="true" PackagePath="\Logo.png" />
+    <None Include="..\..\LOGO.png" Pack="true" PackagePath="\LOGO.png" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\README.md" />
   </ItemGroup>
-
 </Project>

@@ -2,6 +2,8 @@
 using MDP.Hosting;
 using MDP.NetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
@@ -113,6 +115,26 @@ namespace MDP.AspNetCore
                     options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs);
                     options.JsonSerializerOptions.Converters.Add(new DateTimeISO8601Converter());
                 });                
+            }
+
+            // DataProtectionBuilder
+            var dataProtectionBuilder = applicationBuilder.Services.AddDataProtection();
+            {
+                // ApplicationName
+                var applicationName = applicationBuilder.Environment.ApplicationName;
+                if (string.IsNullOrEmpty(applicationName) == false)
+                {
+                    // Attach
+                    dataProtectionBuilder.SetApplicationName(applicationBuilder.Environment.ApplicationName);
+                }
+
+                // KeyRepository
+                applicationBuilder.Services.AddOptions<KeyManagementOptions>().Configure<IServiceProvider>((options, serviceProvider) =>
+                {
+                    // Attach
+                    var keyRepository = serviceProvider.GetService<IKeyRepository>();
+                    if (keyRepository != null) options.XmlRepository = keyRepository;
+                });
             }
 
             // Return

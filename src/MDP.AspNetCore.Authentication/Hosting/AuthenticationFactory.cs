@@ -92,27 +92,6 @@ namespace MDP.AspNetCore.Authentication
                 // Return
                 return authenticationSetting;
             });
-
-            // DataProtection
-            var dataProtectionBuilder = applicationBuilder.Services.AddDataProtection();
-            {
-                // ApplicationName
-                var applicationName = applicationBuilder.Environment.ApplicationName;
-                if (string.IsNullOrEmpty(applicationName) == true) throw new InvalidOperationException($"{nameof(applicationName)}=null");
-                if (string.IsNullOrEmpty(applicationName) == false)
-                {
-                    // Attach
-                    dataProtectionBuilder.SetApplicationName(applicationBuilder.Environment.ApplicationName);
-                }
-
-                // DataProtectionKeyRepository
-                applicationBuilder.Services.AddOptions<KeyManagementOptions>().Configure<IServiceProvider>((options, serviceProvider) =>
-                {
-                    // Attach
-                    var dataProtectionKeyRepository = serviceProvider.GetService<IDataProtectionKeyRepository>();
-                    if (dataProtectionKeyRepository != null) options.XmlRepository = dataProtectionKeyRepository;
-                });
-            }
         }
 
 

@@ -27,13 +27,13 @@
     <authors>CLK Software Studio</authors>
     <copyright>Copyright © 2014 CLK Software Studio</copyright>
     <description>MDPCore Library</description>
-    <PackageIcon>Logo.png</PackageIcon>
+    <PackageIcon>LOGO.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Clark159/MDP.Net</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\Logo.png" Pack="true" PackagePath="\Logo.png" />
+    <None Include="..\..\LOGO.png" Pack="true" PackagePath="\LOGO.png" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\README.md" />
   </ItemGroup>
 
