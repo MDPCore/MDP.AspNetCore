@@ -1,4 +1,4 @@
-namespace MDP.AspNetCore.Lab
+namespace MDP.AspNetCore.DataProtection.MSSql.Lab
 {
     public class Program
     {

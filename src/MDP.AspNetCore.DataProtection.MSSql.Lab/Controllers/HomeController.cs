@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace MDP.AspNetCore.Lab
+namespace MDP.AspNetCore.DataProtection.MSSql.Lab
 {
     public class HomeController : Controller
     {
