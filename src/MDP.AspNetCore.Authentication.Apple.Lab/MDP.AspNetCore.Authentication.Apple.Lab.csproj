@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- Build -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <!-- Reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\MDP.AspNetCore\MDP.AspNetCore.csproj" />
+    <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
+    <ProjectReference Include="..\MDP.AspNetCore.Authentication.Apple\MDP.AspNetCore.Authentication.Apple.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

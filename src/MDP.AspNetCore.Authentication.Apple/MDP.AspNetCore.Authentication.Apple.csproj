@@ -9,6 +9,10 @@
 
   <!-- Reference -->
   <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\MDP.AspNetCore.Authentication\MDP.AspNetCore.Authentication.csproj" />
   </ItemGroup>
 
@@ -20,7 +24,7 @@
     <PackageIcon>LOGO.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Clark159/MDP.Net</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/MDPCore</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\LOGO.png" Pack="true" PackagePath="\LOGO.png" />

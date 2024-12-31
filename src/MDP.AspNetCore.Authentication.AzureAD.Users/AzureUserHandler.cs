@@ -24,6 +24,12 @@ namespace MDP.AspNetCore.Authentication.AzureAD.Users
         // Methods
         protected override async Task<OAuthTokenResponse> ExchangeCodeAsync(OAuthCodeExchangeContext context)
         {
+            #region Contracts
+
+            ArgumentNullException.ThrowIfNull(nameof(context));
+
+            #endregion
+
             // Request
             var request = new HttpRequestMessage(HttpMethod.Post, Options.TokenEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

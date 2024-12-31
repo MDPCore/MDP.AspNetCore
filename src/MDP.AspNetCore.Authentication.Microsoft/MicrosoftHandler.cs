@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -24,6 +25,12 @@ namespace MDP.AspNetCore.Authentication.Microsoft
         // Methods
         protected override async Task<OAuthTokenResponse> ExchangeCodeAsync(OAuthCodeExchangeContext context)
         {
+            #region Contracts
+
+            ArgumentNullException.ThrowIfNull(nameof(context));
+
+            #endregion
+
             // Request
             var request = new HttpRequestMessage(HttpMethod.Post, Options.TokenEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

@@ -87,9 +87,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.Authenticati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.MDP.AspNetCore.DataProtection", "04.MDP.AspNetCore.DataProtection", "{43DAC355-7F8E-49FC-A2A4-43FDBDB4AE1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.DataProtection.MSSql", "MDP.AspNetCore.DataProtection.MSSql\MDP.AspNetCore.DataProtection.MSSql.csproj", "{D55CB8BD-18D6-4298-8F7E-DD0D9C447025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.DataProtection.MSSql", "MDP.AspNetCore.DataProtection.MSSql\MDP.AspNetCore.DataProtection.MSSql.csproj", "{D55CB8BD-18D6-4298-8F7E-DD0D9C447025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.DataProtection.MSSql.Lab", "MDP.AspNetCore.DataProtection.MSSql.Lab\MDP.AspNetCore.DataProtection.MSSql.Lab.csproj", "{BDF8E049-5CF5-4BB3-B14C-54D18A230A78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MDP.AspNetCore.DataProtection.MSSql.Lab", "MDP.AspNetCore.DataProtection.MSSql.Lab\MDP.AspNetCore.DataProtection.MSSql.Lab.csproj", "{BDF8E049-5CF5-4BB3-B14C-54D18A230A78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDP.AspNetCore.Authentication.Apple.Lab", "MDP.AspNetCore.Authentication.Apple.Lab\MDP.AspNetCore.Authentication.Apple.Lab.csproj", "{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +223,10 @@ Global
 		{BDF8E049-5CF5-4BB3-B14C-54D18A230A78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF8E049-5CF5-4BB3-B14C-54D18A230A78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDF8E049-5CF5-4BB3-B14C-54D18A230A78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -266,6 +272,7 @@ Global
 		{9032F125-A691-4B25-A4A9-3E498417BFED} = {B7C822BD-8DD8-4E9A-957C-4D62F2D89DC9}
 		{D55CB8BD-18D6-4298-8F7E-DD0D9C447025} = {43DAC355-7F8E-49FC-A2A4-43FDBDB4AE1A}
 		{BDF8E049-5CF5-4BB3-B14C-54D18A230A78} = {43DAC355-7F8E-49FC-A2A4-43FDBDB4AE1A}
+		{1AE177B1-EBC6-4040-8F90-FE6B1CBCD7B8} = {B7C822BD-8DD8-4E9A-957C-4D62F2D89DC9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BB6772C-B470-4A8E-93F5-DACAD77AC5D2}

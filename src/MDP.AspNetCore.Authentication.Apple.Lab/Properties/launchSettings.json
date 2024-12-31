@@ -1,0 +1,12 @@
+﻿{
+  "profiles": {
+    "MDP.AspNetCore.Authentication.Apple.Lab": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
