@@ -1,3 +1,10 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,12 +15,6 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace MDP.AspNetCore.Authentication.Line
 {
@@ -77,6 +78,27 @@ namespace MDP.AspNetCore.Authentication.Line
                 // Return
                 return authenticationTicket;
             }
+        }
+
+        protected override string BuildChallengeUrl(AuthenticationProperties properties, string redirectUri)
+        {
+            #region Contracts
+
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+            //if (string.IsNullOrEmpty(redirectUri) == true) throw new ArgumentNullException(nameof(redirectUri));
+
+            #endregion
+
+            // Base
+            var challengeUrl = base.BuildChallengeUrl(properties, redirectUri);
+            if (string.IsNullOrEmpty(challengeUrl) == true) throw new InvalidOperationException($"{nameof(challengeUrl)}=null"); ;
+
+            // bot_prompt
+            challengeUrl = QueryHelpers.AddQueryString(challengeUrl, "bot_prompt", "aggressive");
+            if (string.IsNullOrEmpty(challengeUrl) == true) throw new InvalidOperationException($"{nameof(challengeUrl)}=null"); ;
+
+            // Return
+            return challengeUrl;
         }
     }
 }
