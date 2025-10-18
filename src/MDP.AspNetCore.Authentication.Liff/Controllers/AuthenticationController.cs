@@ -61,7 +61,7 @@ namespace MDP.AspNetCore.Authentication.Liff
             {
                 // Redirect
                 var autoLogin = this.Request.Query["autoLogin"].ToString().ToLower();
-                if (autoLogin == "true") return this.Login(returnUrl);
+                if (autoLogin == "true") return this.Authorize(returnUrl);
             }
 
             // SecondaryURL: ReturnUrl
@@ -77,7 +77,7 @@ namespace MDP.AspNetCore.Authentication.Liff
 
         [AllowAnonymous]
         [Route("/.auth/login/liff/authorize")]
-        public ActionResult Login(string returnUrl = null)
+        public ActionResult Authorize(string returnUrl = null)
         {
             // Require
             returnUrl = this.NormalizeReturnUrl(returnUrl);

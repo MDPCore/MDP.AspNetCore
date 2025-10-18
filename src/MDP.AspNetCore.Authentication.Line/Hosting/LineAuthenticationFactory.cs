@@ -36,6 +36,7 @@ namespace MDP.AspNetCore.Authentication.Line
                 // Options
                 options.ClientId = setting.ClientId;
                 options.ClientSecret = setting.ClientSecret;
+                options.RequireFriendship = setting.RequireFriendship;
 
                 // Options.SignIn
                 options.ConfigureSignIn();
@@ -50,6 +51,8 @@ namespace MDP.AspNetCore.Authentication.Line
             public string ClientId { get; set; } = string.Empty;
 
             public string ClientSecret { get; set; } = string.Empty;
+
+            public bool RequireFriendship { get; set; } = false;
         }
     }
 }

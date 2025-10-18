@@ -25,6 +25,7 @@ namespace MDP.AspNetCore.Authentication.Line
             this.AuthorizationEndpoint = LineDefaults.AuthorizationEndpoint;
             this.TokenEndpoint = LineDefaults.TokenEndpoint;
             this.UserInformationEndpoint = LineDefaults.UserInformationEndpoint;
+            this.FriendshipEndpoint = LineDefaults.FriendshipEndpoint;
 
             // Scope
             this.Scope.Add("profile");
@@ -37,5 +38,11 @@ namespace MDP.AspNetCore.Authentication.Line
             this.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
             this.ClaimActions.MapJsonKey(ProfileClaimTypes.Picture, "picture");
         }
+
+
+        // Properties
+        public string FriendshipEndpoint { get; set; } = default!;
+
+        public bool RequireFriendship { get; set; } = false;
     }
 }
