@@ -4,14 +4,15 @@ setlocal enabledelayedexpansion
 
 :: ================================================
 :: Variables
-set version=8.0.7.67
+set version=8.0.7.68
 
 set buildDir=%~dp0
 set srcDir=%~dp0..\src
 set outputDir=%~dp0packed
 
 set endsMatchFilter[0]=.Lab
-set endsMatchFilterLength=0
+set endsMatchFilter[1]=.Tests
+set endsMatchFilterLength=1
 
 
 :: ================================================

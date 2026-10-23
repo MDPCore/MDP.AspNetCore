@@ -69,12 +69,12 @@ namespace MDP.AspNetCore.Authorization
             // ResourcePath.Equals
             for (int i = 0; i < maxCount; i++)
             {
-                // Variables
+                // ResourcePathSection
                 var resourcePathSection = this.ResourcePathList.ElementAtOrDefault(i);
-                var accessPathSection = accessPermission.AccessPathList.ElementAtOrDefault(i);
-
-                // Null
                 if (string.IsNullOrEmpty(resourcePathSection) == true) return false;
+
+                // AccessPathSection
+                var accessPathSection = accessPermission.AccessPathList.ElementAtOrDefault(i);
                 if (string.IsNullOrEmpty(accessPathSection) == true) return false;
 
                 // [Scope]
@@ -84,9 +84,32 @@ namespace MDP.AspNetCore.Authorization
                     var resourceScope = resourcePathSection;
                     if (string.IsNullOrEmpty(resourceScope) == true) return false;
 
+                    // AccessScopeString
+                    var accessScopeString = accessPathSection.Substring(1, accessPathSection.Length - 2);
+                    if (string.IsNullOrEmpty(accessScopeString) == true) return false;
+                    
+                    // AccessScopeSeparatorIndex
+                    var accessScopeSeparatorIndex = accessScopeString.IndexOf('=');
+
                     // AccessScopeKey
-                    var accessScopeKey = accessPathSection.Substring(1, accessPathSection.Length - 2);
+                    var accessScopeKey = accessScopeString;
+                    if (accessScopeSeparatorIndex >= 0)
+                    {
+                        accessScopeKey = accessScopeString.Substring(0, accessScopeSeparatorIndex).Trim();
+                    }
                     if (string.IsNullOrEmpty(accessScopeKey) == true) return false;
+
+                    // AccessScopeValue
+                    var accessScopeValue = null as string;
+                    if (accessScopeSeparatorIndex >= 0)
+                    {
+                        accessScopeValue = accessScopeString.Substring(accessScopeSeparatorIndex + 1).Trim();
+                        if (string.IsNullOrEmpty(accessScopeValue) == true) return false;
+                    }
+                    if (accessScopeValue != null)
+                    {
+                        if (resourceScope.Equals(accessScopeValue, StringComparison.OrdinalIgnoreCase) == false) return false;
+                    }
 
                     // RoleScopeIndex
                     var roleScopeIndex = accessPermission.RoleScopes.FindIndex(o => o.Equals(accessScopeKey, StringComparison.OrdinalIgnoreCase) == true);
@@ -95,8 +118,6 @@ namespace MDP.AspNetCore.Authorization
                     // RoleScope
                     var roleScope = roleAssignment.RoleScopes.ElementAtOrDefault(roleScopeIndex);
                     if (string.IsNullOrEmpty(roleScope) == true) return false;
-
-                    // ResourceScope.Equals
                     if (resourceScope.Equals(roleScope, StringComparison.OrdinalIgnoreCase) == true)
                     {
                         continue;
